@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ShoesLover.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace ShoesLover
         {
             services.AddControllersWithViews();
             services.AddMvc();
+            services.Add(new ServiceDescriptor(typeof(StoreContext),
+                new StoreContext(Configuration.GetConnectionString("Default"))));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
