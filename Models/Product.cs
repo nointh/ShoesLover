@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace ShoesLover.Models
     public class Product
     {
         public int Id { get; set; }
+        [DisplayName("Tên sản phẩm")]
         public string ProductName { get; set; }
         public int SubCategoryId { get; set; }
         public int BrandId { get; set; }

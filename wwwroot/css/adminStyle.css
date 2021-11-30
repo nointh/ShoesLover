@@ -380,3 +380,43 @@ button i{
     }
 }
 
+
+
+/*Table card definition*/
+.table-card {
+    border-collapse: collapse;
+    border: thin #000000;
+    box-shadow: 1.9px 3.8px 3.8px hsl(0deg 0% 0% / 0.44);
+}
+
+.table-card thead > tr {
+    background-color: dodgerblue;
+    vertical-align: central;
+}
+
+.table-card thead > tr > th {
+    border: 1px white;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Roboto', 'Segoe UI';
+    font-size: 13px;
+}
+
+.table-card > tbody td {
+    vertical-align: middle;
+    text-align:center;
+}
+.table-card tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.table-card tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.table-card tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+    }
+/*end of table card definition*/

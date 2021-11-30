@@ -14,20 +14,22 @@ namespace ShoesLover
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            rootPath = env.WebRootPath;
+
         }
 
         public IConfiguration Configuration { get; }
-
+        public string rootPath { get; }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
             services.AddMvc();
             services.Add(new ServiceDescriptor(typeof(StoreContext),
-                new StoreContext(Configuration.GetConnectionString("Default"))));
+                new StoreContext(Configuration.GetConnectionString("Default"), rootPath)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

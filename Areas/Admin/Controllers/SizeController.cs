@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoesLover.Data;
 using ShoesLover.Models;
@@ -9,96 +8,95 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShoesLover.Areas.Admin.Controllers
-{        
+{
     [Area("Admin")]
-    public class ColorController : Controller
+    public class SizeController : Controller
     {
-        // GET: ColorController
+        // GET: SizeController
         public ActionResult Index()
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
-            return View(context.GetColors());
+            return View(context.GetSizes());
         }
 
-        // GET: ColorController/Details/5
+        // GET: SizeController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: ColorController/Create
+        // GET: SizeController/Create
         public ActionResult Create()
         {
             return View();
         }
-        // POST: ColorController/Create
+
+        // POST: SizeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create( Color color)
+        public ActionResult Create(Size Size)
         {
             try
             {
                 StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
-                int result = await context.InsertColorAsync(color);
-                if (result > 0)
+                if (context.InsertSize(Size) > 0)
                 {
-                    TempData["message"] = "Thêm mới màu sắc thành công";
+                    TempData["message"] = "Thêm mới nhãn hiệu thành công";
                 }
                 else
                 {
-                    TempData["message"] = "Thêm mới màu sắc thất bại";
+                    TempData["message"] = "Thêm mới nhãn hiệu thất bại";
                     return View();
-                }    
-                return RedirectToAction(nameof(Index));
-            }
-            catch(Exception e)
-            {
-                TempData["message"] = "Có lỗi xảy ra!!" + e.Message;
-                return RedirectToAction(nameof(Index));
-            }
-        }
-
-        // GET: ColorController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
-
-            return View(context.GetColorById(id));
-        }
-
-        // POST: ColorController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Color color)
-        {
-            try
-            {
-                StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
-                if (await context.UpdateColorAsync(color) > 0)
-                {
-                    TempData["message"] = "Cập nhật màu sắc thành công";
-                }    
-                else
-                {
-                    TempData["message"] = "Cập nhật màu sắc không thành công";
-                    return View(color);
                 }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                TempData["message"] = "Có lỗi xảy ra!!";
-                return View(color);
+                TempData["message"] = "Có lỗi xảy ra";
+                return View();
             }
         }
 
-        // GET: ColorController/Delete/5
+        // GET: SizeController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+            return View(context.GetSizeById(id));
+        }
+
+        // POST: SizeController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Size Size)
+        {
+            try
+            {
+                StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+                if (context.UpdateSize(Size) > 0 )
+                {
+                    TempData["message"] = "Thêm mới nhãn hiệu thành công";
+                }
+                else
+                {
+                    TempData["message"] = "Thêm mới nhãn hiệu thất bại";
+                    return View(Size);
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                TempData["message"] = "Có lỗi xảy ra";
+                return View(Size);
+            }
+        }
+
+        // GET: SizeController/Delete/5
         //public ActionResult Delete(int id)
         //{
         //    return View();
         //}
 
-        // POST: ColorController/Delete/5
+        // POST: SizeController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -106,19 +104,19 @@ namespace ShoesLover.Areas.Admin.Controllers
             try
             {
                 StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
-                if (context.DeleteColor(id) > 0)
+                if (context.DeleteSize(id) > 0)
                 {
-                    TempData["message"] = "Xóa màu sắc thành công";
+                    TempData["message"] = "Xóa nhãn hiệu thành công";
                 }
                 else
                 {
-                    TempData["message"] = "Xóa màu sắc không thành công";
+                    TempData["message"] = "Xóa nhãn hiệu thất bại";
                 }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                TempData["message"] = "Có lỗi xảy ra!!";
+                TempData["mesage"] = "Có lỗi xảy ra!!";
                 return RedirectToAction(nameof(Index));
             }
         }

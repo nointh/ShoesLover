@@ -28,37 +28,28 @@
         </div>
         <ul class="list-unstyled components">
             <li>
-                <a asp-controller="Home" asp-action="Index"><i class="fas fa-columns fa-align-center"></i> <span>Trang chur</span></a>
+                <a asp-controller="Home" asp-action="Index"><i class="fas fa-columns"></i> <span>Trang chủ</span></a>
             </li>
             <li>
-                <a asp-controller="Product" asp-action="Index"><i class="fas fa-columns fa-500px"></i> <span>Quan ly san pham</span></a>
+                <a asp-controller="User" asp-action="Index"><i class="fas fa-columns"></i> <span>Quản lý khách hàng</span></a>
             </li>
             <li>
-                <a href="#" class="dashboard"><i class="fas fa-columns"></i> <span>Dashboard</span></a>
+                <a asp-controller="Product" asp-action="Index"><i class="fas fa-columns"></i> <span>Quản lý sản phẩm</span></a>
             </li>
             <li>
-                <a href="#" class="dashboard"><i class="fas fa-columns"></i> <span>Dashboard</span></a>
+                <a asp-controller="Category" asp-action="Index"><i class="fas fa-columns"></i> <span>Quản lý danh mục</span></a>
+            </li>
+            <li>
+                <a asp-controller="Color" asp-action="Index"><i class="fas fa-columns"></i> <span>Quản lý màu sắc</span></a>
+            </li>
+            <li>
+                <a asp-controller="Size" asp-action="Index"><i class="fas fa-columns"></i> <span>Quản lý kích thước</span></a>
+            </li>
+            <li>
+                <a asp-controller="Brand" asp-action="Index"></a>
             </li>
             @* Display for mobile screen only *@
-            <li class="dropdown d-lg-none d-md-block d-xl-none d-sm-block">
-                <a href="#message-sub-menu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="fas fa-bell"></i><span>Thong bao</span>
-                </a>
-                <ul class="collapse list-unstyled menu" id="message-sub-menu">
-                    <li>
-                        <a href="#">Message 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Message 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Message 3</a>
-                    </li>
-                    <li>
-                        <a href="#">Message 4</a>
-                    </li>
-                </ul>
-            </li>
+
             <li class="d-lg-none">
                 <a href="#"><i class="fas fa-sign-out-alt"></i><span>Log out</span></a>
             </li>
@@ -75,7 +66,7 @@
                     <button type="button" id="sidebar-resize" class="d-xl-block d-lg-block d-md-mone d-none">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <a href="#" class="navbar-brand">Dashboard</a>
+                    <a href="#" class="navbar-brand">Trang quản trị ShoeLover</a>
                     <button class="d-inline-block d-lg-none ml-auto more-button" id="sidebar-collapse" type="button" data-toggle="collapse"
                             data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle">
                         <i class="fas fa-bars fa-2x"></i>
@@ -126,8 +117,48 @@
         </div>
 
     </div>
-    <!--jquery cnd load-->
+    @if (TempData["message"] != null)
+    {
+        <div class="position-fixed bottom-0 end-0 p-3 border-dark" style="z-index: 22">
+            <div id="message" class="toast "
+                 style="z-index: 22"
+                 role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <i class="fas fa-bell" style="color:dodgerblue"></i>   
+                    <b>Thông báo</b>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+
+                </div>
+                <div class="d-flex">
+                    <div class="toast-body">
+                        @(" " + TempData["message"])
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <!--jquery cdn load-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--bootstrap cdn load-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <script>
+        //message toast
+        $(document).ready(function () {
+            try {
+                var liveToast = $('#message');
+                if (liveToast) {
+                    var toast = new bootstrap.Toast(liveToast)
+                    toast.show()
+                }
+            }
+            catch (e) {
+                //console.log("is null of message ", e)
+            }
+        })
+    </script>
 
     <script type="text/javascript">
         $(document).ready(() => {

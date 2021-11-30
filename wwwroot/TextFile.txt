@@ -1,0 +1,36 @@
+﻿public Product GetProducts()
+        {
+            Product product = new Product();
+            try
+            {
+                using (var con = GetConnection())
+                {   
+                    con.Open();
+                    string str = "select * from product";
+                    MySqlCommand cmd = new MySqlCommand(str, con);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                    
+                        reader.Read();
+                            product.Id = Convert.ToInt32(reader["Id"];
+                            product.ProductName = Convert.ToString(reader["productname"];
+                            product.SubCategoryId = Convert.ToInt32(reader["subcategory_id"];
+                            product.BrandId = Convert.ToInt32(reader["brand_id"];
+                            product.Gender = Convert.ToInt32(reader["gender"];
+                            product.DefaultImage = Convert.ToString(reader["default_image"];
+                            product.Description = Convert.ToString(reader["description"];
+                            product.SalePrice = Convert.ToDouble(reader["sale_price"];
+                            product.RegularPrice = Convert.ToDouble(reader["regular_price"];
+                            product.Active = Convert.ToBoolean(reader["active"])
+                            });
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return product;
+        }

@@ -11,30 +11,53 @@ namespace ShoesLover.Areas.Admin.Controllers
     [Area("Admin")]
     public class ProductController : Controller
     {
+
         public IActionResult Index()
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
-            ViewData["Context"] = context;
+            ViewData["context"] = context;
             return View(context.GetProducts());
         }
-        public IActionResult EnterProduct()
+        public IActionResult CreateProduct()
         {
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+            IEnumerable<CategoryMasterModel> allCategory = context.GetCategoryMasters();
+            ViewData["category"] = allCategory.Where(item => item.SubCategoryList.Count > 0);
+            ViewData["brand"] = context.GetBrands();
+
             return View();
         }
-        public IActionResult InsertProduct(Product product)
-        {
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateProduct(Product product, string? redirectOption)
+        {            
             ViewData.Model = product;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
             int[] result = context.InsertProduct(product);
-            ViewData["message"] = result[0] > 0 ? "Them san pham thanh cong" : "Them san pham that bai";
+            TempData["message"] = result[0] > 0 ? "Thêm sản phẩm thành công" : "Thêm sản phẩm thất bại";
             ViewData["Id"] = result[1];
-            return View();
+            if (result[0] <= 0 )
+            {
+                return RedirectToAction("Index");
+            }    
+            if (redirectOption.Equals("continue"))
+            {
+                return RedirectToAction("ProductDetails", new { id = result[1] });
+            }
+            return RedirectToAction("Index");
+        }
+        // GET: ProductController/ProductDetails/5
+        public ActionResult ProductDetails(int id)
+        {
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+            
+            return View(context.GetProductMasterData(id));
         }
         public IActionResult SetupVariant(int id)
         {
             return View();
         }
-        public IActionResult InsertVariant(int id)
+        public IActionResult CreateVariant(int id)
         {
             return View(id);
         }

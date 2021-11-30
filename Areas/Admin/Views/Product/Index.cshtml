@@ -1,29 +1,33 @@
-﻿@model IEnumerable<Product>
+﻿@using ShoesLover.Data
+@model IEnumerable<Product>
 @{
+    ViewData["Title"] = "Product";
     string GetShortStringFormat(string s)
     {
 
-        return s.Length>40? s.Substring(0, 40)  + "..." : s;
+        return s.Length > 40 ? s.Substring(0, 40) + "..." : s;
     }
+    StoreContext context = ViewData["context"] as StoreContext;
+    IEnumerable<SubCategory> categoryMasters = context.GetSubCategories();
+    IEnumerable<Brand> brands = context.GetBrands();
 }
 <div class="container-fluid">
     <div class="card border-info">
         <div class="card-header d-flex justify-content-between">
-            <h5 class="card-title">Danh mục sản phẩm</h5>
-            <a class="btn btn-primary" asp-action="EnterProduct">Thêm sản phẩm</a>
+            <h3 class="card-title align-middle">Danh mục sản phẩm</h3>
+            <a class="btn btn-primary" asp-action="CreateProduct">Thêm sản phẩm</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
 
-                <table id="main_table" class="table-card table-striped table-hover align-middle" style="width:100%">
+                <table id="main_table" class="table-card align-middle" style="width:100%">
                     <thead>
                         <tr>
                             <th scope="col">Mã</th>
                             <th scope="col">Tên</th>
                             <th scope="col">Danh mục</th>
-                            <th scope="col">Hiệu</th>
+                            <th scope="col">Thương hiệu</th>
                             <th scope="col">Giá thường</th>
-                            <th scope="col">Giá khuyến mãi</th>
                             <th scope="col">Mô tả</th>
                             <th scope="col">Tools</th>
                         </tr>
@@ -31,13 +35,14 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
+                            string categoryName = context.GetSubCategoryById(item.SubCategoryId).SubCategoryName;
+                            string brandName = context.GetBrandById(item.BrandId).BrandName;
                             <tr scope="row">
                                 <td>@item.Id</td>
                                 <td>@item.ProductName</td>
-                                <td>@item.SubCategoryId</td>
-                                <td>@item.BrandId</td>
-                                <td>@item.RegularPrice</td>
-                                <td>@item.SalePrice</td>
+                                <td>@categoryName</td>
+                                <td>@brandName</td>
+                                <td>@String.Format("{0:0,0;0} VND",item.RegularPrice)</td>
                                 <td>@GetShortStringFormat(item.Description)</td>
                                 <td><i class="fas fa-edit"></i></td>
                             </tr>
@@ -49,33 +54,10 @@
         </div>
 
     </div>
+
 </div>
 
     <style>
-        .table-card {
-            border-collapse: collapse;
-            border: thin #000000;
-            box-shadow: 1.9px 3.8px 3.8px hsl(0deg 0% 0% / 0.44);
-        }
-
-            .table-card thead > tr {
-                background-color: dodgerblue;
-                vertical-align: central;
-            }
-
-                .table-card thead > tr > th {
-                    border: 1px white;
-                    vertical-align: middle;
-                    text-align: center;
-                    color: white;
-                    text-transform: uppercase;
-                    font-family: 'Roboto', 'Segoe UI';
-                    font-size: 13px;
-                }
-
-            .table-card > tbody td {
-                vertical-align: middle;
-            }
 
         #main_table_filter {
             margin-bottom: 10px;
@@ -86,14 +68,14 @@
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
-
         <script>
+            //active data table for main table
             $(document).ready(function () {
                 $('#main_table').DataTable({
                     "language": {
                         "emptyTable": "Không tìm thấy sản phẩm",
                         "info": "Hiển thị sản phẩm từ _START_ đến _END_ của tổng _TOTAL_ sản phẩm",
-                        "infoEmpty": "Hiển thị 0 đến 0 of 0 sản phẩm",
+                        "infoEmpty": "Hiển thị 0 đến 0 của 0 sản phẩm",
                         "infoFiltered": "(lọc từ tổng cộng _MAX_  sản phẩm)",
                         "infoPostFix": "",
                         "thousands": ",",

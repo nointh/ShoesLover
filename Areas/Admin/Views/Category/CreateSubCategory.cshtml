@@ -1,0 +1,27 @@
+﻿@{
+}
+@model int
+<div class="card">
+    <div class="card-header d-flex justify-content-center">
+        <h3 class="">Thêm danh mục con</h3>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Category" asp-action="CreateSubCategory" method="post" class="form-control" enctype="multipart/form-data">
+            <input name="CategoryId" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" value="@Model" />
+            <input name="SubCategoryId" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" />
+
+            <div class="row m-3">
+                <label for="SubCategoryName" class="col-form-label col-sm-5">Tên danh mục con</label>
+                <div class="col-sm-6">
+                    <input name="SubCategoryName" type="text" class="form-control"/>
+                </div>
+            </div>
+            <div class="row m-3 justify-content-center">
+                <input type="submit" name="submit" value="Thêm" class="btn btn-primary col-3 m-2" />
+                <a asp-action="Details" asp-route-id="@Model" class="btn btn-danger col-3 m-2">Hủy</a>
+
+            </div>
+        </form>
+
+    </div>
+</div>

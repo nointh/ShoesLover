@@ -1,18 +1,12 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<CategoryMasterModel>
 @{
-    ViewData["Title"] = "Color";
 }
-@model IEnumerable<Color>
-
-
 
 <div class="container-fluid">
     <div class="card border-info">
         <div class="card-header d-flex justify-content-between">
-            <h3 class="card-title align-middle">Danh mục màu sắc</h3>
-            <a class="btn btn-primary" asp-controller="Color" asp-action="Create">Thêm màu sắc</a>
+            <h3 class="card-title align-middle">Danh sách các loại sản phẩm</h3>
+            <a class="btn btn-primary" asp-controller="Category" asp-action="Create">Thêm danh mục</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -21,8 +15,8 @@
                     <thead>
                         <tr>
                             <th scope="col">Mã</th>
-                            <th scope="col">Tên màu</th>
-                            <th scope="col">Ảnh của màu</th>
+                            <th scope="col">Tên danh mục</th>
+                            <th scope="col">Các danh mục con</th>
                             <th scope="col">Tools</th>
                         </tr>
                     </thead>
@@ -31,17 +25,30 @@
                         {
                             <tr scope="row">
                                 <td>@item.Id</td>
-                                <td>@item.ColorName</td>
                                 <td>
-                                    <img src="@("/image/" + item.ColorImage)" style="width: 50px;height: 50px;" alt="@item.ColorImage" />
+                                    <a asp-action="Details" asp-route-id="@item.Id">
+                                        @item.CategoryName
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    @foreach(var subcategory in item.SubCategoryList)
+                                    {
+                                        <div>
+                                            <a asp-action="EditSubCategory" asp-route-id="@subcategory.Id">
+                                                @subcategory.SubCategoryName
+                                                <i class="fas fa-info-circle"></i>
+                                            </a>
+                                        </div>
+                                    }
                                 </td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form  asp-action="Delete" asp-route-id="@item.Id" style="display: inline-block" class="delete-form">
-                                        <input type="hidden" name="id" value="@item.Id"/>
-                                        <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;" ></button>
+                                    <form asp-action="Delete" asp-route-id="@item.Id" style="display: inline-block" class="delete-form">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
                                     </form>
                                 </td>
                             </tr>
@@ -73,17 +80,17 @@
             $(document).ready(function () {
                 $('#main_table').DataTable({
                     "language": {
-                        "emptyTable": "Không tìm thấy màu sắc",
-                        "info": "Hiển thị màu sắc từ _START_ đến _END_ của _TOTAL_ màu sắc",
-                        "infoEmpty": "Hiển thị 0 đến 0 của 0 màu sắc",
-                        "infoFiltered": "(lọc từ tổng cộng _MAX_  màu sắc)",
+                        "emptyTable": "Không tìm thấy danh mục",
+                        "info": "Hiển thị danh mục từ _START_ đến _END_ của _TOTAL_ danh mục",
+                        "infoEmpty": "Hiển thị 0 đến 0 của 0 danh mục",
+                        "infoFiltered": "(lọc từ tổng cộng _MAX_  danh mục)",
                         "infoPostFix": "",
                         "thousands": ",",
-                        "lengthMenu": "Hiển thị _MENU_ màu sắc",
+                        "lengthMenu": "Hiển thị _MENU_ danh mục",
                         "loadingRecords": "Đang tải...",
                         "processing": "Đang xử lí...",
                         "search": "Tìm kiếm:",
-                        "zeroRecords": "Không tìm thấy màu sắc nào phù hợp",
+                        "zeroRecords": "Không tìm thấy danh mục nào phù hợp",
                         "paginate": {
                             "first": "Đầu",
                             "last": "Cuối",

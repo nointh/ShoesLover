@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="">Thêm mới danh mục</h3>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post" class="form-control">
+            <input name="id" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" />
+
+            <div class="row m-3">
+                <label for="name" class="col-form-label col-sm-2">Tên danh mục</label>
+                <div class="col-sm-10">
+                    <input name="CategoryName" type="text" class="form-control" />
+                </div>
+            </div>
+            <input type="hidden" name="redirectOption" id="redirectOption"/>
+            <div class="row m-3 justify-content-center">
+                <input type="submit" id="continue" value="Tiếp tục thiết lập danh mục con" class="btn btn-success col-3 m-2" />
+                <input type="submit" id="saveAndExit" value="Tạo mới và trở về" class="btn btn-primary col-3 m-2" />
+                
+                @*<input type="submit" name="redirectOption" value="continue" class="btn btn-success col-3 m-2" />
+                <input type="submit" name="redirectOption" value="exit" class="btn btn-primary col-3 m-2" />*@
+
+                <a asp-action="Index" class="btn btn-danger col-3 m-2">Hủy</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section scripts{ 
+<script>
+    $("#continue").click(() => $("#redirectOption").val("continue"));
+    $("#saveAndExit").click(() => $("#redirectOption").val("exit"));
+
+</script>
+}

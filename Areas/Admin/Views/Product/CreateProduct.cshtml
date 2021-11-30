@@ -1,0 +1,139 @@
+﻿@using ShoesLover.Data;
+@{
+    ViewData["Title"] = "Add_product";
+    IEnumerable<CategoryMasterModel> categoryMasterData = ViewData["category"] as IEnumerable<CategoryMasterModel>;
+    IEnumerable <Brand> brands = ViewData["brand"] as IEnumerable<Brand>;
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="">Thêm mới sản phẩm</h3>
+    </div>
+    <div class="card-body">
+        <form asp-action="CreateProduct" method="post" class="form-control">
+            <input name="id" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" />
+
+            <div class="row m-3">
+                <label for="name" class="col-form-label col-sm-2">Name</label>
+                <div class="col-sm-10">
+                    <input name="ProductName" type="text" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label class="col-form-label col-sm-2">Danh mục</label>
+                <div class="col-sm-4">
+                    <select id="CategorySelect" class="form-select">
+                        <option selected disabled>Chọn danh mục</option>
+                        @foreach(var item in categoryMasterData)
+                        {
+                            <option value="@item.Id">@item.CategoryName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label for="subcategoryId" class="col-form-label col-sm-2">Danh mục con</label>
+                <div class="col-sm-4" >
+                    <select name="subcategoryId" class="form-select" id="subcategory">
+                        <option selected disabled>Chọn danh mục con</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="brandId" class="col-form-label col-sm-2">Thương hiệu</label>
+                <div class="col-sm-4">
+                    <select name="BrandId" class="form-select">
+                        @foreach(var item in brands)
+                        {
+                            <option value="@item.Id">@item.BrandName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label for="gender" class="col-form-label col-sm-2">Giới tính</label>
+                <div class="col-sm-4">
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" value="0" class="form-check-input" id="genderMale" />
+                        <label class="form-check-label" for="genderMale">Nữ</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" value="1" class="form-check-input" id="genderFemale" />
+                        <label class="form-check-label" for="genderFemale">Nam</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" value="2" class="form-check-input" id="genderBoth" selected/>
+                        <label class="form-check-label" for="genderBoth">Cả hai</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label for="regularPrice" class="col-form-label col-sm-2">Giá thường</label>
+                <div class="col-sm-4">
+                    <input name="regularPrice" type="number" value="0"/>
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label for="salePrice" class="col-form-label col-sm-2">Giá khuyến mãi</label>
+                <div class="col-sm-4">
+                    <input name="salePrice" type="number" value="0" />
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="description" class="col-form-label col-sm-2">Mô tả</label>
+                <div class="col-sm-10">
+                    <textarea name="description" style="height: 250px; width: 100%;"></textarea>
+                </div>
+            </div>
+
+            <div class="row m-3 justify-content-center">
+
+                <input type="hidden" name="redirectOption" id="redirectOption" />
+
+                <input type="submit" value="Tiếp tục thiết lập biến thể" id="continue" class="btn btn-success col-3 m-2" />
+                <input type="submit" value="Lưu và trở về" id="saveAndExit" class="btn btn-primary col-3 m-2" />
+
+                <a asp-action="Index" class="btn btn-danger col-3 m-2">Hủy</a>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section scripts{
+<script>
+    $("#CategorySelect").change(() => {
+        console.log(this);
+        console.log($("#CategorySelect").val());
+        var subcate = $("#subcategory");
+        subcate.html("");
+        subcate.append("<option disabled selected>Chọn danh mục con</option>");
+        $.ajax({
+            url: '@Url.Action( "GetSubCategoryList","Category")',
+            type: "POST",
+            dataType: "JSON",
+            data: { id: $("#CategorySelect").val().toString() },
+            success: function (data) {
+                console.log(data);
+                data.forEach((element, index, array) => {
+                    console.log(element);
+                    console.log(index);
+                    console.log(array);
+                    var str = '<option value="' + element.id + '">' + element.subCategoryName + '</option>';
+                    subcate.append(str);
+                })
+            },
+            error: () => alert("something wrong")
+        })
+        
+    })
+    $("#continue").click(() => $("#redirectOption").val("continue"));
+    $("#saveAndExit").click(() => $("#redirectOption").val("exit"));
+
+</script>
+}
