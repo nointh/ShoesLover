@@ -39,12 +39,22 @@
                             string brandName = context.GetBrandById(item.BrandId).BrandName;
                             <tr scope="row">
                                 <td>@item.Id</td>
-                                <td>@item.ProductName</td>
+                                <td>
+                                    <a asp-action="ProductDetails" asp-route-id="@item.Id" style="text-decoration: underline">@item.ProductName <i class="fas fa-info-circle" style="font-size: small"></i></a>                                
+                                </td>
                                 <td>@categoryName</td>
                                 <td>@brandName</td>
                                 <td>@String.Format("{0:0,0;0} VND",item.RegularPrice)</td>
                                 <td>@GetShortStringFormat(item.Description)</td>
-                                <td><i class="fas fa-edit"></i></td>
+                                <td>
+                                    <a asp-action="EditProduct" asp-route-id="@item.Id">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form asp-action="DeleteProduct" asp-route-id="@item.Id" style="display: inline-block" class="delete-form">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
+                                    </form>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -69,6 +79,7 @@
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
         <script>
+            $(document).on("submit", ".delete-form", () => confirm("Bạn có chắc muốn xóa? "));
             //active data table for main table
             $(document).ready(function () {
                 $('#main_table').DataTable({
