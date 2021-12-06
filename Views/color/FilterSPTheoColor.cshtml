@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model IEnumerable<ShoesLover.Models.Color>
+@{
+    ViewData["Tilte"] = "Liệt kê màu";
+}
+@{
+    <h2>Danh sách màu</h2>
+    <form action="/product/LietKeSanPhamTheoColor" method="post">
+        <label for="ColorName">Bộ lọc theo màu</label>
+        <select name="ID" id="ColorName">
+            @foreach (var item in Model)
+            {
+                <option value="@item.Id">@item.ColorName</option>
+
+            }
+        </select><br>
+        <input type="submit" name="submit" value="Liệt kê" />
+    </form>
+
+}

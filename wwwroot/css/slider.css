@@ -1,0 +1,45 @@
+.aspect-ratio-169 {
+    display: block;
+    position: relative;
+    padding-top: 56.25%;
+    transition : 0.3s;
+  }
+  
+  .aspect-ratio-169 img {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+   
+  }
+  
+  .dot-container{
+    position: absolute;
+    height: 30px;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  #slider{
+    padding-bottom: 30px;
+    border-bottom: 2px solid #000;
+    overflow: hidden;
+  }
+  .dot{
+  
+   width:12px;
+   height: 12px;
+   margin-right: 10px;
+   background-color: #ccc;
+   border-radius: 50%;
+   cursor:pointer;
+  }
+  
+  .dot.active{
+    background-color: #333;
+  }
+  
+  

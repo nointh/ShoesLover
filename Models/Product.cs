@@ -21,5 +21,6 @@ namespace ShoesLover.Models
         public bool Active { get; set; }
         public string Description { get; set; }
         public IFormFile ImageFile { get; set; }
+        public bool ProductNew { get; set; }
     }
 }

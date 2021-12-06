@@ -22,6 +22,14 @@ namespace ShoesLover.Controllers
         {
             return View();
         }
+        public IActionResult HomeLayout()
+        {
+            return View();
+        }
+        public IActionResult SliderLayout()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

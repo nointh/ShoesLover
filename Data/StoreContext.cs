@@ -1483,5 +1483,393 @@ namespace ShoesLover.Data
         }
         //image upload method - end
 
+
+
+        //phần mới thêm
+     
+
+       
+
+     
+        public List<object> GetColorOfProduct()
+        {
+
+            List<object> list = new List<object>();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string str = "select distinct ProductName, Color_name, Size_name  from Product p,Color c, Product_Color_variant v, Product_detail d, Size s " +
+                "where p.Id= d.Product_Id and d.Color_Id=c.Id and d.Size_Id=s.Id";
+
+
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var ob = new
+                        {
+                            Productname = reader["ProductName"].ToString(),
+                            Colorname = reader["Color_name"].ToString(),
+                            Sizename = reader["Size_name"].ToString()
+                        };
+                        list.Add(ob);
+
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+
+
+        }
+
+        public List<Product> TimSanPhamTheoTen(string ten)
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select * from Product where Productname LIKE CONCAT('%', @tensp, '%')";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("tensp", ten);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            ProductName = reader["ProductName"].ToString(),
+                            DefaultImage = reader["default_image"].ToString(),
+                            SalePrice = Convert.ToInt32(reader["sale_price"]),
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+
+        public List<Product> GetProducts(int IdColor)
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select distinct p.Id, ProductName from Product p,Color c,Product_detail a where p.Id= a.Product_Id and " +
+                    " a.Color_Id=@IdColor";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("IdColor", IdColor);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+        public List<Product> GetProductNew()
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select * from Product where Product_new = 1";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+                            SalePrice = Convert.ToInt64(reader["sale_price"]),
+                            DefaultImage = reader["default_image"].ToString(),
+                            ProductNew = Convert.ToBoolean(reader["Product_new"]),
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+        public List<Product> GetProduct()
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select * from Product";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+                            SalePrice = Convert.ToInt64(reader["sale_price"]),
+                            DefaultImage = reader["default_image"].ToString(),
+                            ProductNew = Convert.ToBoolean(reader["Product_new"]),
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+        public List<Product> GetProductBestSeller()
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "SELECT Productname, sale_price, default_image, p.Id as Id from Product p, Product_detail d, order_detail o " +
+                    "where p.Id = d.Product_Id and d.Id = o.Product_detail_Id group by Productname order by count(o.Product_detail_Id) desc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+                            SalePrice = Convert.ToInt64(reader["sale_price"]),
+                            DefaultImage = reader["default_image"].ToString(),
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+        public List<Product> GetPriceASC()
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select * from Product order by sale_price asc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+                            SalePrice = Convert.ToInt64(reader["sale_price"]),
+                            DefaultImage = reader["default_image"].ToString(),
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public List<Product> GetPriceDESC()
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select * from Product order by sale_price desc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+                            SalePrice = Convert.ToInt64(reader["sale_price"]),
+                            DefaultImage = reader["default_image"].ToString(),
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+        public List<Product> GetProductPopular()
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select * from Product where active = 1";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+                            SalePrice = Convert.ToInt64(reader["sale_price"]),
+                            DefaultImage = reader["default_image"].ToString(),
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+
+        public List<Product> GetProductWoman()
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select * from Product where gender = 0";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+                            SalePrice = Convert.ToInt64(reader["sale_price"]),
+                            DefaultImage = reader["default_image"].ToString(),
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+
+        public List<Product> GetProductsBaseSize(int IdSize)
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select distinct p.Id, ProductName from Product p,Color c,Product_detail a where p.Id= a.Product_Id and " +
+                    " a.Size_Id=@IdColor";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("IdColor", IdSize);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public List<Brand> GetBrand()
+        {
+            //int i = 0;
+            List<Brand> list = new List<Brand>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select *from Brand";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Brand()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            BrandName = reader["Brand_name"].ToString(),
+                            Active = Convert.ToBoolean(reader["active"])
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public List<Product> GetProductBrand(int IdBrand)
+        {
+            //int i = 0;
+            List<Product> list = new List<Product>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "select distinct p.Id, ProductName from Product p,Product_detail a, Brand b where p.Id= a.Product_Id and " +
+                    " p.Brand_Id=@IdBrand";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("IdBrand", IdBrand);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            ProductName = reader["ProductName"].ToString(),
+
+
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
     }
 }

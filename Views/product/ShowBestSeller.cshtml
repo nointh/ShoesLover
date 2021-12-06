@@ -1,0 +1,39 @@
+﻿
+
+@model List<Product>
+
+
+
+@Html.Partial("~/Views/Shared/container.cshtml")
+
+
+
+
+<div class="products">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col l-4 m-4 c-6">
+                <a href="" class="product">
+
+                    <img class="product-image" src="~/images/@item.DefaultImage" alt="">
+
+                    <h4 class="product-name">@item.ProductName</h4>
+                    <p class="product-price highlight">@item.SalePrice</p>
+                </a>
+            </div>
+        }
+
+    </div>
+</div>
+
+<div class="pagination">
+    <ul>   <!--pages or li are from JavaScript --> </ul>
+</div>
+<script src="~/js/products.js"></script>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
