@@ -15,6 +15,8 @@ namespace ShoesLover.Models
             this.BrandId = product.BrandId;
             this.SubCategoryId = product.SubCategoryId;
             this.DefaultImage = product.DefaultImage;
+            this.RegularPrice = product.RegularPrice;
+            this.SalePrice = product.SalePrice;
             this.Description = product.Description;
             this.Active = product.Active;
             ProductVariants = new List<ProductVariantDetail>();

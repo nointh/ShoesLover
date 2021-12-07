@@ -1,4 +1,5 @@
 ﻿@using ShoesLover.Data;
+@model Product
 @{
     ViewData["Title"] = "Add_product";
     IEnumerable<CategoryMasterModel> categoryMasterData = ViewData["category"] as IEnumerable<CategoryMasterModel>;
@@ -9,42 +10,50 @@
         <h3 class="">Thêm mới sản phẩm</h3>
     </div>
     <div class="card-body">
-        <form asp-action="CreateProduct" method="post" class="form-control">
-            <input name="id" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" />
+        <form asp-controller="Product" asp-action="CreateProduct" method="post" class="form-control" enctype="multipart/form-data">
+            <input name="Id" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0"/>
 
             <div class="row m-3">
-                <label for="name" class="col-form-label col-sm-2">Name</label>
+                <label for="ProductName" class="col-form-label col-sm-2">Name</label>
                 <div class="col-sm-10">
-                    <input name="ProductName" type="text" class="form-control" />
+                    <input name="ProductName" type="text" class="form-control" required />
+                </div> 
+            </div>
+
+            <div class="row m-3">
+                <label for="ImageFile" class="col-form-label col-sm-2">Ảnh sản phẩm</label>
+                <div class="col-sm-10">
+                    <input name="ImageFile" type="file" class="form-control" accept="image/*" required>
                 </div>
             </div>
+
 
             <div class="row m-3">
                 <label class="col-form-label col-sm-2">Danh mục</label>
                 <div class="col-sm-4">
-                    <select id="CategorySelect" class="form-select">
+                    <select id="CategorySelect" class="form-select" required>
                         <option selected disabled>Chọn danh mục</option>
-                        @foreach(var item in categoryMasterData)
+                        @foreach (var item in categoryMasterData)
                         {
-                            <option value="@item.Id">@item.CategoryName</option>
+                            <option value="@item.Id">@item.CategoryName </option>
                         }
                     </select>
                 </div>
             </div>
 
             <div class="row m-3">
-                <label for="subcategoryId" class="col-form-label col-sm-2">Danh mục con</label>
-                <div class="col-sm-4" >
-                    <select name="subcategoryId" class="form-select" id="subcategory">
+                <label for="SubcategoryId" class="col-form-label col-sm-2">Danh mục con</label>
+                <div class="col-sm-4">
+                    <select name="SubcategoryId" class="form-select" id="subcategory" required>
                         <option selected disabled>Chọn danh mục con</option>
                     </select>
                 </div>
             </div>
             <div class="row m-3">
-                <label for="brandId" class="col-form-label col-sm-2">Thương hiệu</label>
+                <label for="BrandId" class="col-form-label col-sm-2">Thương hiệu</label>
                 <div class="col-sm-4">
-                    <select name="BrandId" class="form-select">
-                        @foreach(var item in brands)
+                    <select name="BrandId" class="form-select" required>
+                        @foreach (var item in brands)
                         {
                             <option value="@item.Id">@item.BrandName</option>
                         }
@@ -53,40 +62,40 @@
             </div>
 
             <div class="row m-3">
-                <label for="gender" class="col-form-label col-sm-2">Giới tính</label>
+                <label for="Gender" class="col-form-label col-sm-2">Giới tính</label>
                 <div class="col-sm-4">
                     <div class="form-check form-check-inline">
-                        <input type="radio" name="gender" value="0" class="form-check-input" id="genderMale" />
+                        <input type="radio" name="Gender" value="0" class="form-check-input" id="genderMale" />
                         <label class="form-check-label" for="genderMale">Nữ</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input type="radio" name="gender" value="1" class="form-check-input" id="genderFemale" />
+                        <input type="radio" name="Gender" value="1" class="form-check-input" id="genderFemale" />
                         <label class="form-check-label" for="genderFemale">Nam</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input type="radio" name="gender" value="2" class="form-check-input" id="genderBoth" selected/>
+                        <input type="radio" name="Gender" value="2" class="form-check-input" id="genderBoth" checked />
                         <label class="form-check-label" for="genderBoth">Cả hai</label>
                     </div>
                 </div>
             </div>
 
             <div class="row m-3">
-                <label for="regularPrice" class="col-form-label col-sm-2">Giá thường</label>
+                <label for="RegularPrice" class="col-form-label col-sm-2">Giá thường</label>
                 <div class="col-sm-4">
-                    <input name="regularPrice" type="number" value="0"/>
+                    <input name="RegularPrice" type="number" value="0" required />
                 </div>
             </div>
 
             <div class="row m-3">
-                <label for="salePrice" class="col-form-label col-sm-2">Giá khuyến mãi</label>
+                <label for="SalePrice" class="col-form-label col-sm-2">Giá khuyến mãi</label>
                 <div class="col-sm-4">
-                    <input name="salePrice" type="number" value="0" />
+                    <input name="SalePrice" type="number" value="0" required />
                 </div>
             </div>
             <div class="row m-3">
-                <label for="description" class="col-form-label col-sm-2">Mô tả</label>
+                <label for="Description" class="col-form-label col-sm-2">Mô tả</label>
                 <div class="col-sm-10">
-                    <textarea name="description" style="height: 250px; width: 100%;"></textarea>
+                    <textarea name="Description" style="height: 250px; width: 100%;" required></textarea>
                 </div>
             </div>
 

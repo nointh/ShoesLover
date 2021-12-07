@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,5 +20,7 @@ namespace ShoesLover.Models
         public double SalePrice { get; set; }
         public bool Active { get; set; }
         public string Description { get; set; }
+        public IFormFile ImageFile { get; set; }
+        public bool ProductNew { get; set; }
     }
 }

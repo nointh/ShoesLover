@@ -41,11 +41,11 @@ namespace ShoesLover.Areas.Admin.Controllers
                 StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
                 if (context.InsertSize(Size) > 0)
                 {
-                    TempData["message"] = "Thêm mới nhãn hiệu thành công";
+                    TempData["message"] = "Thêm mới kích thước thành công";
                 }
                 else
                 {
-                    TempData["message"] = "Thêm mới nhãn hiệu thất bại";
+                    TempData["message"] = "Thêm mới kích thước thất bại";
                     return View();
                 }
                 return RedirectToAction(nameof(Index));
@@ -74,11 +74,11 @@ namespace ShoesLover.Areas.Admin.Controllers
                 StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
                 if (context.UpdateSize(Size) > 0 )
                 {
-                    TempData["message"] = "Thêm mới nhãn hiệu thành công";
+                    TempData["message"] = "Cập nhật kích thước thành công";
                 }
                 else
                 {
-                    TempData["message"] = "Thêm mới nhãn hiệu thất bại";
+                    TempData["message"] = "Cập nhật kích thước thất bại";
                     return View(Size);
                 }
                 return RedirectToAction(nameof(Index));
@@ -106,11 +106,11 @@ namespace ShoesLover.Areas.Admin.Controllers
                 StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
                 if (context.DeleteSize(id) > 0)
                 {
-                    TempData["message"] = "Xóa nhãn hiệu thành công";
+                    TempData["message"] = "Xóa kích thước thành công";
                 }
                 else
                 {
-                    TempData["message"] = "Xóa nhãn hiệu thất bại";
+                    TempData["message"] = "Xóa kích thước thất bại";
                 }
                 return RedirectToAction(nameof(Index));
             }

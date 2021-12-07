@@ -1,0 +1,20 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<Brand>
+<form method="post"  action="/product/LocTheoBrand">
+    <label for="BrandName">Lọc sản phẩm theo brand</label>
+    <select name="ID" id="BrandName">
+        @foreach(var item in Model)
+            {
+                <option value="@item.Id">@item.BrandName</option>
+            }
+
+
+
+    </select>
+    <input type="submit" name="submit"  value="Liệt kê"/>
+
+</form>

@@ -22,6 +22,14 @@ namespace ShoesLover.Controllers
         {
             return View();
         }
+        public IActionResult HomeLayout()
+        {
+            return View();
+        }
+        public IActionResult SliderLayout()
+        {
+            return View();
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

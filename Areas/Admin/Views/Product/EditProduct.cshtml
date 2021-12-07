@@ -1,0 +1,183 @@
+﻿@model Product
+@{
+}
+@{
+    ViewData["Title"] = "Update_product";
+    IEnumerable<CategoryMasterModel> categoryMasterData = ViewData["category"] as IEnumerable<CategoryMasterModel>;
+    IEnumerable<Brand> brands = ViewData["brand"] as IEnumerable<Brand>;
+    IEnumerable<SubCategory> currentSubcategories = categoryMasterData.Where(item => item.Id == ViewBag.CurrentSubcategory.CategoryId).FirstOrDefault().SubCategoryList;
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="">Cập nhật sản phẩm</h3>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Product" asp-action="EditProduct" method="post" class="form-control" enctype="multipart/form-data">
+            <input name="Id" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" value="@Model.Id" />
+
+            <div class="row m-3">
+                <label for="ProductName" class="col-form-label col-sm-2">Name</label>
+                <div class="col-sm-10">
+                    <input name="ProductName" type="text" class="form-control" value="@Model.ProductName" required />
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label for="ImageFile" class="col-form-label col-sm-2">Ảnh sản phẩm</label>
+                <div class="col-sm-10">
+                    <input name="ImageFile" type="file" class="form-control" accept="image/*" required>
+                    <img src="@("/image/" + Model.DefaultImage)" max-width="250" max-height="250" />
+                </div>
+            </div>
+
+
+            <div class="row m-3">
+                <label class="col-form-label col-sm-2">Danh mục</label>
+                <div class="col-sm-4">
+                    <select id="CategorySelect" class="form-select" required>
+                        <option disabled>Chọn danh mục</option>
+                        @foreach (var item in categoryMasterData)
+                        {
+                            if (ViewBag.CurrentSubcategory.CategoryId == item.Id)
+                            {
+                                <option value="@item.Id" selected>@item.CategoryName </option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.CategoryName </option>
+
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label for="SubcategoryId" class="col-form-label col-sm-2">Danh mục con</label>
+                <div class="col-sm-4">
+                    <select name="SubcategoryId" class="form-select" id="subcategory" required>
+                        <option selected disabled>Chọn danh mục con</option>
+                        @foreach (var subcate in currentSubcategories)
+                        {
+                            if (subcate.Id == @ViewBag.CurrentSubcategory.Id)
+                            {
+                                <option selected value="@subcate.Id">@subcate.SubCategoryName</option>
+                            }
+                            else
+                            {
+                                <option value="@subcate.Id">@subcate.SubCategoryName</option>
+
+                            }
+
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="BrandId" class="col-form-label col-sm-2">Thương hiệu</label>
+                <div class="col-sm-4">
+                    <select name="BrandId" class="form-select" required>
+                        @foreach (var item in brands)
+                        {
+                            if (item.Id == Model.BrandId)
+                            {
+                                <option selected value="@Model.BrandId">@item.BrandName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.BrandName</option>
+
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label for="Gender" class="col-form-label col-sm-2">Giới tính</label>
+                <div class="col-sm-4">
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="Gender" value="0" class="form-check-input" id="genderMale" />
+                        <label class="form-check-label" for="genderMale">Nữ</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="Gender" value="1" class="form-check-input" id="genderFemale" />
+                        <label class="form-check-label" for="genderFemale">Nam</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="Gender" value="2" class="form-check-input" id="genderBoth" />
+                        <label class="form-check-label" for="genderBoth">Cả hai</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label for="RegularPrice" class="col-form-label col-sm-2">Giá thường</label>
+                <div class="col-sm-4">
+                    <input name="RegularPrice" type="number" required value="@Model.RegularPrice"/>
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <label for="SalePrice" class="col-form-label col-sm-2">Giá khuyến mãi</label>
+                <div class="col-sm-4">
+                    <input name="SalePrice" type="number" value="@Model.SalePrice" required />
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="Description" class="col-form-label col-sm-2">Mô tả</label>
+                <div class="col-sm-10">
+                    <textarea name="Description" style="height: 250px; width: 100%;" required>@Model.Description</textarea>
+                </div>
+            </div>
+
+            <div class="row m-3 justify-content-center">
+
+
+                <input type="submit" value="Cập nhật" id="continue" class="btn btn-success col-3 m-2" />
+
+                <a asp-action="Index" class="btn btn-danger col-3 m-2">Hủy</a>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section scripts{
+    <script>
+    $("#CategorySelect").change(() => {
+        console.log(this);
+        console.log($("#CategorySelect").val());
+        var subcate = $("#subcategory");
+        subcate.html("");
+        subcate.append("<option disabled selected>Chọn danh mục con</option>");
+        $.ajax({
+            url: '@Url.Action( "GetSubCategoryList","Category")',
+            type: "POST",
+            dataType: "JSON",
+            data: { id: $("#CategorySelect").val().toString() },
+            success: function (data) {
+                console.log(data);
+                data.forEach((element, index, array) => {
+                    console.log(element);
+                    console.log(index);
+                    console.log(array);
+                    var str = '<option value="' + element.id + '">' + element.subCategoryName + '</option>';
+                    subcate.append(str);
+                })
+            },
+            error: () => alert("something wrong")
+        })
+
+    })
+
+        $(document).ready(()=>
+            $("input[name=Gender][value='@Model.Gender']").prop("checked", true)
+            );
+
+    //$("#continue").click(() => $("#redirectOption").val("continue"));
+    //$("#saveAndExit").click(() => $("#redirectOption").val("exit"));
+
+    </script>
+}

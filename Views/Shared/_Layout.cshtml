@@ -1,300 +1,39 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/css/base.css" rel="stylesheet" />
+    <link href="~/css/footer.css" rel="stylesheet" />
+    <link href="~/css/grid.css" rel="stylesheet" />
+    <link href="~/css/header.css" rel="stylesheet" />
+    <link href="~/css/index.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet" />
+    <link href="~/css/slider.css" rel="stylesheet" />
+    <link href="~/css/products.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <title>@ViewData["Title"] - WebShoes</title>
-    <link rel="stylesheet" href="./https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-  
-    <link rel="stylesheet" href="~/fonts/all.min.css">   
-    <link rel="stylesheet" href="~/css/main.css">
-    <link rel="stylesheet" href="~/css/base.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <title>Document</title>
-
+    <title>Shop bán giày</title>
 </head>
 <body>
-    <header>
-        <!-- <div><i class="far fa-chevron-down"></i></div> -->
-        <div class="logo">
-            <img src="~/img/logo_transparent.png" alt="">
+    @RenderBody()
 
-        </div>
-        <div class="menu">
-            <ul>
-                <li>
-                    <a class="menu-items" href="">Nữ</a>
-                    <ul class="sub-menu">
-                        <li><a href="">Hàng mới về</a></li>
-                        <li>
-                            <a href="">Giày</a>
-                            <ul>
-                                <li><a href="">Giày sneakers</a></li>
-                                <li><a href="">Giày thể thao</a></li>
-                                <li><a href="">Giày xăng đan</a></li>
-                                <li><a href="">Giày đế cao su</a></li>
-                                <li><a href="">Giày cao cổ</a></li>
-                                <li><a href="">Giày da</a></li>
-                                <li><a href="">Giày lười</a></li>
-                                <li><a href="">Giày back to school</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="">Dép</a>
-                            <ul>
-                                <li><a href="">Dép kẹp</a></li>
-                                <li><a href="">Dép quai ngang</a></li>
-                            </ul>
-
-
-                        </li>
-
-                    </ul>
-                </li>
-                <li>
-                    <a class="menu-items" href="">Nam</a>
-                    <ul class="sub-menu">
-                        <li><a href="">Hàng mới về</a></li>
-                        <li>
-                            <a href="">Giày</a>
-                            <ul>
-                                <li><a href="">Giày sneakers</a></li>
-                                <li><a href="">Giày thể thao</a></li>
-                                <li><a href="">Giày xăng đan</a></li>
-                                <li><a href="">Giày đế cao su</a></li>
-                                <li><a href="">Giày cao cổ</a></li>
-                                <li><a href="">Giày da</a></li>
-                                <li><a href="">Giày lười</a></li>
-                                <li><a href="">Giày back to school</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="">Dép</a>
-                            <ul>
-                                <li><a href="">Dép kẹp</a></li>
-                                <li><a href="">Dép quai ngang</a></li>
-                            </ul>
-
-
-                        </li>
-
-                    </ul>
-                </li>
-                <li><a class="menu-items" href="">Trẻ em</a></li>
-                <li><a class="menu-item-sale" href="">Sale</a></li>
-                <li><a class="menu-items" href="">Bộ sưu tập</a></li>
-                <li><a class="menu-items" href="">Phụ kiện</a></li>
-                <li><a class="menu-items" href="">Giới thiệu</a></li>
-                <li><a class="menu-items" href="">Thông tin</a></li>
-                <li><a class="menu-items" href="">Liên hệ</a></li>
-
-            </ul>
-        </div>
-        <div class="nav__mobile">
-            <div class="menu-icon-bar">
-                <i class="fas fa-bars"></i>
-            </div>
-            <div class="logo-mobile">
-                <img src="~/img/logo_transparent.png" alt="">
-
-            </div>
-            <div class="menu-mobile">
-                <div class="menu-mobile-user">
-                    Đăng nhập
-                    <i class="fas fa-user"></i>
-
-                </div>
-                <ul>
-                    <li>
-                        <a href="">Nữ <i class="fas fa-angle-down icon-dropdown"></i></a>
-                        <ul class="sub-menu-mobile">
-                            <li><a href="">Hàng mới về</a></li>
-                            <li>
-                                <a href="">Giày</a>
-                                <ul>
-                                    <li><a href="">Giày sneakers</a></li>
-                                    <li><a href="">Giày thể thao</a></li>
-                                    <li><a href="">Giày xăng đan</a></li>
-                                    <li><a href="">Giày đế cao su</a></li>
-                                    <li><a href="">Giày cao cổ</a></li>
-                                    <li><a href="">Giày da</a></li>
-                                    <li><a href="">Giày lười</a></li>
-                                    <li><a href="">Giày back to school</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="">Dép</a>
-                                <ul>
-                                    <li><a href="">Dép kẹp</a></li>
-                                    <li><a href="">Dép quai ngang</a></li>
-                                </ul>
-
-
-                            </li>
-
-                        </ul>
-                    </li>
-                    <li><a href="">Nam<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Trẻ em<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a class="menu-item-sale" href="">Sale<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Bộ sưu tập<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Phụ kiện<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Giới thiệu<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Thông tin<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Liên hệ<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-
-                </ul>
-            </div>
-
-            <div class="others-mobile">
-
-                <li>
-                    <a class="fas fa-paw " href="">
-                        <!-- <span class="others-follow">Tra cứu đơn hàng</span> -->
-                    </a>
-                </li>
-               <li><a class="fas fa-user" href=""></a> </li> 
-                <span class="others-login"></span>
-
-                <li><a class="fas fa-shopping-bag" href=""></a></li>
-
-            </div>
-        </div>
-        <!-- Reponsive cho navbar -->
-
-
-        <div class="others">
-            <li>
-                <input type="text" placeholder="tìm kiếm">
-                <!-- <button><i class="fas fa-search"></i></button> -->
-                <i class="fas fa-search"></i>
-            </li>
-            <li>
-                <a class="fas fa-paw " href="">
-                    <span class="others-follow">Tra cứu đơn hàng</span>
-                </a>
-            </li>
-            <li>
-                <a class="fas fa-user" asp-area="" asp-controller="User" asp-action="DangKy" >
-                    <span class="others-login">Đăng ky</span>
-                </a>
-            </li>
-            <li><a class="fas fa-shopping-bag" href=""></a></li>
-
-        </div>
-
-    </header>
-    <section class="search__mobile">
-        <input type="text">
-        <button>TÌM KIẾM</button>
-
-    </section>
-
-    
-
-            @RenderBody()
-  
-
-    <footer>
-        <div class="footer-top">
-            <ul>
-                <li><a href=""><img src="~/img/dathongbao.PNG" alt=""></a></li>
-                <li><a href="">Liên hệ</a></li>
-                <li><a href="">Tuyển dụng</a></li>
-                <li><a href="">Giới thiệu</a></li>
-                <li>
-                    <a href=""><i class="fab fa-facebook"></i></a>
-                    <a href=""><i class="fab fa-youtube"></i></a>
-                </li>
-
-
-            </ul>
-        </div>
-        <div class="footer-center">
-            <p>
-                Công ty Cổ phần Phát Đạt với số đăng ký kinh doanh: 0103426784<br>
-                Địa chỉ đăng ký: Khu phố 6, P.Linh Trung, Q.Thủ Đức, TP.Hồ Chí Minh, Việt Nam - 0283 205 2222<br>
-                Đặt hàng online : <b>0286 662 6868</b> .
-            </p>
-        </div>
-
-
-        <div class="footer-bottom">
-            <p>©ILOVESHOES All rights reserved</p>
-        </div>
-    </footer>
-
-
-    <script>
-        // lam slider
-        const imgPosition = document.querySelectorAll(".aspect-ratio-169 img");
-        const imgContainer = document.querySelector(".aspect-ratio-169");
-        const dotItem = document.querySelectorAll(".dot");
-        let imgNumber = imgPosition.length; // lay tong so phan tu anh
-        let index = 0;
-        imgPosition.forEach(function (image, index) {
-            image.style.left = index * 100 + "%"; //Tạo phần hiển thị ảnh theo tỉ lệ %
-            dotItem[index].addEventListener("click", function () {  // khi click vao dau cham
-                slider(index);
-            })
-
-        })
-
-        function ImgSlide() {
-
-            index++;
-            console.log(index);
-            if (index >= imgNumber) {
-                index = 0;
-            }
-            slider(index);
-
-        }
-        setInterval(ImgSlide, 5000)
-
-        function slider(index) {
-            imgContainer.style.left = "-" + index * 100 + "%"; // cho anh hien ra man hinh (100%)
-            const dotActive = document.querySelector(".active");
-            dotActive.classList.remove("active");
-            dotItem[index].classList.add("active");
-        }
-
-        // khi scroll chuot xuong thi header se ve lai background white
-
-        const header = document.querySelector("header");
-        window.addEventListener("scroll", function () {
-            x = window.pageYOffset;
-            if (x > 0) {
-                header.classList.add("sticky");
-            }
-            else {
-                header.classList.remove("sticky");
-            }
-        })
+    <div id="main">
+        @Html.Partial("~/Views/Shared/header.cshtml")
 
 
 
-        // click vao icon bar
-        $(document).ready(function () {
-            $('.menu-icon-bar').click(function () {
-                $('.menu-mobile').slideToggle();
-                $('.sub-menu-mobile').hide();
-                // $('.others-mobile').hide(); //hide cai icon
-            })
-        }
-        )
-        $(document).ready(function () {
-            $('.menu-mobile > ul > li > a').click(function () {
-                $('.sub-menu-mobile').slideToggle();
-                // $('.others-mobile').hide(); //hide cai icon
-            })
-        }
-        )
+        @Html.Partial("~/Views/Shared/footer.cshtml")
+        <script src="~/js/products.js"></script>
+        <script src="~/js/header.js"></script>
 
-    </script>
-    @RenderSection("Scripts", required: false)
+        <script src="~/js/slider.js"></script>
+        <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    </div>
 </body>
 </html>
+
+

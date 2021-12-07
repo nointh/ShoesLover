@@ -1,16 +1,26 @@
 ﻿@model ProductMasterData
 @{
+    ViewData["Title"] = "Product_Details";
+    List<Color> colors = ViewBag.Colors;
+    List<Size> sizes = ViewBag.Sizes;
 }
 <div class="container-fluid">
     <div class="card border-info">
         <div class="card-header d-flex justify-content-between">
-            <h3 class="card-title align-middle">
-                Danh mục: @Model.ProductName
-                <a asp-action="Edit" asp-route-id="@Model.Id">
-                    <i class="fas fa-edit"></i>
-                </a>
-            </h3>
-            <a class="btn btn-primary" asp-controller="Product" asp-action="CreateVariant" asp-route-id="@Model.Id">Thêm biến thể</a>
+            <div>
+                <h3 class="card-title align-middle">
+                    <span id="popup-detail-modal">
+                        Sản phẩm: @Model.ProductName
+                    </span>
+                    <a asp-action="EditProduct" asp-route-id="@Model.Id">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </h3>
+            </div>
+            <div>
+                <a class="btn btn-primary" asp-controller="Product" asp-action="CreateVariant" asp-route-id="@Model.Id">Tạo biến thể với màu sắc mới</a>
+
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -18,7 +28,8 @@
                 <table id="main_table" class="table-card align-middle" style="width:100%">
                     <thead>
                         <tr>
-                            <th scope="col">Màu</th>
+                            <th scope="col">Màu biến thể</th>
+                            <th scope="col">Ảnh biến thể</th>
                             <th scope="col">Kích thước</th>
                             <th scope="col">Tools</th>
                         </tr>
@@ -26,28 +37,195 @@
                     <tbody>
                         @foreach (var item in Model.ProductVariants)
                         {
-                            <tr scope="row">
-                                <td>@item.ColorId</td>
-                                <td></td>
-                                <td>
-                                    <a asp-action="EditSubCategory" asp-route-id="@item.ColorId">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form asp-action="DeleteSubCategory" asp-route-id="@item.ColorId" style="display: inline-block" class="delete-form">
-                                        <input type="hidden" name="id" value="@item.ColorId" />
-                                        <button type="submit" class="fas fa-trash-alt " style="background-color: transparent; border: none;"></button>
-                                    </form>
-                                </td>
-                            </tr>
+                            Color color = colors.Where(color => color.Id == item.ColorId).FirstOrDefault();
+                        <tr scope="row">
+                            <td>@color.ColorName <img src="@("/image/" + color.ColorImage)" height="20" width="20" style="border-radius: 200px;" /></td>
+                            <td><img src="@("/image/" + item.ProductVariantImage)" style="max-width: 250px; max-height: 250px"/></td>
+                            <td>
+                                @foreach(var detail in item.ProductDetails)
+                                {
+                                    string titleString = colors.Where<Color>(color => color.Id == item.ColorId).FirstOrDefault().ColorName + " || " + sizes.Where<Size>(size => size.Id == detail.SizeId).FirstOrDefault<Size>().SizeName;
+                                    string detailString = sizes.Where<Size>(size => size.Id == detail.SizeId).FirstOrDefault<Size>().SizeName + " || Số hàng: "+ detail.Quantity.ToString();
+                                    <a href="#" class="update-detail">
+                                        <input type="hidden" class="detail-id" value="@detail.Id">
+                                        <input type="hidden" class="title-string" value="@titleString"/>
+                                        <input type="hidden" class="detail-quantity" value="@detail.Quantity"/>
+                                    @detailString</a><br />
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="EditVariant" asp-route-colorId="@item.ColorId" asp-route-productId="@Model.Id">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                @*<a asp-action="DeleteVariant" method="post" asp-route-colorId="@item.ColorId" asp-route-productId="@Model.Id" style="display: inline-block" class="delete-form">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>*@
+                                <form asp-action="DeleteVariant" asp-route-colorId="@item.ColorId" asp-route-productId="@Model.Id" method="post" style="display: inline-block" class="delete-form">
+                                    <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
+                                </form>
+                            </td>
+                        </tr>
                         }
                     </tbody>
-
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <a href="#" id="addVariantDetail" style="color: dodgerblue"> <i class="fas fa-plus"></i> Thêm chi tiết cho biến thể </a>
+                            </td>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
 
     </div>
 
+</div>
+
+<div class="modal" tabindex="-1" id="variant-detail-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Product" asp-action="CreateProductDetail" method="post" class="form-control" enctype="multipart/form-data">
+                    <input name="ProductId" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" value="@Model.Id" />
+
+                    <div class="row m-3">
+                        <label for="ColorId" class="col-form-label col-sm-4">Chọn màu sắc</label>
+                        <div class="col-sm-8">
+                            <select name="ColorId" class="form-control">
+                                @foreach (Color color in ViewBag.AvailableColors)
+                                {
+                                    <option value="@color.Id">@color.ColorName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-3">
+                        <label for="SizeId" class="col-form-label col-sm-4">Chọn kích thước</label>
+                        <div class="col-sm-8">
+                            <select name="SizeId" class="form-control">
+                                @foreach (Size size in ViewBag.Sizes)
+                                {
+                                    <option value="@size.Id">@size.SizeName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-3">
+                        <label for="Quantity" class="col-form-label col-sm-4">Chọn lượng hàng</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="number" name="Quantity" required />
+                        </div>
+                    </div>
+                    <div class="row m-3 justify-content-center">
+                        <input type="submit" name="submit" value="Thêm" class="btn btn-primary col-3 m-2" />
+                        @*<a asp-action="Index" class="btn btn-danger col-3 m-2">Hủy</a>*@
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="update-detail-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Product" asp-action="EditProductDetail" method="post" class="form-control" enctype="multipart/form-data">
+                    <input name="Id" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" id="detail-id" />
+                    <input name="ProductId" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" value="@Model.Id"/>
+
+                    <div class="row m-3">
+                        <label for="Quantity" class="col-form-label col-sm-4">Chọn lượng hàng</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="number" name="Quantity" required id="detail-quantity"/>
+                        </div>
+                    </div>
+                    <div class="row m-3 justify-content-center">
+                        <input id="update-detail-button" type="submit" name="submit" value="Sửa" class="btn btn-primary col-3 m-2" />
+                        <input id="delete-detail-button" type="submit" class="btn btn-danger col-3 m-2"  value="Xóa"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="product-info-modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông tin sản phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row m-3">
+                    <label for="ProductName" class="col-form-label col-sm-2">Tên sản phẩm</label>
+                    <div class="col-sm-10">
+                        <input name="ProductName" type="text" disabled class="form-control" value="@Model.ProductName" required />
+                    </div>
+                </div>
+
+                <div class="row m-3">
+                    <label for="ImageFile" class="col-form-label col-sm-2">Ảnh sản phẩm</label>
+                    <div class="col-sm-10">
+                        <img src="@("/image/" + Model.DefaultImage)" style="max-width: 350px; max-height: 350px" />
+                    </div>
+                </div>
+
+                <div class="row m-3">
+                    <label for="SubcategoryId" class="col-form-label col-sm-2">Danh mục con</label>
+                    <div class="col-sm-4">
+                        @ViewBag.SubcategoryName
+                    </div>
+                </div>
+                <div class="row m-3">
+                    <label for="BrandId" class="col-form-label col-sm-2">Thương hiệu</label>
+                    <div class="col-sm-4">
+                        @ViewBag.BrandName
+                    </div>
+                </div>
+
+                <div class="row m-3">
+                    <label for="Gender" class="col-form-label col-sm-2">Giới tính</label>
+                    <div class="col-sm-4">
+                        @ViewBag.GenderString
+                    </div>
+                </div>
+
+                <div class="row m-3">
+                    <label for="RegularPrice" class="col-form-label col-sm-2">Giá thường</label>
+                    <div class="col-sm-4">
+                        <input name="RegularPrice" disabled type="number" required value="@Model.RegularPrice" />
+                    </div>
+                </div>
+
+                <div class="row m-3">
+                    <label for="SalePrice" class="col-form-label col-sm-2">Giá khuyến mãi</label>
+                    <div class="col-sm-4">
+                        <input name="SalePrice" disabled type="number" value="@Model.SalePrice" required />
+                    </div>
+                </div>
+                <div class="row m-3">
+                    <label for="Description" class="col-form-label col-sm-2">Mô tả</label>
+                    <div class="col-sm-10">
+                        <textarea name="Description" disabled required style="width: 100%; height: 100px">@Model.Description</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -62,7 +240,39 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
     <script>
-        $(document).on("submit", ".delete-form", () => confirm("Bạn có chắc muốn xóa? "));
+        $(document).on("click", "#popup-detail-modal", () => {
+            var mymodal = new bootstrap.Modal($("#product-info-modal"));
+            mymodal.show();
+        })
+
+
+        $(document).on("click", ".delete-form", () => confirm("Bạn có chắc muốn xóa? "));
+
+        $(document).on("click", ".update-detail", (event) => {
+            var target = $(event.target);
+            $("#update-detail-modal .modal-title").text(target.children(".title-string").val());
+            $("#detail-id").val(parseInt(target.children(".detail-id").val()));
+            console.log(target.children(".detail-id").val());
+            console.log(target.children(".detail-quantity").val());
+            console.log($("#update-detail form input[name=Quantity]"));
+            $("#detail-quantity").val(parseInt(target.children(".detail-quantity").val()));
+            var mymodal = new bootstrap.Modal($("#update-detail-modal"));
+            mymodal.show();
+        })
+        $(document).on("click", "#delete-detail-button", () => {
+            $("#update-detail-modal form").attr("action", "/Admin/Product/DeleteProductDetail");
+        })
+
+        $(document).on("click", "#update-detail-button", () => {
+            $("#update-detail-modal form").attr("action", "/Admin/Product/EditProductDetail");
+        })
+
+        $("#addVariantDetail").click(() => {
+            $("#variant-detail-modal .modal-title").text("");
+            $("#variant-detail-modal .modal-title").append("Thêm mới chi tiết biến thể");
+            var mymodal = new bootstrap.Modal($("#variant-detail-modal"));
+            mymodal.show();
+        })
         //active data table for main table
         $(document).ready(function () {
             $('#main_table').DataTable({
