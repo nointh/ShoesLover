@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<ShoesLover.Models.User>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,8 +8,8 @@
 
     <title>@ViewData["Title"] - WebShoes</title>
     <link rel="stylesheet" href="./https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-  
-    <link rel="stylesheet" href="~/fonts/all.min.css">   
+
+    <link rel="stylesheet" href="~/fonts/all.min.css">
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/base.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
@@ -26,27 +27,27 @@
         <div class="menu">
             <ul>
                 <li>
-                    <a class="menu-items" href="">Nữ</a>
+                    <a class="menu-items" href="#">Nữ</a>
                     <ul class="sub-menu">
-                        <li><a href="">Hàng mới về</a></li>
+                        <li><a href="#">Hàng mới về</a></li>
                         <li>
-                            <a href="">Giày</a>
+                            <a href="#">Giày</a>
                             <ul>
-                                <li><a href="">Giày sneakers</a></li>
-                                <li><a href="">Giày thể thao</a></li>
-                                <li><a href="">Giày xăng đan</a></li>
-                                <li><a href="">Giày đế cao su</a></li>
-                                <li><a href="">Giày cao cổ</a></li>
-                                <li><a href="">Giày da</a></li>
-                                <li><a href="">Giày lười</a></li>
-                                <li><a href="">Giày back to school</a></li>
+                                <li><a href="#">Giày sneakers</a></li>
+                                <li><a href="#">Giày thể thao</a></li>
+                                <li><a href="#">Giày xăng đan</a></li>
+                                <li><a href="#">Giày đế cao su</a></li>
+                                <li><a href="#">Giày cao cổ</a></li>
+                                <li><a href="#">Giày da</a></li>
+                                <li><a href="#">Giày lười</a></li>
+                                <li><a href="#">Giày back to school</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="">Dép</a>
+                            <a href="#">Dép</a>
                             <ul>
-                                <li><a href="">Dép kẹp</a></li>
-                                <li><a href="">Dép quai ngang</a></li>
+                                <li><a href="#">Dép kẹp</a></li>
+                                <li><a href="#">Dép quai ngang</a></li>
                             </ul>
 
 
@@ -55,27 +56,27 @@
                     </ul>
                 </li>
                 <li>
-                    <a class="menu-items" href="">Nam</a>
+                    <a class="menu-items" href="#">Nam</a>
                     <ul class="sub-menu">
-                        <li><a href="">Hàng mới về</a></li>
+                        <li><a href="#">Hàng mới về</a></li>
                         <li>
-                            <a href="">Giày</a>
+                            <a href="#">Giày</a>
                             <ul>
-                                <li><a href="">Giày sneakers</a></li>
-                                <li><a href="">Giày thể thao</a></li>
-                                <li><a href="">Giày xăng đan</a></li>
-                                <li><a href="">Giày đế cao su</a></li>
-                                <li><a href="">Giày cao cổ</a></li>
-                                <li><a href="">Giày da</a></li>
-                                <li><a href="">Giày lười</a></li>
-                                <li><a href="">Giày back to school</a></li>
+                                <li><a href="#">Giày sneakers</a></li>
+                                <li><a href="#">Giày thể thao</a></li>
+                                <li><a href="#">Giày xăng đan</a></li>
+                                <li><a href="#">Giày đế cao su</a></li>
+                                <li><a href="#">Giày cao cổ</a></li>
+                                <li><a href="#">Giày da</a></li>
+                                <li><a href="#">Giày lười</a></li>
+                                <li><a href="#">Giày back to school</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="">Dép</a>
+                            <a href="#">Dép</a>
                             <ul>
-                                <li><a href="">Dép kẹp</a></li>
-                                <li><a href="">Dép quai ngang</a></li>
+                                <li><a href="#">Dép kẹp</a></li>
+                                <li><a href="#">Dép quai ngang</a></li>
                             </ul>
 
 
@@ -83,13 +84,13 @@
 
                     </ul>
                 </li>
-                <li><a class="menu-items" href="">Trẻ em</a></li>
-                <li><a class="menu-item-sale" href="">Sale</a></li>
-                <li><a class="menu-items" href="">Bộ sưu tập</a></li>
-                <li><a class="menu-items" href="">Phụ kiện</a></li>
-                <li><a class="menu-items" href="">Giới thiệu</a></li>
-                <li><a class="menu-items" href="">Thông tin</a></li>
-                <li><a class="menu-items" href="">Liên hệ</a></li>
+                <li><a class="menu-items" href="#">Trẻ em</a></li>
+                <li><a class="menu-item-sale" href="#">Sale</a></li>
+                <li><a class="menu-items" href="#">Bộ sưu tập</a></li>
+                <li><a class="menu-items" href="#">Phụ kiện</a></li>
+                <li><a class="menu-items" href="#">Giới thiệu</a></li>
+                <li><a class="menu-items" href="#">Thông tin</a></li>
+                <li><a class="menu-items" href="#">Liên hệ</a></li>
 
             </ul>
         </div>
@@ -109,27 +110,27 @@
                 </div>
                 <ul>
                     <li>
-                        <a href="">Nữ <i class="fas fa-angle-down icon-dropdown"></i></a>
+                        <a href="#">Nữ <i class="fas fa-angle-down icon-dropdown"></i></a>
                         <ul class="sub-menu-mobile">
-                            <li><a href="">Hàng mới về</a></li>
+                            <li><a href="#">Hàng mới về</a></li>
                             <li>
-                                <a href="">Giày</a>
+                                <a href="#">Giày</a>
                                 <ul>
-                                    <li><a href="">Giày sneakers</a></li>
-                                    <li><a href="">Giày thể thao</a></li>
-                                    <li><a href="">Giày xăng đan</a></li>
-                                    <li><a href="">Giày đế cao su</a></li>
-                                    <li><a href="">Giày cao cổ</a></li>
-                                    <li><a href="">Giày da</a></li>
-                                    <li><a href="">Giày lười</a></li>
-                                    <li><a href="">Giày back to school</a></li>
+                                    <li><a href="#">Giày sneakers</a></li>
+                                    <li><a href="#">Giày thể thao</a></li>
+                                    <li><a href="#">Giày xăng đan</a></li>
+                                    <li><a href="#">Giày đế cao su</a></li>
+                                    <li><a href="#">Giày cao cổ</a></li>
+                                    <li><a href="#">Giày da</a></li>
+                                    <li><a href="#">Giày lười</a></li>
+                                    <li><a href="#">Giày back to school</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="">Dép</a>
+                                <a href="#">Dép</a>
                                 <ul>
-                                    <li><a href="">Dép kẹp</a></li>
-                                    <li><a href="">Dép quai ngang</a></li>
+                                    <li><a href="#">Dép kẹp</a></li>
+                                    <li><a href="#">Dép quai ngang</a></li>
                                 </ul>
 
 
@@ -137,14 +138,14 @@
 
                         </ul>
                     </li>
-                    <li><a href="">Nam<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Trẻ em<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a class="menu-item-sale" href="">Sale<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Bộ sưu tập<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Phụ kiện<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Giới thiệu<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Thông tin<i class="fas fa-angle-down icon-dropdown"></i></a></li>
-                    <li><a href="">Liên hệ<i class="fas fa-angle-down icon-dropdown"></i></a></li>
+                    <li><a href="#">Nam<i class="fas fa-angle-down icon-dropdown"></i></a></li>
+                    <li><a href="#">Trẻ em<i class="fas fa-angle-down icon-dropdown"></i></a></li>
+                    <li><a class="menu-item-sale" href="#">Sale<i class="fas fa-angle-down icon-dropdown"></i></a></li>
+                    <li><a href="#">Bộ sưu tập<i class="fas fa-angle-down icon-dropdown"></i></a></li>
+                    <li><a href="#">Phụ kiện<i class="fas fa-angle-down icon-dropdown"></i></a></li>
+                    <li><a href="#">Giới thiệu<i class="fas fa-angle-down icon-dropdown"></i></a></li>
+                    <li><a href="#">Thông tin<i class="fas fa-angle-down icon-dropdown"></i></a></li>
+                    <li><a href="#">Liên hệ<i class="fas fa-angle-down icon-dropdown"></i></a></li>
 
                 </ul>
             </div>
@@ -152,14 +153,14 @@
             <div class="others-mobile">
 
                 <li>
-                    <a class="fas fa-paw " href="">
+                    <a class="fas fa-paw " href="#">
                         <!-- <span class="others-follow">Tra cứu đơn hàng</span> -->
                     </a>
                 </li>
-               <li><a class="fas fa-user" href=""></a> </li> 
+                <li><a class="fas fa-user" href="#"></a> </li>
                 <span class="others-login"></span>
 
-                <li><a class="fas fa-shopping-bag" href=""></a></li>
+                <li><a class="fas fa-shopping-bag" href="#"></a></li>
 
             </div>
         </div>
@@ -173,16 +174,18 @@
                 <i class="fas fa-search"></i>
             </li>
             <li>
-                <a class="fas fa-paw " href="">
+                <a class="fas fa-paw " href="#">
                     <span class="others-follow">Tra cứu đơn hàng</span>
                 </a>
             </li>
+           
             <li>
-                <a class="fas fa-user" asp-area="" asp-controller="User" asp-action="DangKy" >
-                    <span class="others-login">Đăng ky</span>
+                <a href="@Url.Action("","")" class="btn btn-warning">
+                  Log out
                 </a>
             </li>
-            <li><a class="fas fa-shopping-bag" href=""></a></li>
+           
+            <li><a class="fas fa-shopping-bag" href="#"></a></li>
 
         </div>
 
@@ -193,21 +196,21 @@
 
     </section>
 
-    
 
-            @RenderBody()
-  
+
+    @RenderBody()
+
 
     <footer>
         <div class="footer-top">
             <ul>
-                <li><a href=""><img src="~/img/dathongbao.PNG" alt=""></a></li>
-                <li><a href="">Liên hệ</a></li>
-                <li><a href="">Tuyển dụng</a></li>
-                <li><a href="">Giới thiệu</a></li>
+                <li><a href="#"><img src="~/img/dathongbao.PNG" alt=""></a></li>
+                <li><a href="#">Liên hệ</a></li>
+                <li><a href="#">Tuyển dụng</a></li>
+                <li><a href="#">Giới thiệu</a></li>
                 <li>
-                    <a href=""><i class="fab fa-facebook"></i></a>
-                    <a href=""><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
                 </li>
 
 

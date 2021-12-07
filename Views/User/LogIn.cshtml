@@ -1,0 +1,189 @@
+﻿@model IEnumerable<ShoesLover.Models.User>
+@if (Model.Any())
+{
+    ViewData["Title"] = "LogInSuccess";
+    Layout = "~/Views/Shared/SecondLayout.cshtml";
+    <body>
+
+        <section class="search__mobile">
+            <input type="text">
+            <button>TÌM KIẾM</button>
+
+        </section>
+
+        <!-- Slider -->
+        <section id="slider">
+            <div class="aspect-ratio-169">
+                <img src="~/img/slide_index_1.webp" alt="">
+                <img src="~/img/slide_index_2.webp" alt="">
+                <img src="~/img/slide_index_3.webp" alt="">
+                <img src="~/img/slide_index_4.webp" alt="">
+            </div>
+            <div class="dot-container">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+        </section>
+        <!-- AppStore and GooglePlay -->
+        <section class="app-container">
+            <p>Tải ứng dụng ILOVESHOES</p>
+            <div class="app-google">
+                <a href="#"> <img src="~/img/chplay.PNG" alt=""></a>
+                <a href="#"> <img src="~/img/apple.PNG" alt=""></a>
+
+            </div>
+            <p>Nhận bản tin từ ILOVESHOES</p>
+            <input type="text" placeholder="nhập email của bạn..">
+
+        </section>
+
+
+
+        <script>
+            // lam slider
+            const imgPosition = document.querySelectorAll(".aspect-ratio-169 img");
+            const imgContainer = document.querySelector(".aspect-ratio-169");
+            const dotItem = document.querySelectorAll(".dot");
+            let imgNumber = imgPosition.length; // lay tong so phan tu anh
+            let index = 0;
+            imgPosition.forEach(function (image, index) {
+                image.style.left = index * 100 + "%"; //Tạo phần hiển thị ảnh theo tỉ lệ %
+                dotItem[index].addEventListener("click", function () {  // khi click vao dau cham
+                    slider(index);
+                })
+
+            })
+
+            function ImgSlide() {
+
+                index++;
+                console.log(index);
+                if (index >= imgNumber) {
+                    index = 0;
+                }
+                slider(index);
+
+            }
+            setInterval(ImgSlide, 5000)
+
+            function slider(index) {
+                imgContainer.style.left = "-" + index * 100 + "%"; // cho anh hien ra man hinh (100%)
+                const dotActive = document.querySelector(".active");
+                dotActive.classList.remove("active");
+                dotItem[index].classList.add("active");
+            }
+
+            // khi scroll chuot xuong thi header se ve lai background white
+
+            const header = document.querySelector("header");
+            window.addEventListener("scroll", function () {
+                x = window.pageYOffset;
+                if (x > 0) {
+                    header.classList.add("sticky");
+                }
+                else {
+                    header.classList.remove("sticky");
+                }
+            })
+
+
+
+            // click vao icon bar
+            $(document).ready(function () {
+                $('.menu-icon-bar').click(function () {
+                    $('.menu-mobile').slideToggle();
+                    $('.sub-menu-mobile').hide();
+                    // $('.others-mobile').hide(); //hide cai icon
+                })
+            }
+            )
+            $(document).ready(function () {
+                $('.menu-mobile > ul > li > a').click(function () {
+                    $('.sub-menu-mobile').slideToggle();
+                    // $('.others-mobile').hide(); //hide cai icon
+                })
+            }
+            )
+
+        </script>
+    </body>
+}
+else
+{
+    
+        ViewData["Title"] = "LogInFailed";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+   
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+
+        h1 {
+            font-weight: bold;
+            margin: 1px;
+            text-align: center;
+        }
+
+
+
+        button {
+            border-radius: 20px;
+            border: 2px solid green;
+            background-color: green;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+            button:active {
+                transform: scale(0.9);
+            }
+
+        form {
+            background-color: #FFFFFF;
+            padding: 20px 50px 50px;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 100px;
+            box-shadow: 0 15px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            position: relative;
+            overflow: hidden;
+            width: 600px;
+            max-width: 100%;
+            min-height: 480px;
+            padding: 15px 90px 10px 100px;
+            align-content: center;
+            display: flex;
+            margin-left: 450px;
+            margin-bottom: 100px;
+            margin-top: 100px;
+        }
+    </style>
+    <body>
+        <div class="container" id="container">
+
+            <form action="/User/DangNhap" method="post">
+                <h1>fullname va password khong ton tai hoac sai</h1>
+                <button onclick="location.href='@Url.Action("DangNhap", "User")'">Đăng nhập</button>
+            </form>
+
+
+        </div>
+    </body>
+
+}
+
+

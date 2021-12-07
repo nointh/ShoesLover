@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using ShoesLover.Models;
 using System;
+using System.Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -1074,6 +1075,97 @@ namespace ShoesLover.Data
             return true;
         }
         //image upload method - end
+ 
 
+
+
+        /*public int InsertIn4(User usr)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open(); 
+                var str = "insert into user (fullname,email,password) values(@FullName, @EMail, @PAssword)";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("FullName", usr.fullname);
+                cmd.Parameters.AddWithValue("EMail", usr.email);
+                cmd.Parameters.AddWithValue("PAssword", usr.password);
+                return (cmd.ExecuteNonQuery());
+            }
+        }*/
+        public int InsertIn4(User usr)
+        {
+            //checking if user already exist
+            if (!IsUserExist(usr.email))
+            {
+                using (MySqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    var str = "insert into user (fullname,email,password) values(@FullName, @EMail, @PAssword)";
+                    MySqlCommand cmd = new MySqlCommand(str, conn);
+                    cmd.Parameters.AddWithValue("FullName", usr.fullname);
+                    cmd.Parameters.AddWithValue("EMail", usr.email);
+                    cmd.Parameters.AddWithValue("PAssword", usr.password);
+                    return (cmd.ExecuteNonQuery());
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        private bool IsUserExist(string email)
+        {
+            bool IsUserExist = false;
+            string str = "select * from user where email=@email";
+            using (MySqlConnection conn = GetConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("@email", email);
+                MySqlDataAdapter sda = new MySqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                conn.Open();
+                int i = cmd.ExecuteNonQuery();
+                conn.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    IsUserExist = true;
+                }
+            }
+            return IsUserExist;
+        }
+        public List<User> LogIn(string email, string password)
+        {
+            List<User> list = new List<User>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from user where email=@email and password=@password";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("email", email);
+                cmd.Parameters.AddWithValue("password", password);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            list.Add(new User()
+                            {
+                                fullname = reader["email"].ToString(),
+                                password = reader["password"].ToString(),
+                            });
+                        }
+                        reader.Close();
+                    }
+                }
+                conn.Close();
+            }
+            return list;
+        }
+
+        public StoreContext()
+        {
+        }
     }
 }

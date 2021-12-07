@@ -1,0 +1,77 @@
+﻿@using ShoesLover.Models;
+@model User
+@{
+    ViewData["Title"] = "Sign in";
+    /*Layout = "~/Views/User/DangNhap.cshtml";*/
+}
+<!DOCTYPE html>
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+
+
+    h1 {
+        font-weight: bold;
+        margin: 1px;
+        text-align: center;
+    }
+
+
+
+    button {
+        border-radius: 20px;
+        border: 2px solid green;
+        background-color: green;
+        color: #FFFFFF;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 12px 45px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+        button:active {
+            transform: scale(0.9);
+        }
+
+    form {
+        background-color: #FFFFFF;
+        padding: 20px 50px 50px;
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    .container {
+        background-color: #fff;
+        border-radius: 100px;
+        box-shadow: 0 15px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        position: relative;
+        overflow: hidden;
+        width: 600px;
+        max-width: 100%;
+        min-height: 480px;
+        padding: 15px 90px 10px 100px;
+        align-content: center;
+        display: flex;
+        margin-left: 450px;
+        margin-bottom: 100px;
+        margin-top: 100px;
+    }
+</style>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+    <div class="container" id="container">
+
+        <form action="#">
+            <h1>@ViewData["thongbao"]</h1>
+        </form>
+
+
+    </div>
+</body>
+</html>
