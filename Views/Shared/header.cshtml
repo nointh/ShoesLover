@@ -14,6 +14,7 @@
 
 
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <header id="main-header">
     <div class="grid wide">
@@ -21,8 +22,8 @@
             <nav class="header-nav">
                 <ul>
                     <li class="logo">
-                        <a href="./index.html">
-                            <img src="~/images/logo.png" alt="">
+                        <a href="../Home/index">
+                            <img src="~/image/logo.png" alt="">
 
                         </a>
                     </li>
@@ -44,40 +45,40 @@
                                 </div>
                                 <li><a href="">GIỚI THIỆU</a></li>
                                 <li class="menu-list__products">
-                                    <a href="/product/ShowProductWoman">
+                                    <a href="/product/ShowProductsCate?page=1&cate_id=2">
                                         <span>NỮ</span>
-                                        <i class="fas fa-angle-down"></i>
+                                        <!-- <i class="fas fa-angle-down"></i> -->
                                     </a>
                                     <ul class="subMenu-list">
-                                        <li><a href="./products.html">Sneaker</a></li>
-                                        <li><a href="./products.html">Giày bốt</a></li>
-                                        <li><a href="./products.html">Sandal</a></li>
+                                        <li><a href="/product/ShowProducts?page=1&subcate_id=4">Sneaker</a></li>
+                                        <li><a href="/product/ShowProducts?page=1&subcate_id=5">Giày bốt</a></li>
+                                        <li><a href="/product/ShowProducts?page=1&subcate_id=6">Cao gót</a></li>
                                     </ul>
 
                                 </li>
                                 <li class="menu-list__products">
-                                    <a href="./products.html">
+                                    <a href="/product/ShowProductsCate?page=1&cate_id=1">
                                         <span>NAM</span>
-                                        <i class="fas fa-angle-down"></i>
+                                        <!-- <i class="fas fa-angle-down"></i> -->
                                     </a>
                                     <ul class="subMenu-list">
-                                        <li><a href="./products.html">Sneaker</a></li>
-                                        <li><a href="./products.html">Giày bốt</a></li>
-                                        <li><a href="./products.html">Sandal</a></li>
+                                        <li><a href="/product/ShowProducts?page=1&subcate_id=1">Sneaker</a></li>
+                                        <li><a href="/product/ShowProducts?page=1&subcate_id=2">Giày bốt</a></li>
+                                        <li><a href="/product/ShowProducts?page=1&subcate_id=3">Sandal</a></li>
                                     </ul>
                                 </li>
                                 <li class="menu-list__products">
-                                    <a href="./products.html" class="highlight">
+                                    <a href="/product/Sale" class="highlight">
                                         <span>SALE</span>
-                                        <i class="fas fa-angle-down"></i>
+                                        <!--<i class="fas fa-angle-down"></i> -->
                                     </a>
                                     <ul class="subMenu-list">
-                                        <li><a href="./products.html">Nữ</a></li>
-                                        <li><a href="./products.html">Nam</a></li>
+                                        <li><a href="/product/SaleWoman">Nữ</a></li>
+                                        <li><a href="/product/SaleMan">Nam</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="">TIN TỨC</a></li>
-                                <li><a href="">LIÊN HỆ</a></li>
+                                <li><a href="../Home/News">TIN TỨC</a></li>
+                                <li><a href="../Home/About">LIÊN HỆ</a></li>
                             </ul>
                         </div>
                     </li>
@@ -85,12 +86,15 @@
                     <li class="others">
                         <ul class="others-list">
                             <li class="hide-on-mobile">
-                                <form method="get" action="/product/TimSanPhamTheoTen" class="header-search">
-                                    <input name="keyword" type="text" placeholder="Tìm kiếm" title="Tìm kiếm">
-                                    <button type="submit" title="Tìm kiếm">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </form>
+                                <div class="header-search">
+                                    <input id="load_input" name="keyword" type="text" placeholder="Tìm kiếm" title="Tìm kiếm">
+                                    <a id="click_me">
+                                        <button type="button" title="Tìm kiếm">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </a>
+
+                                </div>
                             </li>
                             <li>
                                 <a href="">
@@ -395,3 +399,20 @@
         </div>
     </div>
 </header>
+
+<script src="~/js/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+
+
+    var load = document.getElementById('click_me');
+    var input_value = document.getElementById('load_input').value;
+    console.log(input_value);
+    load.onclick = function () {
+        var str = "/product/SearchProductByName?page=1&keyword=" + document.getElementById('load_input').value;
+        document.getElementById('click_me').setAttribute('href',str)
+    };
+
+
+</script>

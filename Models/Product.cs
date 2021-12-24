@@ -22,5 +22,10 @@ namespace ShoesLover.Models
         public string Description { get; set; }
         public IFormFile ImageFile { get; set; }
         public bool ProductNew { get; set; }
+        public string Product_detail_img_1 { get; set; }
+        public string Product_detail_img_2 { get; set; }
+        public string Product_detail_img_3 { get; set; }
+        public string Product_detail_img_4 { get; set; }
+        public string ProductTag { get; set; }
     }
 }

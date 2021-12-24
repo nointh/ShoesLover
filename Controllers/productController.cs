@@ -10,32 +10,30 @@ namespace ShoesLover.Controllers
 {
     public class productController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            return View();
-        }
-        public IActionResult Lietkesp()
-        {
-             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View(context.GetProducts());
-        }
-
-        public IActionResult SanPhamCoMau()
-        {
-
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View(context.GetColorOfProduct());
+            ViewBag.pagination_woman = context.GetProductWoman();
+            int pagesize = 6;
+            int pagenumber = (page ?? 1);
+
+            return View(ViewBag.pagination_woman(pagenumber, pagesize));
         }
+
+
+
         public IActionResult TimSanPham()
         {
             return View();
 
         }
-        public IActionResult TimSanPhamTheoTen(string keyword)
+        public IActionResult SearchProductByName(int page, string keyword)
         {
             int count;
+            int start = page * 6 - 6;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View( context.TimSanPhamTheoTen(keyword));
+            ViewBag.ShowAllProductsSearch = context.GetAllProductsSearch(keyword);
+            return View(context.GetProductsSearch(start, keyword));
             if (count > 0)
                 ViewData["thongbao"] = "Tìm thấy";
             else
@@ -43,80 +41,138 @@ namespace ShoesLover.Controllers
             return View();
         }
 
-        public IActionResult LietKeSanPhamTheoColor( Color c)
-        {
 
+
+
+
+        public IActionResult ShowProductNewCate(int page, int cate_id)
+        {
+            int start = page * 6 - 6;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-
-            return View(context.GetProducts(c.Id));
-
-
-            
-
-        }
-        public IActionResult FilterSPTheoSize(Size s)
-        {
-
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-
-            return View(context.GetProductsBaseSize(s.Id));
-
-
-
-
-        }
-        public IActionResult LocTheoBrand( Brand b)
-        {
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-
-            return View(context.GetProductBrand(b.Id));
-        }
-        public IActionResult TimSPByLQ( )
-        {
-            return View();
-           
+            ViewBag.ShowNew = context.GetProductNewCate(start, cate_id);
+            ViewBag.ShowAllProductsCate = context.GetAllProductsNewCate(cate_id);
+            return View(context.GetCategoryById(cate_id));
         }
 
-        public IActionResult product_layout()
-        {
 
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View(context.GetProduct());
-        }
-        public IActionResult ShowProductNew()
+        public IActionResult ShowProductNewSubCate(int page, int subcate_id)
         {
+            int start = page * 6 - 6;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View(context.GetProductNew());
+            ViewBag.ShowNew = context.GetProductNewSub(start, subcate_id);
+            ViewBag.ShowAllProductsSub = context.GetAllProductsNewSub(subcate_id);
+            return View(context.GetSubCate(subcate_id));
         }
 
-        public IActionResult ShowBestSeller()
+
+        public IActionResult ShowBestSellerCate(int page, int cate_id)
         {
+            int start = page * 6 - 6;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View(context.GetProductBestSeller());
+            ViewBag.ShowBestSeller = context.GetProductBestSellerCate(start, cate_id);
+            ViewBag.ShowAllProductsCate = context.GetAllProductsBestSellerCate(cate_id);
+            return View(context.GetCategoryById(cate_id));
+        }
+        public IActionResult ShowBestSellerSubCate(int page, int subcate_id)
+        {
+            int start = page * 6 - 6;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.ShowBestSeller = context.GetProductBestSellerSub(start, subcate_id);
+            ViewBag.ShowAllProductsSub = context.GetAllProductsBestSellerSub(subcate_id);
+            return View(context.GetSubCate(subcate_id));
         }
 
-        public IActionResult ShowPriceDESC()
+        public IActionResult ShowPriceDESCCate(int page, int cate_id)
+        {
+            int start = page * 6 - 6;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.ShowDESC = context.GetProductDESCCate(start, cate_id);
+            ViewBag.ShowAllProductsCate = context.GetAllProductDESCCate(cate_id);
+            return View(context.GetCategoryById(cate_id));
+        }
+        public IActionResult ShowPriceDESCSubCate(int page, int subcate_id)
         {
 
+            int start = page * 6 - 6;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View(context.GetPriceDESC());
+            ViewBag.ShowDESC = context.GetProductDESCSub(start, subcate_id);
+            ViewBag.ShowAllProductsSub = context.GetAllProductsDESCSub(subcate_id);
+            return View(context.GetSubCate(subcate_id));
         }
-        public IActionResult ShowPriceASC()
+        public IActionResult ShowPriceASCCate(int page, int cate_id)
+        {
+            int start = page * 6 - 6;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.ShowASC = context.GetProductASCCate(start, cate_id);
+            ViewBag.ShowAllProductsCate = context.GetAllProductsASCCate(cate_id);
+            return View(context.GetCategoryById(cate_id));
+        }
+        public IActionResult ShowPriceASCSubCate(int page, int subcate_id)
         {
 
+            int start = page * 6 - 6;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View(context.GetPriceASC());
+            ViewBag.ShowASC = context.GetProductASCSub(start, subcate_id);
+            ViewBag.ShowAllProductsSub = context.GetAllProductsASCSub(subcate_id);
+            return View(context.GetSubCate(subcate_id));
         }
-        public IActionResult ShowProductPopular()
+        public IActionResult ShowProductPopularCate(int page, int cate_id)
         {
+            int start = page * 6 - 6;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.ShowPopular = context.GetProductPopularCate(start, cate_id);
+            ViewBag.ShowAllProductsCate = context.GetAllProductsPopularCate(cate_id);
+            return View(context.GetCategoryById(cate_id));
+        }
+        public IActionResult ShowProductPopularSubCate(int page, int subcate_id)
+        {
+            int start = page * 6 - 6;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.ShowPopular = context.GetProductPopularSubCate(start, subcate_id);
+            ViewBag.ShowAllProductsSub = context.GetAllProductsPopularSub(subcate_id);
+            return View(context.GetSubCate(subcate_id));
+        }
 
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View(context.GetProductPopular());
-        }
-        public IActionResult ShowProductWoman()
+
+        public IActionResult ShowProductDetailObject(int color_id, int product_id)
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            return View(context.GetProductWoman());
+            ViewBag.GetSizeByID = context.GetSizeByIDPro(color_id, product_id);
+            ViewBag.SPlienquan = context.GetProductsRelateBaseSub(product_id);
+            ViewBag.ShowColorProduct = context.GetColorsOfProduct(product_id);
+            return View(context.GetProductObject(color_id, product_id));
+        }
+
+        public IActionResult ShowProducts(int page, int subcate_id)
+        {
+            int start = page * 6 - 6;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.ShowProducts = context.GetProductsBySubcategoryID(start, subcate_id);
+            ViewBag.ShowAllProductsSub = context.GetAllProductsSub(subcate_id);
+            return View(context.GetSubCate(subcate_id));
+        }
+        public IActionResult ShowProductsCate(int page, int cate_id)
+        {
+            int start = page * 6 - 6;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.ShowProductsCate = context.GetProductsCateObj(start, cate_id);
+            ViewBag.ShowAllProductsCate = context.GetAllProductsCate(cate_id);
+            return View(context.GetCategoryById(cate_id));
+        }
+
+        public JsonResult GetProductVariantImage(int product_id, int color_id)
+        {
+            IEnumerable<ProductVariantDefault> pro;
+            try
+            {
+                StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+                pro = context.GetVariantImg(product_id, color_id);
+            }
+            catch
+            {
+                return Json(new { err = "error" });
+            }
+            return Json(pro);
         }
 
     }

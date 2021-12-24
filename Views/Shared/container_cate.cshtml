@@ -1,0 +1,35 @@
+﻿<div class="col l-3 m-0 c-0">
+    <nav class="category">
+        <ul>
+            <li class="category-detail">
+                <a asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="2">Nữ</a>
+                <ul>
+
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="4">Sneaker</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="5">Boot</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="6">Cao gót</a></li>
+                    <!-- <li><a href="/product/ShowProducts?page=1&subcate_id=5">Giày bốt</a></li>
+                     <li><a href="/product/ShowProducts?page=1&subcate_id=6">Cao gót</a></li> -->
+                </ul>
+            </li>
+            <li class="category-detail">
+                <a asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="1">Nam</a>
+                <ul>
+                    <!-- <li><a href="/product/ShowProducts?page=1&subcate_id=1">Sneaker</a></li>
+                    <li><a href="/product/ShowProducts?page=1&subcate_id=2">Giày bốt</a></li>
+                    <li><a href="/product/ShowProducts?page=1&subcate_id=3">Sandal</a></li> -->
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="1">Sneaker</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="2">Boot</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="3">Sandal</a></li>
+                </ul>
+            </li>
+            <li class="category-detail">
+                <a href="/product/Sale">Sale</a>
+                <ul>
+                    <li><a href="/product/SaleWoman">Nữ</a></li>
+                    <li><a href="/product/SaleMan">Nam</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>

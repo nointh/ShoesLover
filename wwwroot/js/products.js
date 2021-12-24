@@ -1,7 +1,7 @@
-/******************** Products ********************/
+﻿/******************** Products ********************/
 /* Category */
 /* Display navigatino when click category */
-const categories = $$(".category-detail > ul > li > a");
+/*const categories = $$(".category-detail > ul > li > a");
 categories.forEach((category) => {
     category.onclick = () => {
         $(".category-detail > ul > li > a.active").classList.remove("active");
@@ -10,7 +10,7 @@ categories.forEach((category) => {
 
         $(".navigation-list li:nth-child(3) a").innerText = category.innerText;
     };
-});
+}); */
 
 /* Filter */
 /* Active button filter */
@@ -51,7 +51,7 @@ filterBtnRight.onclick = () => {
     if (pageActive.innerText - 0 < pageTotal.innerText - 0) {
         pageActive.innerText = pageActive.innerText - 0 + 1;
     }
-    
+
     createPagination(totalPages, page + 1) // call function to display page active in Pagination
     checkDisable();
 };
@@ -70,18 +70,18 @@ filterBtnLeft.onclick = () => {
 
 //calling function with passing parameters and adding inside element which is ul tag
 element.innerHTML = createPagination(totalPages, page);
-function createPagination(totalPages, page){
+function createPagination(totalPages, page) {
     let liTag = '';
     let active;
     let beforePage = page - 1;
     let afterPage = page + 1;
-    if(page > 1){ //show the next button if the page value is greater than 1
+    if (page > 1) { //show the next button if the page value is greater than 1
         liTag += `<li class="btn prev" onclick="createPagination(totalPages, ${page - 1})"><span><i class="fas fa-angle-left"></i></span></li>`;
     }
 
-    if(page > 2){ //if page value is less than 2 then add 1 after the previous button
+    if (page > 2) { //if page value is less than 2 then add 1 after the previous button
         liTag += `<li class="first numb" onclick="createPagination(totalPages, 1)"><span>1</span></li>`;
-        if(page > 3){ //if page value is greater than 3 then add this (...) after the first li or page
+        if (page > 3) { //if page value is greater than 3 then add this (...) after the first li or page
             liTag += `<li class="dots"><span>...</span></li>`;
         }
     }
@@ -96,7 +96,7 @@ function createPagination(totalPages, page){
     if (page == 1) {
         afterPage = afterPage + 2;
     } else if (page == 2) {
-        afterPage  = afterPage + 1;
+        afterPage = afterPage + 1;
     }
 
     for (var plength = beforePage; plength <= afterPage; plength++) {
@@ -106,18 +106,18 @@ function createPagination(totalPages, page){
         if (plength == 0) { //if plength is 0 than add +1 in plength value
             plength = plength + 1;
         }
-        if (page == plength){ //if page is equal to plength than assign active string in the active variable
+        if (page == plength) { //if page is equal to plength than assign active string in the active variable
             active = "active";
             pageActive.innerText = plength;
             checkDisable();
-        } else{ //else leave empty to the active variable
+        } else { //else leave empty to the active variable
             active = "";
         }
         liTag += `<li class="numb ${active}" onclick="createPagination(totalPages, ${plength})"><span>${plength}</span></li>`;
     }
 
-    if(page < totalPages - 1){ //if page value is less than totalPage value by -1 then show the last li or page
-        if(page < totalPages - 2){ //if page value is less than totalPage value by -2 then add this (...) before the last li or page
+    if (page < totalPages - 1) { //if page value is less than totalPage value by -1 then show the last li or page
+        if (page < totalPages - 2) { //if page value is less than totalPage value by -2 then add this (...) before the last li or page
             liTag += `<li class="dots"><span>...</span></li>`;
         }
         liTag += `<li class="last numb" onclick="createPagination(totalPages, ${totalPages})"><span>${totalPages}</span></li>`;
@@ -129,3 +129,132 @@ function createPagination(totalPages, page){
     element.innerHTML = liTag; //add li tag inside ul tag
     return liTag; //reurn the li tag
 }
+
+
+// Hover phần màu
+
+
+var new_img = document.getElementById('product-img-default');
+
+var obj = document.getElementById('color_small_2');
+
+obj.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b1_default_img_1.jpg')
+
+};
+obj.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+
+
+var obj_2 = document.getElementById('color_small_3');
+
+obj_2.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b9_default_img_4.jpg')
+
+};
+obj_2.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+
+
+var obj_3 = document.getElementById('color_small_4');
+
+obj_3.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b6_default_img_3.jpg')
+
+};
+obj_3.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+
+
+var obj_4 = document.getElementById('color_small_4');
+
+obj_3.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b6_default_img_3.jpg')
+
+};
+obj_3.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+
+var obj_3 = document.getElementById('color_small_4');
+
+obj_3.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b6_default_img_3.jpg')
+
+};
+obj_3.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+
+var obj_3 = document.getElementById('color_small_4');
+
+obj_3.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b6_default_img_3.jpg')
+
+};
+obj_3.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+
+var obj_3 = document.getElementById('color_small_4');
+
+obj_3.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b6_default_img_3.jpg')
+
+};
+obj_3.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+
+var obj_3 = document.getElementById('color_small_4');
+
+obj_3.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b6_default_img_3.jpg')
+
+};
+obj_3.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+var obj_3 = document.getElementById('color_small_4');
+
+obj_3.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b6_default_img_3.jpg')
+
+};
+obj_3.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+
+var obj_3 = document.getElementById('color_small_4');
+
+obj_3.onmouseover = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b6_default_img_3.jpg')
+
+};
+obj_3.onmouseleave = function () {
+    new_img.removeAttribute('src');
+    new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
+}
+

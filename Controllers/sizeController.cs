@@ -26,5 +26,19 @@ namespace ShoesLover.Controllers
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
             return View(context.GetSizes());
         }
+        public JsonResult GetSizeById(int color_id, int size_id, int product_id)
+        {
+            IEnumerable<ProductQuantityBySize> size;
+            try
+            {
+                StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+                size = context.GetSizeID(color_id, size_id, product_id);
+            }
+            catch
+            {
+                return Json(new { err = "error" });
+            }
+            return Json(size);
+        }
     }
 }
