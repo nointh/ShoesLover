@@ -1,0 +1,237 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+
+@model Category
+
+
+
+<div class="container">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col l-12 m-12 c-0">
+                <div class="navigation">
+                    <ul class="navigation-list">
+                        <li>
+                            <a href="../home/index">Trang chủ</a>
+                            <span>&rarr;</span>
+                        </li>
+                        <li>
+                            <a href="./ShowProductsCate?page=1&cate_id=@Model.Id" style="color: red; font-weight:700;">@Model.CategoryName</a>
+
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col l-3 m-0 c-0">
+                <nav class="category">
+                    <ul>
+                        <li class="category-detail">
+                            <a href="/product/ShowProductsCate?page=1&cate_id=2">Nữ</a>
+                            <ul>
+                                <li><a href="/product/ShowProducts?page=1&subcate_id=4">Sneaker</a></li>
+                                <li><a href="/product/ShowProducts?page=1&subcate_id=5">Giày bốt</a></li>
+                                <li><a href="/product/ShowProducts?page=1&subcate_id=6">Cao gót</a></li>
+                            </ul>
+                        </li>
+                        <li class="category-detail">
+                            <a href="/product/ShowProductsCate?page=1&cate_id=1">Nam</a>
+                            <ul>
+                                <li><a href="/product/ShowProducts?page=1&subcate_id=1">Sneaker</a></li>
+                                <li><a href="/product/ShowProducts?page=1&subcate_id=2">Giày bốt</a></li>
+                                <li><a href="/product/ShowProducts?page=1&subcate_id=3">Sandal</a></li>
+                            </ul>
+                        </li>
+                        <li class="category-detail">
+                            <a href="/product/Sale">Sale</a>
+                            <ul>
+                                <li><a href="/product/SaleWoman">Nữ</a></li>
+                                <li><a href="/product/SaleMan">Nam</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="col l-9 m-12 c-12">
+                <div class="filter hide-on-mobile hide-on-tablet">
+                    <div class="filter-header">
+                        <span class="filter__sort">Sắp xếp theo</span>
+                        <a href="ShowProductPopularCate?page=1&cate_id=@Model.Id" class="btn " id="btn_popular_item">
+                            Phổ Biến<a>
+                                <a href="ShowProductNewCate?page=1&cate_id=@Model.Id" class="btn " id="btn_new_item">
+                                    Mới Nhất<a>
+                                        <a href="ShowBestSellerCate?page=1&cate_id=@Model.Id" class="btn" id="btn_best_seller">
+                                            Bán Chạy<a>
+                                                <select class="price-selection select-active" name="forma" onchange="location = this.value;">
+                                                    <option class="price-sort-option" value="">----------Giá----------</option>
+                                                    <option class="price-sort-option" value="ShowPriceDESCCate?page=1&cate_id=@Model.Id" selected>Giá: Cao đến thấp</option>
+                                                    <option class="price-sort-option" value="ShowPriceASCCate?page=1&cate_id=@Model.Id">Giá: Thấp đến cao</option>
+
+                                                </select>
+                    </div>
+                    @{
+                        double page_all = Convert.ToDouble(ViewBag.ShowAllProductsCate / Convert.ToDouble(6));
+                        int page_total = Convert.ToInt32(Math.Ceiling(page_all));
+                        int page_url = Convert.ToInt32(Context.Request.Query["page"]); //Lấy parameter page trên url
+                        int page_prev = page_url - 1;
+                        int page_after = page_url + 1;
+
+                    }
+                    <div class="filter-footer">
+                        <span class="page">
+                            <span class="active">@page_url</span>
+                            /
+                            <span class="total">@page_total</span>
+                        </span>
+                        @{ if (page_url == 1)
+                            {
+                                <div class="filter-footer-btn filter-footer-btn-left filter-footer-btn--disable">
+                                    <a href="#" class="filter-footer-link">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </div>
+                                if (page_url == page_total)
+                                {
+                                    <div class="filter-footer-btn filter-footer-btn-right filter-footer-btn--disable">
+                                        <a href="#" class="filter-footer-link">
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="filter-footer-btn filter-footer-btn-right">
+                                        <a href="ShowPriceDESCCate?page=@page_after&cate_id=@Model.Id" class="filter-footer-link">
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                            else if (page_url > 1 && page_url <= page_total - 1)
+                            {
+                                <div class="filter-footer-btn filter-footer-btn-left">
+                                    <a href="ShowPriceDESCCate?page=@page_prev&cate_id=@Model.Id" class="filter-footer-link">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </div>
+                                <div class="filter-footer-btn filter-footer-btn-right">
+                                    <a href="ShowPriceDESCCate?page=@page_after&cate_id=@Model.Id" class="filter-footer-link">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="filter-footer-btn filter-footer-btn-left">
+                                    <a href="ShowPriceDESCCate?page=@page_prev&cate_id=@Model.Id" class="filter-footer-link">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </div>
+                                <div class="filter-footer-btn filter-footer-btn-right filter-footer-btn--disable">
+                                    <a href="#" class="filter-footer-link">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <div class="products">
+                    <div class="row">
+                        @foreach (var item in ViewBag.ShowDESC)
+
+                        {
+                        <div class="col l-4 m-4 c-6">
+                            @{ Color a = new Color();
+                                a = item.productcolorMaster[0];
+                                <li class="li-product-id" value="@item.Id" style="list-style:none;">
+                                    <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
+                                        <img id="product-img-@item.Id" class="product-image" src="~/image/product_default_img/@item.DefaultImage" alt="">
+
+
+                                        <h4 class="product-name">@item.ProductName</h4>
+                                    </a>
+                                </li>
+
+
+                            }
+
+                            <p style="text-align:center;"><span style="text-decoration:line-through; color:rgb(153,153,153);">@item.RegularPrice <sup>đ</sup></span><span>   </span><span style="color:red;">@item.SalePrice <sup>đ</sup></span></p>
+                            <div class="watcher-product">
+                                <ul>
+                                    @foreach (var index in item.productcolorMaster)
+                                    {
+                                    <li value="@index.Id" class="li-color-@item.Id">
+
+                                        <a>
+
+                                            <img id="color_small_@index.Id" class="img-color-small" src="~/image/product_color/@index.ColorImage" alt="">
+                                        </a>
+
+
+                                    </li>
+
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="pagination-top">
+                    <ul>
+                        @{
+                            if (page_url > 1)
+                            {
+                                <li class="btn prev">
+                                    <a style="width:32px; height:32px; " href="ShowPriceDESCCate?page=@page_prev&cate_id=@Model.Id">
+                                        <i style="width:32px; height:32px;" class="fas fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            }
+                            @for (int j = 1; j <= page_total; j++)
+                            {
+                                <li>
+                                    @if (page_url == j)
+                                    {
+                                        <a style="width:32px; height:32px; color: white; background: red" href="ShowPriceDESCCate?page=@j&cate_id=@Model.Id">@j</a>
+                                    }
+                                    else
+                                    {
+                                        <a style="width: 32px; height: 32px;" href="ShowPriceDESCCate?page=@j&cate_id=@Model.Id">@j</a>
+                                    }
+                                </li>
+                            }
+                            if (page_url < page_total)
+                            {
+                                <li class="btn next">
+                                    <a style="width:32px; height:32px;"
+                                       href="ShowPriceDESCCate?page=@page_after&cate_id=@Model.Id">
+                                        <i style="width:32px; height:32px;" class="fas fa-angle-right"></i>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/productHover.js"></script>
