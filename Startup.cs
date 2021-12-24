@@ -30,6 +30,10 @@ namespace ShoesLover
             services.AddMvc();
             services.Add(new ServiceDescriptor(typeof(StoreContext),
                 new StoreContext(Configuration.GetConnectionString("Default"), rootPath)));
+            services.AddSession(option =>
+            {
+                option.IdleTimeout = TimeSpan.FromDays(30);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +51,8 @@ namespace ShoesLover
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 

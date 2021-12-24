@@ -361,6 +361,40 @@ namespace ShoesLover.Data
             }
             return list;
         }
+        public ProductDetail GetProductDetail(int id)
+        {
+            ProductDetail productDetail = new ProductDetail();
+            try { 
+                using (var conn = GetConnection())
+                {
+                    conn.Open();
+                    string str = "select * from product_detail where id = @id";
+                    MySqlCommand cmd = new MySqlCommand(str, conn);
+                    cmd.Parameters.AddWithValue("id", id);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ProductDetail detail = new ProductDetail
+                            {
+                                Id = Convert.ToInt32(reader["id"]),
+                                ProductId = Convert.ToInt32(reader["product_id"]),
+                                ColorId = Convert.ToInt32(reader["color_id"]),
+                                SizeId = Convert.ToInt32(reader["size_id"]),
+                                Quantity = Convert.ToInt32(reader["quantity"]),
+                                Active = Convert.ToBoolean(reader["active"])
+                            };
+                            return detail;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return productDetail;
+        }
         public ProductColorVariant GetProductVariantById(int productId, int colorId)
         {
             ProductColorVariant variant = new ProductColorVariant();
@@ -1503,16 +1537,16 @@ namespace ShoesLover.Data
         public int InsertIn4(User usr)
         {
             //checking if user already exist
-            if (!IsUserExist(usr.email))
+            if (!IsUserExist(usr.Email))
             {
                 using (MySqlConnection conn = GetConnection())
                 {
                     conn.Open();
                     var str = "insert into user (fullname,email,password) values(@FullName, @EMail, @PAssword)";
                     MySqlCommand cmd = new MySqlCommand(str, conn);
-                    cmd.Parameters.AddWithValue("FullName", usr.fullname);
-                    cmd.Parameters.AddWithValue("EMail", usr.email);
-                    cmd.Parameters.AddWithValue("PAssword", usr.password);
+                    cmd.Parameters.AddWithValue("FullName", usr.Fullname);
+                    cmd.Parameters.AddWithValue("EMail", usr.Fullname);
+                    cmd.Parameters.AddWithValue("PAssword", usr.Password);
                     return (cmd.ExecuteNonQuery());
                 }
             }
@@ -1542,9 +1576,9 @@ namespace ShoesLover.Data
             }
             return IsUserExist;
         }
-        public List<User> LogIn(string email, string password)
+        public User LogIn(string email, string password)
         {
-            List<User> list = new List<User>();
+            User user = new User();
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
@@ -1558,19 +1592,17 @@ namespace ShoesLover.Data
                     {
                         while (reader.Read())
                         {
-                            list.Add(new User()
-                            {
-                                fullname = reader["email"].ToString(),
-                                password = reader["password"].ToString(),
-                            });
+                            user.Fullname = reader["fullname"].ToString();
+                            user.ID = Convert.ToInt32(reader["id"]);
                         }
                         reader.Close();
+                        return user;
                     }
                 }
                 conn.Close();
                 //phần mới thêm
             }
-            return list;
+            return null;
         }
 
 
