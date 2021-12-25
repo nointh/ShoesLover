@@ -45,7 +45,7 @@ namespace ShoesLover.Data
                                 SubCategoryId = Convert.ToInt32(reader["subcategory_id"]),
                                 BrandId = Convert.ToInt32(reader["brand_id"]),
                                 Gender = Convert.ToInt32(reader["gender"]),
-                                DefaultImage = Convert.ToString(reader["default_imgage"]),
+                                DefaultImage = Convert.ToString(reader["default_image"]),
 
                                 Description = Convert.ToString(reader["description"]),
                                 SalePrice = Convert.ToDouble(reader["sale_price"]),
