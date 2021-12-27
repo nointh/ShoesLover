@@ -102,33 +102,43 @@
                                 </a>
                             </li>
                             <li class="hide-on-mobile search-cart--wrap">
-                                <a asp-controller="User" asp-action="DangNhap">
+                                <a asp-controller="User" asp-action="Index">
                                     <i class="fas fa-user" title="Đăng nhập"></i>
                                 </a>
-                                <div class="cart__list hide-on-mobile">
+                                <div class="user-tab hide-on-mobile" style="width:auto">
                                     @if(user == null)
                                     {
+                                    <div class="user-info">
                                         <p>Bạn chưa đăng nhập</p>
-                                        <a asp-controller="User" asp-action="DangNhap">Đăng nhập</a>
+                                        <div class="btn-group">
+                                            <a class="btn basic-btn" asp-controller="User" asp-action="DangNhap">Đăng nhập</a>
+                                            <a class="btn basic-btn" asp-controller="User" asp-action="DangKy">Đăng ký</a>
+                                        </div>
+                                    </div>
                                     }
                                     else
                                     {
+                                    <div class="user-info">
                                         <p>Chào mừng @user.Fullname</p>
-                                        <p>Id = @user.ID</p>
-                                        <a asp-controller="User" asp-action="DangXuat">Đăng xuất</a>
+                                        <a class="basic-btn" asp-controller="Order" asp-action="Home">Đơn hàng</a>
+                                        <a class="exit-btn" asp-controller="User" asp-action="LogOut">Đăng xuất</a>
+
+                                    </div>
                                     }
                                 </div>
                             </li>
                             <li class="search-cart--wrap">
-                                <a href="">
+                                <a asp-controller="Cart" asp-action="Index">
                                     <i class="fa fa-shopping-bag"></i>
                                 </a>
-                                <div class="cart__list hide-on-mobile">
+                                <div class="cart__list hide-on-mobile" id="navbar-cart">
                                     @if (Context.Session.GetString("cart") == null)
                                     {
-                                        <img class="no-cart" src="./assets/img/no_cart.png" alt="">
-                                        <span class="cart__list--empty">Chưa Có Sản Phẩm</span>
-
+                                        <div class="flex-column justify-content-center">
+                                            <img class="no-cart" src="./image/no-cart.png" alt="">
+                                            <span class="cart__list--empty">Chưa Có Sản Phẩm</span>
+                                                
+                                        </div>
                                     }
                                     else
                                     {
@@ -158,7 +168,7 @@
                                                                     <span class="cart__list-item-color">Màu: @item.ColorName</span>
                                                                     <span class="cart__list-item-size">Size: @item.SizeName</span>
                                                                 </div>
-                                                                <span class="cart__list-item-remove">Xóa</span>
+                                                                @*<span class="cart__list-item-remove">Xóa</span>*@
                                                             </div>
                                                         </div>
                                                     </a>
@@ -388,7 +398,9 @@
                                             </ul>*@
 
                                             <div class="cart__list-footer">
-                                                <button class="btn-submit ">Xem Giỏ Hàng</button>
+                                                <a asp-controller="Cart" asp-action="index">
+                                                    <button class="btn-submit ">Xem Giỏ Hàng</button>
+                                                </a>
                                             </div>
                                     </div>
                             </li>

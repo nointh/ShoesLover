@@ -144,7 +144,7 @@ header {
     width: 400px;
     background-color: #fff;
     right: 20px;
-    top: calc(100% - 16px);
+    top: calc(100% - 1.3rem);
     box-shadow: 0 1px 30px 0 rgba(0, 0, 0, 0.2);
     border-radius: 2px;
     transform-origin: calc(100% - 3rem) top;
@@ -177,19 +177,95 @@ header {
 }
 
 .no-cart {
-    display: none;
+    display: block;
     margin: 0 auto 20px auto;
     width: 240px;
 }
 
-/* .cart__list--empty {
-    display: none;
+ .cart__list--empty {
+    display: block;
     width: 100%;
     font-size: 15px;
-} */
+    text-align: center;
+} 
 
 .search-cart--wrap:hover .cart__list {
     display: block;
+}
+/* user tab */
+.user-tab {
+    display: none;
+    position: absolute;
+    width: auto;
+    background-color: #fff;
+    right: 3.2rem;
+    top: calc(100% - 1.3rem);
+    box-shadow: 0 1px 30px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    transform-origin: calc(100% - 3rem) top;
+    z-index: 2;
+}
+.search-cart--wrap:hover .user-tab {
+    display: block;
+}
+.user-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+.user-info .btn-group{
+    margin-top: 15px;
+}
+.user-info .basic-btn {
+    padding: 7px 15px;
+    margin: 3px;
+    border-radius: 5px;
+    transition: background-color 1s linear 0.5s;
+    position: relative;
+    color: white;
+    background-color: #6a5af9a6;
+}
+.basic-btn:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: #6a5af9; 
+    z-index: -1;
+    transition: width 0.2s linear;
+    border-radius: 5px;
+}
+.basic-btn:hover:before {
+    width: 100%;    
+}
+.exit-btn{
+    position: relative;
+    background-color: #ff0000A6;
+    padding: 10px 15px;
+    margin: 3px;
+    border-radius: 5px;
+    transition: background-color 1s linear 0.5s;
+    position: relative;
+    color: white;
+}
+.exit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: #ce1515;
+    z-index: -1;
+    transition: width 0.2s linear;
+    border-radius: 5px;
+}
+.exit-btn:hover:before{
+    width: 100%;
 }
 
 /* has cart */

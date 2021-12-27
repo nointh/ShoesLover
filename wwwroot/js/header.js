@@ -1,4 +1,4 @@
-const $ = document.querySelector.bind(document);
+﻿const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 /******************** Header ********************/
@@ -39,5 +39,4 @@ const menuList = $('.menu-list');
             $("#main-header").style.backgroundColor = "rgba(255,255,255,0.5)";
         }
     })
-
 

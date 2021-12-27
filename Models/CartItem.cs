@@ -11,6 +11,24 @@ namespace ShoesLover.Models
         public int UserId { get; set; }
         public int ProductDetailId { get; set; }
         public int Quantity { get; set; }
+        public CartItemDetail ParseCartItem(StoreContext store)
+        {
+            CartItemDetail detail = new CartItemDetail();
+
+            detail.ProductDetailId = this.ProductDetailId;
+            detail.UserId = this.UserId;
+            detail.Quantity = this.Quantity;
+
+            ProductDetail productDetail = store.GetProductDetail(this.ProductDetailId);
+            Product product = store.GetProductById(productDetail.ProductId);
+            detail.PricePerUnit = Convert.ToInt32(product.SalePrice);
+            detail.ProductName = product.ProductName;
+            detail.Image = product.DefaultImage;
+            detail.ColorName = store.GetColorById(productDetail.ColorId).ColorName;
+            detail.SizeName = store.GetSizeById(productDetail.SizeId).SizeName;
+
+            return detail;
+        }
     }
     public class CartItemDetail : CartItem
     {
@@ -29,13 +47,31 @@ namespace ShoesLover.Models
 
             ProductDetail productDetail = store.GetProductDetail(item.ProductDetailId);
             Product product =  store.GetProductById(productDetail.ProductId);
-            detail.PricePerUnit = Convert.ToInt32(product.RegularPrice);
+            detail.PricePerUnit = Convert.ToInt32(product.SalePrice);
             detail.ProductName = product.ProductName;
             detail.Image = product.DefaultImage;
             detail.ColorName = store.GetColorById(productDetail.ColorId).ColorName;
             detail.SizeName = store.GetSizeById(productDetail.SizeId).SizeName;
 
             return detail;
+        }
+        public static void AddToCartList(List<CartItemDetail> cartList, CartItemDetail newItem)
+        {
+            var x = cartList.Where(item => item.ProductDetailId == newItem.ProductDetailId).ToList();
+            if (x.Count == 0)
+            {
+                cartList.Add(newItem);
+            }
+            else
+            {
+                foreach (var _product in cartList)
+                {
+                    if (_product.ProductDetailId == newItem.ProductDetailId)
+                    {
+                        _product.Quantity += newItem.Quantity;
+                    }
+                }
+            }
         }
     }
 }

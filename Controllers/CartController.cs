@@ -90,23 +90,30 @@ namespace ShoesLover.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddToCart(CartItem item)
+        public IActionResult AddToCart(int productId, int colorId, int sizeId, int quantity)
         {
             StoreContext store = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+
+            CartItem item = new CartItem
+            {
+                ProductDetailId = store.GetProductDetailId(productId, colorId, sizeId),
+                Quantity = quantity
+            };
+            CartItemDetail currentCartItem = CartItemDetail.ParseCartItem(store, item);
             List<CartItemDetail> listCart;
             if (HttpContext.Session.GetString("cart") == null)
             {
                 listCart = new List<CartItemDetail>();
-                listCart.Add(CartItemDetail.ParseCartItem(store,item));
+                listCart.Add(currentCartItem);
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(listCart));
             }
             else
             {
                 listCart = JsonConvert.DeserializeObject<List<CartItemDetail>>(HttpContext.Session.GetString("cart"));
-                listCart.Add(CartItemDetail.ParseCartItem(store, item));
+                CartItemDetail.AddToCartList(listCart, currentCartItem);
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(listCart));
             }
-            return RedirectToAction("index", "home");
+            return Json(currentCartItem);
         }
     }
 }

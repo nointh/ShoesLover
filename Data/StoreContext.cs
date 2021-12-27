@@ -440,6 +440,34 @@ namespace ShoesLover.Data
             }
             return productDetail;
         }
+        public int GetProductDetailId(int productId, int colorId, int sizeId)
+        {
+            try
+            {
+                using (var conn = GetConnection())
+                {
+                    conn.Open();
+                    string str = "select id from product_detail where product_id = @productId and color_id = @colorId and size_id = @sizeId";
+                    MySqlCommand cmd = new MySqlCommand(str, conn);
+                    cmd.Parameters.AddWithValue("productId", productId);
+                    cmd.Parameters.AddWithValue("colorId", colorId);
+                    cmd.Parameters.AddWithValue("sizeId", sizeId);
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        return reader.GetInt32("id");
+                    }
+                    
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return -1;
+            }
+            return -1;
+        }
+
         public ProductColorVariant GetProductVariantById(int productId, int colorId)
         {
             ProductColorVariant variant = new ProductColorVariant();

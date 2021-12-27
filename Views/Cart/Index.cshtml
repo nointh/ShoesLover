@@ -13,94 +13,90 @@
     }
 }
 
-<div class="container row">
-    <div class="basket col-md-8">
 
-        <div class="basket-labels">
-            <ul>
-                <li class="item item-heading">Item</li>
-                <li class="price">Price</li>
-                <li class="quantity">Quantity</li>
-                <li class="subtotal">Subtotal</li>
-            </ul>
+
+
+
+<div class="cart-container">
+    <h3 class="cart-header">Giỏ hàng</h3>
+    <table class="table justify-content-lg-center">
+        <thead>
+            <tr>
+                <th scope="col">Sản phẩm</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Tổng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (cartList == null)
+            {
+                <p>Bạn chưa thêm sản phẩm nào vào giỏ hàng</p>
+            }   
+            else
+            @foreach (var item in cartList)
+            {
+                <tr class="cart-item">
+                    <td>
+                        <div class="row">
+                            <a class="btn-remove">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                            <div class="col-sm-4">
+                                <img src="@("~/image/product_default_img/" + item.Image)" class="product-image" />
+
+                            </div>
+                            <div class="col-sm-6">
+                                <p>@item.ProductName</p>
+                                <p>Màu: @item.ColorName - Size: @item.SizeName</p>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="price" value="@item.PricePerUnit">
+                            @item.PricePerUnit
+                        </div>
+                    </td>
+                    <td style="align-items: center">
+                        <a class="btn-decrease">
+                            <i class="fas fa-minus"></i>
+                        </a>
+                        <input type="number" min="0" class="quantity" value="@item.Quantity" />
+                        <a class="btn-increase">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <div class="sub-total">
+                            @(item.Quantity * item.PricePerUnit)
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <h5 style="text-align: end; margin: 15px;">Tổng cộng: <span class="total-price"></span></h5>
+    <div class="cart-footer">
+        <a class="btn-back" asp-controller="Home" asp-action="index"><i class="fas fa-chevron-left"></i> <span class="hide-on-mobile">Tiếp tục mua hàng</span></a>
+        <div class="horizon-btn-group">
+            <a class="btn btn-success text-light"> <i class="fas fa-save"></i>  <span class="hide-on-mobile">Lưu thay đổi</span></a>
+            <a class="btn btn-danger text-light"><i class="fas fa-trash-alt"></i>  <span class="hide-on-mobile">Xóa tất cả</span></a>
+            <a class="btn btn-primary text-light"><i class="fas fa-history"></i> <span class="hide-on-mobile">Reset</span></a>
         </div>
-        <div class="basket-product">
-            <div class="item">
-                <div class="product-image">
-                    <img src="http://placehold.it/120x166" alt="Placholder Image 2" class="product-frame">
-                </div>
-                <div class="product-details">
-                    <h1><strong><span class="item-quantity">4</span> x Eliza J</strong> Lace Sleeve Cuff Dress</h1>
-                    <p><strong>Navy, Size 18</strong></p>
-                    <p>Product Code - 232321939</p>
-                </div>
-            </div>
-            <div class="price">26.00</div>
-            <div class="quantity">
-                <input type="number" value="4" min="1" class="quantity-field">
-            </div>
-            <div class="subtotal">104.00</div>
-            <div class="remove">
-                <button>Remove</button>
-            </div>
-        </div>
-        <div class="basket-product">
-            <div class="item">
-                <div class="product-image">
-                    <img src="http://placehold.it/120x166" alt="Placholder Image 2" class="product-frame">
-                </div>
-                <div class="product-details">
-                    <h1><strong><span class="item-quantity">1</span> x Whistles</strong> Amella Lace Midi Dress</h1>
-                    <p><strong>Navy, Size 10</strong></p>
-                    <p>Product Code - 232321939</p>
-                </div>
-            </div>
-            <div class="price">26.00</div>
-            <div class="quantity">
-                <input type="number" value="1" min="1" class="quantity-field">
-            </div>
-            <div class="subtotal">26.00</div>
-            <div class="remove">
-                <button>Remove</button>
-            </div>
-        </div>
+        <a class="btn-checkout"> <span class="hide-on-mobile">Đặt hàng</span> <i class="fas fa-chevron-right"></i></a>
+
     </div>
-    <aside class="col-md-4">
-        <div class="summary">
-            <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
-            <div class="summary-subtotal">
-                <div class="subtotal-title">Subtotal</div>
-                <div class="subtotal-value final-value" id="basket-subtotal">130.00</div>
-                <div class="summary-promo hide">
-                    <div class="promo-title">Promotion</div>
-                    <div class="promo-value final-value" id="basket-promo"></div>
-                </div>
-            </div>
-            <div class="summary-delivery">
-                <select name="delivery-collection" class="summary-delivery-selection">
-                    <option value="0" selected="selected">Select Collection or Delivery</option>
-                    <option value="collection">Collection</option>
-                    <option value="first-class">Royal Mail 1st Class</option>
-                    <option value="second-class">Royal Mail 2nd Class</option>
-                    <option value="signed-for">Royal Mail Special Delivery</option>
-                </select>
-            </div>
-            <div class="summary-total">
-                <div class="total-title">Total</div>
-                <div class="total-value final-value" id="basket-total">130.00</div>
-            </div>
-            <div class="summary-checkout">
-                <button class="checkout-cta">Go to Secure Checkout</button>
-            </div>
-        </div>
-    </aside>
+
 </div>
 
 
-
 @section Styles{
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
     <link rel="stylesheet" href="~/css/cart.css">
 }
-@section Scripts{ 
-<script src="~/js/cart.js"></script>
+@section Scripts{
+    <script src="~/js/cart.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 }

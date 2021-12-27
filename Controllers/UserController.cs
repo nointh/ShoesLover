@@ -62,6 +62,7 @@ namespace ShoesLover.Controllers
 
         public IActionResult LogOut()
         {
+            HttpContext.Session.Remove("user");
             return RedirectToAction("Index", "Home");
         }
     }
