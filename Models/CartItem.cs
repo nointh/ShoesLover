@@ -11,7 +11,7 @@ namespace ShoesLover.Models
         public int UserId { get; set; }
         public int ProductDetailId { get; set; }
         public int Quantity { get; set; }
-        public CartItemDetail ParseCartItem(StoreContext store)
+        public CartItemDetail ParseCartDetailItem(StoreContext store)
         {
             CartItemDetail detail = new CartItemDetail();
 

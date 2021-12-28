@@ -3695,7 +3695,142 @@ namespace ShoesLover.Data
             return list;
         }
 
+        //CartItem CRUD - start
+        public int InsertCartItem(CartItem item)
+        {
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "insert into cart_item (user_id, product_detail_id, quantity) values (@uid, @pid, @quan)";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", item.UserId);
+                cmd.Parameters.AddWithValue("pid", item.ProductDetailId);
+                cmd.Parameters.AddWithValue("quan", item.Quantity);
+                return cmd.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return -1;
+            }
+        }
+        public int DeleteCartItem(CartItem item)
+        {
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "delete from cart_item where user_id = @uid and product_detail_id = @pid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", item.UserId);
+                cmd.Parameters.AddWithValue("pid", item.ProductDetailId);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return -1;
+            }
+        }
+        public int AddToCart(CartItem item)
+        {
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select * from cart_item where user_id = @uid and product_detail_id = @pid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", item.UserId);
+                cmd.Parameters.AddWithValue("pid", item.ProductDetailId);
+                using var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    return UpdateAddCartItem(item);
+                }
+                else return InsertCartItem(item);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return -1;
+            }
+        }
+        public int DeleteAllUserCart(int UID)
+        {
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "delete from cart_item where user_id = @uid ";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", UID);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return -1;
+            }
+        }
+        public int UpdateAddCartItem(CartItem item)
+        {
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "update cart_item set quantity = quantity + @quan where user_id = @uid and product_detail_id = @pid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", item.UserId);
+                cmd.Parameters.AddWithValue("pid", item.ProductDetailId);
+                cmd.Parameters.AddWithValue("quan", item.Quantity);
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return -1;
+            }
+        }
+        public List<CartItem> GetCartItemList(int UID)
+        {
+            List<CartItem> resultList = new List<CartItem>();
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select * from cart_item where user_id = @uid";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("uid", UID);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    CartItem item = new CartItem
+                    {
+                        UserId = UID,
+                        ProductDetailId = Convert.ToInt32(reader["product_detail_id"]),
+                        Quantity = Convert.ToInt32(reader["quantity"])
+                    };
+                    resultList.Add(item);
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return resultList;
+        }
+        public void UpdateCartList(List<CartItemDetail> sessionCartList, int UID)
+        {
+            DeleteAllUserCart(UID);
+            foreach(CartItem item in sessionCartList)
+            {
+                item.UserId = UID;
+                InsertCartItem(item);
+            }    
+        }
 
+        //CartItem CRUD - end
     }
 }
 

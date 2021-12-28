@@ -1,18 +1,36 @@
 ﻿/* Set values + misc */
-var promoCode;
-var promoPrice;
 var fadeTime = 300;
-
+var isChange = false;
 /* Assign actions */
-$('.quantity input').change(function () {
-    updateQuantity(this);
-});
+//$('.quantity input').change(function () {
+//    updateQuantity(this);
+//});
 
 $('.btn-remove').click(function () {
+    isChange = true;    
+    toggleChange();
     removeItem(this);
+    console.log("cart item: ", $(".cart-item").length)
+    
 });
 
+function toggleChange() {
+    if (isChange) {
+        $("#btn-save").removeClass("hidden");
+        $("#btn-reset").removeClass("hidden");
+    }
+    else {
+        $("#btn-save").addClass("hidden");
+        $("#btn-reset").addClass("hidden");
+    }
+
+
+}
+
 $('.btn-increase').click(function () {
+    isChange = true;
+    toggleChange();
+
     var selectedRow = $(this).parent().parent();
     console.log(selectedRow);
     //update the sub total 
@@ -29,6 +47,9 @@ $('.btn-increase').click(function () {
     recalculateCart()
 })
 $('.btn-decrease').click(function () {
+    isChange = true;
+    toggleChange();
+
     var selectedRow = $(this).parent().parent();
     console.log(selectedRow);
     //update the sub total 
@@ -46,6 +67,8 @@ $('.btn-decrease').click(function () {
 $("input.quantity").change((event) => {
     var quanTarget = $(event.target)
     var quantity = quanTarget.val()
+    isChange = true;
+    toggleChange();
 
     if (quantity <= 0) {
         Swal.fire({
@@ -73,6 +96,9 @@ $("input.quantity").change((event) => {
 
 })
 $(document).ready(function () {
+    isChange = false;
+
+    toggleChange();
     recalculateCart();
 });
 
@@ -91,34 +117,6 @@ function recalculateCart() {
     $(".total-price").html(total.toLocaleString() + " VND");
 }
 
-/* Update quantity */
-function updateQuantity(quantityInput) {
-    /* Calculate line price */
-    var productRow = $(quantityInput).parent().parent();
-    var price = parseFloat(productRow.children('.price').text());
-    var quantity = $(quantityInput).val();
-    var linePrice = price * quantity;
-
-    /* Update line price display and recalc cart totals */
-    productRow.children('.subtotal').each(function () {
-        $(this).fadeOut(fadeTime, function () {
-            $(this).text(linePrice.toFixed(2));
-            recalculateCart();
-            $(this).fadeIn(fadeTime);
-        });
-    });
-
-    productRow.find('.item-quantity').text(quantity);
-    updateSumItems();
-}
-
-function updateSumItems() {
-    var sumItems = 0;
-    $('.quantity input').each(function () {
-        sumItems += parseInt($(this).val());
-    });
-    $('.total-items').text(sumItems);
-}
 
 /* Remove item from cart */
 function removeItem(removeButton) {
@@ -127,8 +125,23 @@ function removeItem(removeButton) {
     console.log(productRow);
     productRow.slideUp(fadeTime, function () {
         productRow.remove();
+        if ($(".cart-item").length <= 0) {
+            var table = $("cart-table");
+            table.find("tbody").html("<tr><td colspan='4' class='text - center'><p>Bạn chưa thêm sản phẩm nào vào giỏ hàng</p></td ></tr >")
+            $("#btn-delete-all").addClass("hidden");
+        }
+        else {
+            $("#btn-delete-all").removeClass("hidden");
+        }
         recalculateCart();
     //    updateSumItems();
     });
 }
+
+//revert to old status
+$("#btn-reset").click(()=>
+{
+    location.reload();
+})
+
 

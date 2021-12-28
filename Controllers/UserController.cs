@@ -56,6 +56,17 @@ namespace ShoesLover.Controllers
 
             TempData["message"] = "Đăng nhập thành công";
             HttpContext.Session.SetString("user",JsonConvert.SerializeObject(user));
+            List<CartItem> cartItems = context.GetCartItemList(user.ID);
+            List<CartItemDetail> cartList = new List<CartItemDetail>();
+            if (HttpContext.Session.GetString("cart") != null)
+            {
+                cartList = JsonConvert.DeserializeObject<List<CartItemDetail>>(HttpContext.Session.GetString("cart"));
+            }
+            foreach (var item in cartItems)
+            {
+                cartList.Add(item.ParseCartDetailItem(context));
+            }
+            HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cartList));
             return RedirectToAction("Index", "Home");
         }
 
@@ -63,6 +74,7 @@ namespace ShoesLover.Controllers
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("user");
+            HttpContext.Session.Remove("cart");
             return RedirectToAction("Index", "Home");
         }
     }

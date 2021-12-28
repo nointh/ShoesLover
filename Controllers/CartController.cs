@@ -113,7 +113,45 @@ namespace ShoesLover.Controllers
                 CartItemDetail.AddToCartList(listCart, currentCartItem);
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(listCart));
             }
+            if (HttpContext.Session.GetString("user") != null)
+            {
+                User currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
+                item.UserId = currentUser.ID;
+                store.AddToCart(item);
+            }   
+
             return Json(currentCartItem);
+        }
+        [HttpPost]
+        public IActionResult DeleteAllCartItem()
+        {
+            HttpContext.Session.Remove("cart");
+            StoreContext store = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+            if (HttpContext.Session.GetString("user") != null)
+            {            
+                User currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
+                store.DeleteAllUserCart(currentUser.ID);
+            }
+            return Json("success");
+        }
+        [HttpPost]
+        public IActionResult UpdateCartList(string jsonData)
+        {
+            List<CartItem> list = JsonConvert.DeserializeObject<List<CartItem>>(jsonData);
+            StoreContext store = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+
+            List<CartItemDetail> detailList = new List<CartItemDetail>();
+            foreach(var item in list)
+            {
+                detailList.Add(item.ParseCartDetailItem(store));
+            }
+            HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(detailList));
+            if (HttpContext.Session.GetString("user") != null)
+            {
+                User currentUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
+                store.UpdateCartList(detailList, currentUser.ID);
+            }
+            return Json("success");
         }
     }
 }
