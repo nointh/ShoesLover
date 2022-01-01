@@ -106,7 +106,7 @@
                             <i class="fas fa-shopping-bag"></i>
                             <p style="position: relative; bottom:-2px;">THÊM VÀO GIỎ HÀNG</p>
                         </a>
-                        <a style="width:200px;" class="btn_buy" href="Thanhtoan">
+                        <a style="width:200px;" class="btn_buy" @*asp-controller="Order" asp-action="Checkout"*@ id="btn-checkout">
                             <p style="text-align:center; transform:translateY(50%);">MUA NGAY</p>
 
                         </a>
@@ -538,7 +538,50 @@
            }
 
        });
+    $("#btn-checkout").click(async () => {
 
+        var load_check_size = $("#check_size_empty");
+        load_check_size.html("");
+        if ($("#load_size").text() == '') {
+            var str = '<span style="color:red;"> Vui lòng chọn size* </span>';
+            load_check_size.append(str);
+
+            return false;
+        }
+
+        var data = { colorId: @color_url, sizeId: $("#size-id").val(), productId: @productid_url};
+        jsonData = JSON.stringify(data)
+        fetch('@Url.Action("GetProductProductDetailId", "Product")',
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'appliaction/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+
+            }
+        ).then((res) => res.json())
+        .then(data => {
+
+            console.log("data ===", data.id)
+            var id = data.id
+            var arr = []
+            arr.push({ UserId: 0, ProductDetailId: id.toString(), Quantity: $("#input_quantity").val() })
+            jsonBody = JSON.stringify(arr);
+            console.log("json sent ==", jsonBody)
+            fetch('@Url.Action("SetCheckoutList", "Order")',
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'appliaction/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonBody)
+
+                }).then(res => location.href = '@Url.Action("Checkout","Order")')
+        })
+    })
 
 </script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

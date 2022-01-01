@@ -3831,6 +3831,51 @@ namespace ShoesLover.Data
         }
 
         //CartItem CRUD - end
+
+        //Order CRUD - start
+        public int CreateOrder(Order order, List<CartItem> itemList)
+        {
+            try
+            {
+                string insertOrderSql = "insert into `order` (uid, order_date, address, name, phone, total) values (@uid, @date, @address, @name, @phone, @total)";
+                string getOrderId = "select last_insert_id()";
+                string insertOrderDetailSql = "insert into order_detail (order_id, product_detail_id, quantity) values (@orderId, @pid, @quantity)";
+                using var conn = GetConnection();
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(insertOrderSql, conn);
+                cmd.Parameters.AddWithValue("uid", order.UID);
+                cmd.Parameters.AddWithValue("date", order.OrderDate);
+                cmd.Parameters.AddWithValue("address", order.Address);
+                cmd.Parameters.AddWithValue("name", order.Name);
+                cmd.Parameters.AddWithValue("phone", order.Phone);
+                order.Total = 0;
+                foreach(var item in itemList)
+                {
+                    CartItemDetail detail = item.ParseCartDetailItem(this);
+                    order.Total += detail.PricePerUnit * detail.Quantity;
+                }
+                cmd.Parameters.AddWithValue("total", order.Total);
+                cmd.ExecuteNonQuery();
+
+                cmd = new MySqlCommand(getOrderId, conn);
+                order.ID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                foreach(var item in itemList)
+                {
+                    cmd = new MySqlCommand(insertOrderDetailSql, conn);
+                    cmd.Parameters.AddWithValue("orderId", order.ID);
+                    cmd.Parameters.AddWithValue("pid", item.ProductDetailId);
+                    cmd.Parameters.AddWithValue("quantity", item.Quantity);
+                    cmd.ExecuteNonQuery();
+                }
+
+                return 1;
+            }
+            catch(Exception e)
+            {
+                return -1;
+            }
+        }
     }
 }
 

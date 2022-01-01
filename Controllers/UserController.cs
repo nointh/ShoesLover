@@ -38,13 +38,16 @@ namespace ShoesLover.Controllers
             return View();
         }
         
-        public IActionResult DangNhap()
+        public IActionResult DangNhap(string? redirectOption)
         {
+            if (redirectOption != null)
+            {
+                ViewData["redirectOption"] = redirectOption;
+            }
             return View();
         }
 
-
-        public IActionResult LogIn(string email, string password)
+        public IActionResult LogIn(string email, string password, string? redirectOption)
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
             var user = context.LogIn(email, password);
@@ -67,6 +70,8 @@ namespace ShoesLover.Controllers
                 cartList.Add(item.ParseCartDetailItem(context));
             }
             HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cartList));
+            if (redirectOption != null)
+                return RedirectToAction("Checkout", "Order");
             return RedirectToAction("Index", "Home");
         }
 
@@ -75,6 +80,7 @@ namespace ShoesLover.Controllers
         {
             HttpContext.Session.Remove("user");
             HttpContext.Session.Remove("cart");
+            HttpContext.Session.Remove("checkout");
             return RedirectToAction("Index", "Home");
         }
     }

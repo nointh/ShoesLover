@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "DangNhap";
     /*Layout = "~/Views/User/DangNhap.cshtml";*/
+
 }
 <!DOCTYPE html>
 
@@ -22,7 +23,7 @@
 
 
 
-    .login button {
+    .login .btn {
         border-radius: 20px;
         border: 2px solid green;
         background-color: green;
@@ -34,7 +35,7 @@
         text-transform: uppercase;
     }
 
-    .login button:active {
+    .login .btn:active {
         transform: scale(0.9);
     }
 
@@ -57,6 +58,10 @@
         align-content: center;
         margin: 100px auto;
     }
+    .alert{
+        color:red;
+        font-size: 10px;
+    }
 </style>
 
 
@@ -65,8 +70,14 @@
         <h1>Đăng nhập</h1>
         <input type="text" name="email" placeholder="Email đăng nhập" style="background-color: #eee; border: none; padding: 15px 15px; margin: 10px; width: 100%;" />
         <input type="password" name="password" placeholder="Nhập password" style="background-color: #eee; border: none; padding: 15px 15px; margin: 10px; width: 100%;" />
-        <button onclick="location.href='@Url.Action("LogIn", "User")'">Đăng nhập</button>
+        @if (ViewData["redirectOption"] != null)
+        {
+            <input type="hidden" name="redirectOption" value="payment"/>
+        }
+        <button class="btn" onclick="location.href='@Url.Action("LogIn", "User")'">Đăng nhập</button>
+
         <p style="margin-top: 10px">Bạn chưa có tài khoản? <a style="color:blue;" asp-action="DangKy">Đăng kí tại đây</a></p>
+        <p class="alert">@TempData["message"]</p>
     </form>
 
 

@@ -1,0 +1,41 @@
+﻿
+a {
+    color: #000;
+}
+
+    a:hover {
+        color: inherit;
+    }
+
+select:hover{
+    background-color: white;
+    color: black;
+}
+.hightlight {
+    color: red;
+}
+
+    .hightlight:hover {
+        color: red;
+    }
+
+.user-tab {
+    top: calc(100% - 2rem)
+}
+
+.cart__list {
+    top: calc(100% - 2rem)
+}
+
+    .cart__list h4 {
+        font-size: medium;
+    }
+
+@media screen and (max-width: 960px) {
+    .pay-info{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}

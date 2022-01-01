@@ -88,9 +88,9 @@
         <div class="horizon-btn-group">
             <a class="btn btn-success text-light hidden" id="btn-save"> <i class="fas fa-save"></i>  <span class="hide-on-mobile">Lưu thay đổi</span></a>
             <a class="btn btn-danger text-light" id="btn-delete-all"><i class="fas fa-trash-alt"></i>  <span class="hide-on-mobile">Xóa tất cả</span></a>
-            <a class="btn btn-primary text-light hidden" id="btn-reset"><i class="fas fa-history"></i> <span class="hide-on-mobile">Reset</span></a>
+            <a class="btn btn-primary text-light hidden" id="btn-reset"><i class="fas fa-history"></i> <span class="hide-on-mobile">Hoàn tác</span></a>
         </div>
-        <a class="btn-checkout"> <span class="hide-on-mobile">Đặt hàng</span> <i class="fas fa-chevron-right"></i></a>
+        <a id="btn-checkout" class="btn-checkout"> <span class="hide-on-mobile">Đặt hàng</span> <i class="fas fa-chevron-right"></i></a>
 
     </div>
 
@@ -178,5 +178,30 @@
                 }
             })
         })
+
+        $("#btn-checkout").click(() => {
+            var data = [];
+            $('.cart-item').each((idx, element) => {
+                console.log("e", element)
+                var productID = parseInt($(element).find(".product-id").val())
+                var quantity = parseInt($(element).find(".quantity").val())
+                data.push({ UserId: 0, ProductDetailId: productID, Quantity: quantity });
+            })
+            var jsonData = JSON.stringify(data);
+            console.log("checkout -with: ", jsonData);
+
+            fetch('@Url.Action("SetCheckoutList", "Order")',
+                {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'appliaction/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jsonData)
+
+                }
+            ).then((res) => location.href = "/Order/Checkout");
+        })
     </script>
+    
 }
