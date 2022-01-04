@@ -1,0 +1,259 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<link href="~/css/cart.css" rel="stylesheet" />
+<!---------------------------------------- Order-1 ---------------------------------------->
+<div class="cart-container">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col l-7 m-7 c-12 left">
+
+                <div class="order-1-info">
+                    <h4>Vui lòng chọn địa chỉ giao hàng</h4>
+
+                    <!--      if(empty($login__check)) { -->
+                    <div class="order-1-info-way">
+                        <a href="../user/dangnhap">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Đăng nhập (Để nhận Voucher giảm giá cho đơn hàng)
+                        </a>
+                        <br>
+                        <a href="../user/dangky">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Đăng ký (Nếu chưa có tài khoản)
+                        </a>
+                        <br>
+                        <label for="guest">
+                            <input type="radio" class="buy-type" id="guest" checked>
+                            <span>Mua hàng không cần tài khoản</span> (Vui lòng điền các thông tin bên dưới)
+                        </label>
+                    </div>
+                    <!--}-->
+
+
+                    <div class="pay-info sign signup">
+                        <form action="" method="post">
+
+                            <!--   if($login__check) { -->
+                            <input type="hidden" name="customer_id" value="">
+                            <input type="hidden" name="customer_id" value="'.$customer__id.'">
+                            <!--}-->
+
+                            <div class="row">
+                                <div class="col l-6 m-6 c-12">
+                                    <label for="signup-lastname">
+                                        <span>Họ tên:<span class="highlight">*</span> </span>
+                                        <br>
+                                        <!--   <input required name="fullname" type="text" value="<?php if($login__check) echo $customer['customer__name'] ?>" id="signup-lastname" placeholder="Họ..."> -->
+                                        <input required name="fullname" type="text" value="" id="signup-lastname" placeholder="Họ...">
+                                    </label>
+                                </div>
+
+                                <div class="col l-6 m-6 c-12">
+                                    <label for="signup-email">
+                                        <span>Email:<span class="highlight">*</span> </span>
+                                        <br>
+                                        <!--   <input required name="email" type="email" value="<?php if($login__check) echo $customer['customer__email'] ?>" id="signup-email" placeholder="Email..."> -->
+                                        <input required name="email" type="email" value="" id="signup-email" placeholder="Email...">
+                                    </label>
+                                </div>
+
+                                <div class="col l-6 m-6 c-12">
+                                    <label for="signup-phone">
+                                        <span>Điện thoại:<span class="highlight">*</span> </span>
+                                        <br>
+                                        <!-- <input required name="phone" type="text" value="<?php if($login__check) echo $customer['customer__phone'] ?>" id="signup-phone" placeholder="Điện thoại..."> -->
+                                        <input required name="phone" type="text" value="" id="signup-phone" placeholder="Điện thoại...">
+                                    </label>
+                                </div>
+
+                                <div class="col l-6 m-6 c-12">
+                                    <label for="signup-province">
+                                        <span>Tỉnh/TP:<span class="highlight">*</span> </span>
+                                        <br>
+                                        <select required name="province" id="signup-province">
+
+                                            <!--   if($login__check) {  kiểm tra login để show ra tỉnh-->
+
+                                            <option value="'.$customer['customer__province'].'"></option>';
+                                            <!--  } -->
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col l-6 m-6 c-12">
+                                    <label for="signup-district">
+                                        <span>Quận/Huyện:<span class="highlight">*</span> </span>
+                                        <br>
+                                        <select required name="district" id="signup-district">
+
+                                            <!--    <option value="'.$customer['customer__district'].'"></option>'; -->
+                                            <option value=""></option>
+
+                                        </select>
+                                    </label>
+                                </div>
+                                <!-- <div class="col l-12 m-12 c-12">
+                                    <label for="signup-ward">
+                                        <span>Phường/Xã:<span class="highlight">*</span> </span>
+                                        <br>
+                                        <select name="" id="signup-ward">
+                                            <option>Chọn Phường/Xã</option>
+                                            <option></option>
+                                        </select>
+                                    </label>
+                                </div> -->
+                                <div class="col l-12 m-12 c-12">
+                                    <label for="signup-address">
+                                        <span>Địa chỉ:<span class="highlight">*</span> </span>
+                                        <br>
+
+                                        <!--  if($login__check)  -->
+                                        <!-- <input required name="address" value="'.$customer['customer__address'].'" id="signup-address" '; -->
+
+
+                                        <input required name="address" id="signup-address" placeholder="Vui lòng điền chính xác thông tin địa chỉ: số, đường, phường/xã">
+                                    </label>
+                                </div>
+                                <input id="total-post" type="hidden" name="total" value="">
+                                <button type="submit" class="pay">Đặt hàng</button>
+
+                                <!-- <div class="col l-6 m-6 c-12">
+                                    <label for="signup-password" class="label-pass">
+                                        <span>Mật khẩu:<span class="highlight">*</span> </span>
+                                        <br>
+                                        <input required type="password" name="" id="signup-password" placeholder="Mật khẩu...">
+                                    </label>
+                                </div>
+                                <div class="col l-6 m-6 c-12">
+                                    <label for="signup-passwordagain" class="label-pass">
+                                        <span>Nhập lại mật khẩu:<span class="highlight">*</span> </span>
+                                        <br>
+                                        <input required type="password" name="" id="signup-passwordagain" placeholder="Nhập lại mật khẩu...">
+                                    </label>
+                                </div> -->
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col l-5 m-5 c-12 right">
+                <div class="order-1-money">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <!--   <?php
+                            $total = 0;
+                            foreach($cart as $item) {
+                            $total += $item['quantity'] * $item['product__cost'];
+                            echo '  -->
+                        <tr>
+                            <td>
+                                <!--  <a href="">'.$item['product__name'].'</a> khi mà click vô thì nó sẽ quay lại trang chi tiết sp -->
+                                <a href=""></a>
+                            </td>
+                            <td>
+                                <span></span>  <!--Số lượng-->
+                            </td>
+                            <td></td>  <!--Tiền x số lượng-->
+                        </tr>
+
+
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>Tổng</td>
+                                <td></td>
+                                <!--  <td><?=number_format($total)?>đ</td>
+
+                                  <input id="total-show" type="hidden" value="<?=$total?>"> -->
+                                <td></td>
+                                <input id="total-show" type="hidden" value="">
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        $('#total-post').val($('#total-show').val())
+    })
+</script>
+
+<!-- <script>
+    userSignIn = document.getElementById('user-register');
+    buyTypes = document.querySelectorAll('.buy-type');
+    passLabels = document.querySelectorAll('.label-pass');
+
+    buyTypes.forEach((buyType) => {
+        buyType.onclick = () => {
+            if (userSignIn.checked) {
+                passLabels.forEach((passLabel) => {
+                    passLabel.classList.add('display');
+                })
+            }
+            else {
+                passLabels.forEach((passLabel) => {
+                    passLabel.classList.remove('display');
+                })
+            }
+        }
+    })
+</script> -->
+
+<script src='https://cdn.jsdelivr.net/gh/vietblogdao/js/districts.min.js'></script>
+<script>
+    $(document).ready(function() {
+        const selectProvince = $('#signup-province')
+        const selectDistrict = $('#signup-district')
+        // Load address from databse
+        let htmlProvinceFromDb = ``;
+        for(let key in c) {
+            if (selectProvince.val() == key)
+            htmlProvinceFromDb += `<option selected value="${key}">${c[key]}</option>`
+                else htmlProvinceFromDb += `<option value="${key}">${c[key]}</option>`
+        }
+        selectProvince.html(htmlProvinceFromDb)
+        const dataDistrict = arr[selectProvince.val()];
+        let htmlDistrictFromDb = ``;
+        for(let key in dataDistrict) {
+            if (selectDistrict.val() == key)
+            htmlDistrictFromDb += `<option selected value="${key}">${dataDistrict[key]}</option>`
+                else htmlDistrictFromDb += `<option value="${key}">${dataDistrict[key]}</option>`
+        }
+        selectDistrict.html(htmlDistrictFromDb)
+
+
+        //update address
+        selectProvince.change(function() {
+            const keyProvince = selectProvince.val();
+            const dataDistrict = arr[keyProvince];
+            let htmlDistrict = ``;
+            for(let key in dataDistrict) {
+                htmlDistrict += `<option value="${key}">${dataDistrict[key]}</option>`
+            }
+            selectDistrict.html(htmlDistrict)
+        })
+    })
+
+</script>

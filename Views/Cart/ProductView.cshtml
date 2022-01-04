@@ -1,0 +1,30 @@
+﻿@using ShoesLover.Data;
+@using Microsoft.AspNetCore.Http
+@using MySql.Data.MySqlClient;
+
+@{
+    StoreContext store = Context.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+    MySqlConnection conn = store.GetConnection();
+    List<int> productDetails = new List<int>();
+    conn.Open();
+    string str = "select id from product_detail";
+    MySqlCommand cmd = new MySqlCommand(str, conn);
+    using (var reader = cmd.ExecuteReader())
+    {
+        while (reader.Read())
+        {
+            productDetails.Add(Convert.ToInt32(reader["id"]));
+        }
+    }
+}
+<partial name="~/Views/Shared/container.cshtml" />
+<form asp-action="AddToCart" asp-controller="Cart" method="post">
+    <select name="ProductDetailId">
+        @foreach (var item in productDetails)
+        {
+            <option value="@item">@item</option>
+        }
+    </select>
+    <input type="number" name="quantity" required value="0" />
+    <input type="submit" value="submit" />
+</form>

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ShoesLover.Controllers
 {
@@ -243,6 +244,23 @@ namespace ShoesLover.Controllers
            
 
         }  */
+        public JsonResult GetProductProductDetailId([FromBody] string jsonData)
+        {
+            try
+            {
+                dynamic data = JsonConvert.DeserializeObject(jsonData);
+                int colorId = Convert.ToInt32(data["colorId"]);
+                int productId = Convert.ToInt32(data["productId"]);
+                int sizeId = Convert.ToInt32(data["sizeId"]);
 
+                StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+                int detailId = context.GetProductDetailId(productId, colorId, sizeId);
+                return Json(new { id = detailId });
+            }
+            catch
+            {
+                return Json(new { err = "error" });
+            }
+        }
     }
 }

@@ -7,26 +7,27 @@ namespace ShoesLover.Models
 {
     public class User
     {
-        private string Fullname;
-        private string Email;
-        private string Password;
+        public int ID { get; set; }
+        private string _fullname;
+        private string _email;
+        private string _password;
         [Required(ErrorMessage ="Please insert fullname")]
-        public string fullname
+        public string Fullname
         {
-            get { return Fullname; }
-            set { Fullname = value; }
+            get { return _fullname; }
+            set { _fullname = value; }
         }
         [Required(ErrorMessage = "Please insert email")]
-        public string email
+        public string Email
         {
-            get { return Email; }
-            set { Email = value; }
+            get { return _email; }
+            set { _email = value; }
         }
         [Required(ErrorMessage = "Please insert password")]
-        public string password
+        public string Password
         {
-            get { return Password; }
-            set { Password = value; }
+            get { return _password; }
+            set { _password = value; }
         }
         public User()
         {

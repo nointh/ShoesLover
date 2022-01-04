@@ -1,7 +1,18 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
 @{
+    User user = null;
+    if (Context.Session.GetString("user") != null)
+    {
+        user = JsonConvert.DeserializeObject<User>(Context.Session.GetString("user"));
+    }
+    List<CartItemDetail> cartList = null;
+    if (Context.Session.GetString("cart") != null)
+    {
+        cartList = JsonConvert.DeserializeObject<List<CartItemDetail>>(Context.Session.GetString("cart"));
+    }
+
+
 }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -27,7 +38,7 @@
 
                             <ul class="menu-list">
                                 <div class="login__mobile hide-on-tablet hide-on-pc">
-                                    <a href="">
+                                    <a asp-controller="User" asp-action="DangNhap">
                                         Đăng nhập
                                         <i class="fas fa-user-circle"></i>
                                     </a>
@@ -134,243 +145,308 @@
                                     <i class="fas fa-paw" title="Tra cứu đơn hàng"></i>
                                 </a>
                             </li>
-                            <li class="hide-on-mobile">
-                                <a href="../user/DangNhap">
+                            <li class="hide-on-mobile search-cart--wrap">
+                                <a asp-controller="User" asp-action="Index">
                                     <i class="fas fa-user" title="Đăng nhập"></i>
                                 </a>
+                                <div class="user-tab hide-on-mobile" style="width:auto">
+                                    @if(user == null)
+                                    {
+                                    <div class="user-info">
+                                        <p>Bạn chưa đăng nhập</p>
+                                        <div class="btn-group">
+                                            <a class="btn basic-btn" asp-controller="User" asp-action="DangNhap">Đăng nhập</a>
+                                            <a class="btn basic-btn" asp-controller="User" asp-action="DangKy">Đăng ký</a>
+                                        </div>
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                    <div class="user-info">
+                                        <p>Chào mừng @user.Fullname</p>
+                                        <a class="basic-btn" asp-controller="Order" asp-action="Home">Đơn hàng</a>
+                                        <a class="exit-btn" asp-controller="User" asp-action="LogOut">Đăng xuất</a>
+
+                                    </div>
+                                    }
+                                </div>
                             </li>
                             <li class="search-cart--wrap">
-                                <a href="#">
+                                <a asp-controller="Cart" asp-action="Index">
                                     <i class="fa fa-shopping-bag"></i>
                                 </a>
-                                <!--   <div class="cart__list hide-on-mobile">
-                                       <img class="no-cart" src="./assets/img/no_cart.png" alt="">
-                                       <span class="cart__list--empty">Chưa Có Sản Phẩm</span>
+                                <div class="cart__list hide-on-mobile" id="navbar-cart">
+                                    @if (Context.Session.GetString("cart") == null)
+                                    {
+                                        <div class="flex-column justify-content-center">
+                                            <img class="no-cart" src="./image/no-cart.png" alt="">
+                                            <span class="cart__list--empty">Chưa Có Sản Phẩm</span>
+                                                
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p class="cart__list-header">Sản Phẩm Mới Thêm</p>
+                                        <ul class="cart__list-list">
+                                            @foreach (CartItemDetail item in cartList)
+                                            {
+                                                <li class="cart__list-item">
+                                                    <a href="">
+                                                        <img class="cart__list-item-img" src="~/images/" alt="">
 
-                                       <p class="cart__list-header">Sản Phẩm Mới Thêm</p>
-                                       <ul class="cart__list-list">
-                                           <li class="cart__list-item">
-                                               <a href="">
-                                                   <img class="cart__list-item-img" src="~/image/sneaker-nu.jpg" alt="">
+
+                                                        <div class="cart__list-item-description">
+                                                            <div class="cart__list-item-heading">
+                                                                <h4 class="cart__list-item-name">@item.ProductName</h4>
+
+                                                                <div class="cart__list-item-detail">
+                                                                    <span class="cart__list-item-cost highlight">@String.Format("{0:0,0;0} VND", item.PricePerUnit)</span>
+                                                                    <span class="cart__list-item-multiply">x</span>
+                                                                    <span class="cart__list-item-quanlity">@item.Quantity</span>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="cart__list-item-body">
+                                                                <div class="cart__list-item-type">
+                                                                    <span class="cart__list-item-color">Màu: @item.ColorName</span>
+                                                                    <span class="cart__list-item-size">Size: @item.SizeName</span>
+                                                                </div>
+                                                                @*<span class="cart__list-item-remove">Xóa</span>*@
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                        }
+
+                                            @*<p class="cart__list-header">Sản Phẩm Mới Thêm</p>
+                                            <ul class="cart__list-list">
+                                                <li class="cart__list-item">
+                                                    <a href="">
+                                                        <img class="cart__list-item-img" src="~/images/sneaker-nu.jpg" alt="">
 
 
-                                                   <div class="cart__list-item-description">
-                                                       <div class="cart__list-item-heading">
-                                                           <h4 class="cart__list-item-name">BATA 4066 JEAN XANH BATA 4066 JEAN XANH BATA 4066 JEAN XANH</h4>
+                                                        <div class="cart__list-item-description">
+                                                            <div class="cart__list-item-heading">
+                                                                <h4 class="cart__list-item-name">BATA 4066 JEAN XANH BATA 4066 JEAN XANH BATA 4066 JEAN XANH</h4>
 
-                                                           <div class="cart__list-item-detail">
-                                                               <span class="cart__list-item-cost highlight">2.070.000đ</span>
-                                                               <span class="cart__list-item-multiply">x</span>
-                                                               <span class="cart__list-item-quanlity">2</span>
+                                                                <div class="cart__list-item-detail">
+                                                                    <span class="cart__list-item-cost highlight">2.070.000đ</span>
+                                                                    <span class="cart__list-item-multiply">x</span>
+                                                                    <span class="cart__list-item-quanlity">2</span>
 
-                                                           </div>
-                                                       </div>
+                                                                </div>
+                                                            </div>
 
-                                                       <div class="cart__list-item-body">
-                                                           <div class="cart__list-item-type">
-                                                               <span class="cart__list-item-color">Màu: xanh</span>
-                                                               <span class="cart__list-item-size">Size: 43</span>
-                                                           </div>
-                                                           <span class="cart__list-item-remove">Xóa</span>
-                                                       </div>
-                                                   </div>
-                                               </a>
-                                           </li>
+                                                            <div class="cart__list-item-body">
+                                                                <div class="cart__list-item-type">
+                                                                    <span class="cart__list-item-color">Màu: xanh</span>
+                                                                    <span class="cart__list-item-size">Size: 43</span>
+                                                                </div>
+                                                                <span class="cart__list-item-remove">Xóa</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
 
-                                           <li class="cart__list-item">
-                                               <a href="">
-                                                   <img class="cart__list-item-img" src="~/image/sneaker-nu-2.jpg" alt="">
+                                                <li class="cart__list-item">
+                                                    <a href="">
+                                                        <img class="cart__list-item-img" src="~/images/sneaker-nu-2.jpg" alt="">
 
-                                                   <div class="cart__list-item-description">
-                                                       <div class="cart__list-item-heading">
-                                                           <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
+                                                        <div class="cart__list-item-description">
+                                                            <div class="cart__list-item-heading">
+                                                                <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
 
-                                                           <div class="cart__list-item-detail">
-                                                               <span class="cart__list-item-cost highlight">80.000đ</span>
-                                                               <span class="cart__list-item-multiply">x</span>
-                                                               <span class="cart__list-item-quanlity">1</span>
+                                                                <div class="cart__list-item-detail">
+                                                                    <span class="cart__list-item-cost highlight">80.000đ</span>
+                                                                    <span class="cart__list-item-multiply">x</span>
+                                                                    <span class="cart__list-item-quanlity">1</span>
 
-                                                           </div>
-                                                       </div>
+                                                                </div>
+                                                            </div>
 
-                                                       <div class="cart__list-item-body">
-                                                           <div class="cart__list-item-type">
-                                                               <span class="cart__list-item-color">Màu: xanh</span>
-                                                               <span class="cart__list-item-size">Size: 43</span>
-                                                           </div>
-                                                           <span class="cart__list-item-remove">Xóa</span>
-                                                       </div>
-                                                   </div>
-                                               </a>
-                                           </li>
+                                                            <div class="cart__list-item-body">
+                                                                <div class="cart__list-item-type">
+                                                                    <span class="cart__list-item-color">Màu: xanh</span>
+                                                                    <span class="cart__list-item-size">Size: 43</span>
+                                                                </div>
+                                                                <span class="cart__list-item-remove">Xóa</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
 
-                                           <li class="cart__list-item">
-                                               <a href="">
-                                                   <img class="cart__list-item-img" src="~/image/sneaker-nu-3.jpg" alt="">
+                                                <li class="cart__list-item">
+                                                    <a href="">
+                                                        <img class="cart__list-item-img" src="~/images/sneaker-nu-3.jpg" alt="">
 
-                                                   <div class="cart__list-item-description">
-                                                       <div class="cart__list-item-heading">
-                                                           <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
+                                                        <div class="cart__list-item-description">
+                                                            <div class="cart__list-item-heading">
+                                                                <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
 
-                                                           <div class="cart__list-item-detail">
-                                                               <span class="cart__list-item-cost highlight">150.000đ</span>
-                                                               <span class="cart__list-item-multiply">x</span>
-                                                               <span class="cart__list-item-quanlity">1</span>
+                                                                <div class="cart__list-item-detail">
+                                                                    <span class="cart__list-item-cost highlight">150.000đ</span>
+                                                                    <span class="cart__list-item-multiply">x</span>
+                                                                    <span class="cart__list-item-quanlity">1</span>
 
-                                                           </div>
-                                                       </div>
+                                                                </div>
+                                                            </div>
 
-                                                       <div class="cart__list-item-body">
-                                                           <div class="cart__list-item-type">
-                                                               <span class="cart__list-item-color">Màu: xanh</span>
-                                                               <span class="cart__list-item-size">Size: 43</span>
-                                                           </div>
-                                                           <span class="cart__list-item-remove">Xóa</span>
-                                                       </div>
-                                                   </div>
-                                               </a>
-                                           </li>
+                                                            <div class="cart__list-item-body">
+                                                                <div class="cart__list-item-type">
+                                                                    <span class="cart__list-item-color">Màu: xanh</span>
+                                                                    <span class="cart__list-item-size">Size: 43</span>
+                                                                </div>
+                                                                <span class="cart__list-item-remove">Xóa</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
 
-                                           <li class="cart__list-item">
-                                               <a href="">
-                                                   <img class="cart__list-item-img" src="~/image/sneaker-nu-4.jpg" alt="">
+                                                <li class="cart__list-item">
+                                                    <a href="">
+                                                        <img class="cart__list-item-img" src="~/images/sneaker-nu-4.jpg" alt="">
 
-                                                   <div class="cart__list-item-description">
-                                                       <div class="cart__list-item-heading">
-                                                           <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
+                                                        <div class="cart__list-item-description">
+                                                            <div class="cart__list-item-heading">
+                                                                <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
 
-                                                           <div class="cart__list-item-detail">
-                                                               <span class="cart__list-item-cost highlight">2.070.000đ</span>
-                                                               <span class="cart__list-item-multiply">x</span>
-                                                               <span class="cart__list-item-quanlity">2</span>
+                                                                <div class="cart__list-item-detail">
+                                                                    <span class="cart__list-item-cost highlight">2.070.000đ</span>
+                                                                    <span class="cart__list-item-multiply">x</span>
+                                                                    <span class="cart__list-item-quanlity">2</span>
 
-                                                           </div>
-                                                       </div>
+                                                                </div>
+                                                            </div>
 
-                                                       <div class="cart__list-item-body">
-                                                           <div class="cart__list-item-type">
-                                                               <span class="cart__list-item-color">Màu: xanh</span>
-                                                               <span class="cart__list-item-size">Size: 43</span>
-                                                           </div>
-                                                           <span class="cart__list-item-remove">Xóa</span>
-                                                       </div>
-                                                   </div>
-                                               </a>
-                                           </li>
+                                                            <div class="cart__list-item-body">
+                                                                <div class="cart__list-item-type">
+                                                                    <span class="cart__list-item-color">Màu: xanh</span>
+                                                                    <span class="cart__list-item-size">Size: 43</span>
+                                                                </div>
+                                                                <span class="cart__list-item-remove">Xóa</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
 
-                                           <li class="cart__list-item">
-                                               <a href="">
-                                                   <img class="cart__list-item-img" src="~/image/sneaker-nu.jpg" alt="">
+                                                <li class="cart__list-item">
+                                                    <a href="">
+                                                        <img class="cart__list-item-img" src="~/images/sneaker-nu.jpg" alt="">
 
-                                                   <div class="cart__list-item-description">
-                                                       <div class="cart__list-item-heading">
-                                                           <h4 class="cart__list-item-name">BATA 4066 JEAN XANH </h4>
+                                                        <div class="cart__list-item-description">
+                                                            <div class="cart__list-item-heading">
+                                                                <h4 class="cart__list-item-name">BATA 4066 JEAN XANH </h4>
 
-                                                           <div class="cart__list-item-detail">
-                                                               <span class="cart__list-item-cost highlight">80.000đ</span>
-                                                               <span class="cart__list-item-multiply">x</span>
-                                                               <span class="cart__list-item-quanlity">1</span>
+                                                                <div class="cart__list-item-detail">
+                                                                    <span class="cart__list-item-cost highlight">80.000đ</span>
+                                                                    <span class="cart__list-item-multiply">x</span>
+                                                                    <span class="cart__list-item-quanlity">1</span>
 
-                                                           </div>
-                                                       </div>
+                                                                </div>
+                                                            </div>
 
-                                                       <div class="cart__list-item-body">
-                                                           <div class="cart__list-item-type">
-                                                               <span class="cart__list-item-color">Màu: xanh</span>
-                                                               <span class="cart__list-item-size">Size: 43</span>
-                                                           </div>
-                                                           <span class="cart__list-item-remove">Xóa</span>
-                                                       </div>
-                                                   </div>
-                                               </a>
-                                           </li>
+                                                            <div class="cart__list-item-body">
+                                                                <div class="cart__list-item-type">
+                                                                    <span class="cart__list-item-color">Màu: xanh</span>
+                                                                    <span class="cart__list-item-size">Size: 43</span>
+                                                                </div>
+                                                                <span class="cart__list-item-remove">Xóa</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
 
-                                           <li class="cart__list-item">
-                                               <a href="">
-                                                   <img class="cart__list-item-img" src="~/image/sneaker-nu-2.jpg" alt="">
+                                                <li class="cart__list-item">
+                                                    <a href="">
+                                                        <img class="cart__list-item-img" src="~/images/sneaker-nu-2.jpg" alt="">
 
-                                                   <div class="cart__list-item-description">
-                                                       <div class="cart__list-item-heading">
-                                                           <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
+                                                        <div class="cart__list-item-description">
+                                                            <div class="cart__list-item-heading">
+                                                                <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
 
-                                                           <div class="cart__list-item-detail">
-                                                               <span class="cart__list-item-cost highlight">150.000đ</span>
-                                                               <span class="cart__list-item-multiply">x</span>
-                                                               <span class="cart__list-item-quanlity">1</span>
+                                                                <div class="cart__list-item-detail">
+                                                                    <span class="cart__list-item-cost highlight">150.000đ</span>
+                                                                    <span class="cart__list-item-multiply">x</span>
+                                                                    <span class="cart__list-item-quanlity">1</span>
 
-                                                           </div>
-                                                       </div>
+                                                                </div>
+                                                            </div>
 
-                                                       <div class="cart__list-item-body">
-                                                           <div class="cart__list-item-type">
-                                                               <span class="cart__list-item-color">Màu: xanh</span>
-                                                               <span class="cart__list-item-size">Size: 43</span>
-                                                           </div>
-                                                           <span class="cart__list-item-remove">Xóa</span>
-                                                       </div>
-                                                   </div>
-                                               </a>
-                                           </li>
+                                                            <div class="cart__list-item-body">
+                                                                <div class="cart__list-item-type">
+                                                                    <span class="cart__list-item-color">Màu: xanh</span>
+                                                                    <span class="cart__list-item-size">Size: 43</span>
+                                                                </div>
+                                                                <span class="cart__list-item-remove">Xóa</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
 
-                                           <li class="cart__list-item">
-                                               <a href="">
-                                                   <img class="cart__list-item-img" src="~/image/sneaker-nu-3.jpg" alt="">
+                                                <li class="cart__list-item">
+                                                    <a href="">
+                                                        <img class="cart__list-item-img" src="~/images/sneaker-nu-3.jpg" alt="">
 
-                                                   <div class="cart__list-item-description">
-                                                       <div class="cart__list-item-heading">
-                                                           <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
+                                                        <div class="cart__list-item-description">
+                                                            <div class="cart__list-item-heading">
+                                                                <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
 
-                                                           <div class="cart__list-item-detail">
-                                                               <span class="cart__list-item-cost highlight">2.070.000đ</span>
-                                                               <span class="cart__list-item-multiply">x</span>
-                                                               <span class="cart__list-item-quanlity">2</span>
+                                                                <div class="cart__list-item-detail">
+                                                                    <span class="cart__list-item-cost highlight">2.070.000đ</span>
+                                                                    <span class="cart__list-item-multiply">x</span>
+                                                                    <span class="cart__list-item-quanlity">2</span>
 
-                                                           </div>
-                                                       </div>
+                                                                </div>
+                                                            </div>
 
-                                                       <div class="cart__list-item-body">
-                                                           <div class="cart__list-item-type">
-                                                               <span class="cart__list-item-color">Màu: xanh</span>
-                                                               <span class="cart__list-item-size">Size: 43</span>
-                                                           </div>
-                                                           <span class="cart__list-item-remove">Xóa</span>
-                                                       </div>
-                                                   </div>
-                                               </a>
-                                           </li>
+                                                            <div class="cart__list-item-body">
+                                                                <div class="cart__list-item-type">
+                                                                    <span class="cart__list-item-color">Màu: xanh</span>
+                                                                    <span class="cart__list-item-size">Size: 43</span>
+                                                                </div>
+                                                                <span class="cart__list-item-remove">Xóa</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
 
-                                           <li class="cart__list-item">
-                                               <a href="">
-                                                   <img class="cart__list-item-img" src="~/image/sneaker-nu-4.jpg" alt="">
+                                                <li class="cart__list-item">
+                                                    <a href="">
+                                                        <img class="cart__list-item-img" src="~/images/sneaker-nu-4.jpg" alt="">
 
-                                                   <div class="cart__list-item-description">
-                                                       <div class="cart__list-item-heading">
-                                                           <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
+                                                        <div class="cart__list-item-description">
+                                                            <div class="cart__list-item-heading">
+                                                                <h4 class="cart__list-item-name">BATA 4066 JEAN XANH</h4>
 
-                                                           <div class="cart__list-item-detail">
-                                                               <span class="cart__list-item-cost highlight">80.000đ</span>
-                                                               <span class="cart__list-item-multiply">x</span>
-                                                               <span class="cart__list-item-quanlity">1</span>
+                                                                <div class="cart__list-item-detail">
+                                                                    <span class="cart__list-item-cost highlight">80.000đ</span>
+                                                                    <span class="cart__list-item-multiply">x</span>
+                                                                    <span class="cart__list-item-quanlity">1</span>
 
-                                                           </div>
-                                                       </div>
+                                                                </div>
+                                                            </div>
 
-                                                       <div class="cart__list-item-body">
-                                                           <div class="cart__list-item-type">
-                                                               <span class="cart__list-item-color">Màu: xanh</span>
-                                                               <span class="cart__list-item-size">Size: 43</span>
-                                                           </div>
-                                                           <span class="cart__list-item-remove">Xóa</span>
-                                                       </div>
-                                                   </div>
-                                               </a>
-                                           </li>
-                                       </ul>
+                                                            <div class="cart__list-item-body">
+                                                                <div class="cart__list-item-type">
+                                                                    <span class="cart__list-item-color">Màu: xanh</span>
+                                                                    <span class="cart__list-item-size">Size: 43</span>
+                                                                </div>
+                                                                <span class="cart__list-item-remove">Xóa</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>*@
 
-                                       <div class="cart__list-footer">
-                                           <button class="btn-submit ">Xem Giỏ Hàng</button>
-                                       </div>
-                                   </div> -->
+                                            <div class="cart__list-footer">
+                                                <a asp-controller="Cart" asp-action="index">
+                                                    <button class="btn-submit ">Xem Giỏ Hàng</button>
+                                                </a>
+                                            </div>
+                                    </div>
                             </li>
                         </ul>
                     </li>

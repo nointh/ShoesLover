@@ -1,158 +1,207 @@
-﻿
-<style>
-    .btn-delete {
-        font-size: 18px;
-        cursor: pointer;
-        color: #666;
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@{
+    User user = null;
+    if (Context.Session.GetString("user") != null)
+    {
+        user = JsonConvert.DeserializeObject<User>(Context.Session.GetString("user"));
     }
-</style>
-<link href="~/css/cart.css" rel="stylesheet" />
-<!---------------------------------------- Cart ---------------------------------------->
-<div class="cart">
-    <div class="grid wide">
-        <div class="row">
-            <div class="col l-8 m-12 c-12">
-                <div class="cart-detail">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>SẢN PHẨM</th>
-                                <th>TÊN SẢN PHẨM</th>
-                                <th>SL</th>
-                                <th>GIÁ (VNĐ)</th>
-                                <th>THÀNH TIỀN</th>
-                                <th>XÓA</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cart-detail">
-                            <!---  <?php
-                               $total = 0;
-                               foreach($cart as $item) {
-                               $total += $item['quantity'] * $item['product__cost'];
-                               echo ' -->
-                            <tr>
-                                <td>
-                                    <a href="">
-                                        <img src="" alt="">
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href=""></a>
-                                </td>
-                                <td>
-                                    <!--  <input type="number" id="" value="" onchange="updateQuantity('.$item['product__id'].')" min="1" style="width: 50px"> -->
-                                    <input type="number" id="" value="" onchange="" min="1" style="width: 50px">
-                                </td>
-                                <!--  <td><span data-id="'.$item['product__cost'].'" id="product_cost_'.$item['product__id'].'">'.number_format($item['product__cost']).'</span></td>
-                                  <td><span data-id="'.$item['quantity'] * $item['product__cost'].'" id="totalCost_'.$item['product__id'].'">'.number_format($item['quantity'] * $item['product__cost']).'</span></td> -->
-                                <td><span data-id="" id=""></span></td>
-                                <td><span data-id="" id=""></span></td>
-
-                                <td>
-                                    <!-- <i class="btn-delete fas fa-times" onclick="deleteItem('.$item['product__id'].')"></i> -->
-                                    <i class="btn-delete fas fa-times" onclick="deleteItem()"></i>
-                                </td>
-                            </tr>
+    List<CartItemDetail> cartList = null;
+    if (Context.Session.GetString("cart") != null)
+    {
+        cartList = JsonConvert.DeserializeObject<List<CartItemDetail>>(Context.Session.GetString("cart"));
+    }
+}
 
 
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col l-4 m-12 c-12">
-                <div class="cart-money">
-                    <table>
-                        <caption>TỔNG TIỀN GIỎ HÀNG</caption>
-                        <tbody>
-                            <tr>
-                                <td>TỔNG SẢN PHẨM</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>TỔNG TIỀN HÀNG</td>
-                                <td id="total_1"></td>
-                            </tr>
-                            <tr>
-                                <td>THÀNH TIỀN</td>
-                                <td id="total_2"></td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td>TẠM TÍNH</td>
-                                <!--  <td id="total_3"><?=$total?>đ</td> -->
-                                <td id="total_3"></td>
-                            </tr>
-                        </tfoot>
-                    </table>
 
-                    <div class="button">
-                        <a href="../product/ShowProducts?page=1&cate_id=" class="continue">Tiếp tục mua sắm</a>
-                        <a href="../order/index" class="pay">Thanh toán</a>
-                    </div>
-                </div>
-            </div>
+
+<div class="cart-container">
+    <h3 class="cart-header">Giỏ hàng</h3>
+    <table class="table justify-content-lg-center" id="cart-table">
+        <thead>
+            <tr>
+                <th scope="col">Sản phẩm</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Tổng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (cartList == null)
+            {
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <p>Bạn chưa thêm sản phẩm nào vào giỏ hàng</p>
+                    </td>
+                </tr>
+            }   
+            else
+            @foreach (var item in cartList)
+            {
+                <tr class="cart-item">
+                    <td>
+                        <input type="hidden" value="@item.ProductDetailId" class="product-id" />
+
+                        <div class="row">
+                            <a class="btn-remove">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                            <div class="col-sm-4">
+                                <img src="@("~/image/product_default_img/" + item.Image)" class="product-image" />
+
+                            </div>
+                            <div class="col-sm-6">
+                                <p>@item.ProductName</p>
+                                <p>Màu: @item.ColorName - Size: @item.SizeName</p>
+                            </div>
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="price" value="@item.PricePerUnit">
+                            @item.PricePerUnit
+                        </div>
+                    </td>
+                    <td style="align-items: center">
+                        <a class="btn-decrease">
+                            <i class="fas fa-minus"></i>
+                        </a>
+                        <input type="number" min="0" class="quantity" value="@item.Quantity" />
+                        <a class="btn-increase">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <div class="sub-total">
+                            @(item.Quantity * item.PricePerUnit)
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <h5 style="text-align: end; margin: 15px;">Tổng cộng: <span class="total-price"></span></h5>
+    <div class="cart-footer">
+        <a class="btn-back" asp-controller="Home" asp-action="index"><i class="fas fa-chevron-left"></i> <span class="hide-on-mobile">Tiếp tục mua hàng</span></a>
+        <div class="horizon-btn-group">
+            <a class="btn btn-success text-light hidden" id="btn-save"> <i class="fas fa-save"></i>  <span class="hide-on-mobile">Lưu thay đổi</span></a>
+            <a class="btn btn-danger text-light" id="btn-delete-all"><i class="fas fa-trash-alt"></i>  <span class="hide-on-mobile">Xóa tất cả</span></a>
+            <a class="btn btn-primary text-light hidden" id="btn-reset"><i class="fas fa-history"></i> <span class="hide-on-mobile">Hoàn tác</span></a>
         </div>
+        <a id="btn-checkout" class="btn-checkout"> <span class="hide-on-mobile">Đặt hàng</span> <i class="fas fa-chevron-right"></i></a>
+
     </div>
+
 </div>
 
 
+@section Styles{
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-<script>
-    function deleteItem(id) {
-        $.ajax({
-            url: 'ajax-product.php',
-            type: 'post',
-            data: {
-                action: 'delete',
-                id: id,
-            },
-            dataType: 'text',
-            success: function (result) {
-                location.reload();
-            }
-        })
-    }
+    <link rel="stylesheet" href="~/css/cart.css">
+}
+@section Scripts{
+    <script src="~/js/cart.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $("#btn-delete-all").click(() => {
+            Swal.fire({
+                title: 'Bạn có muốn xóa tất cả?',
+                text: "Bạn có thể sẽ phải tìm lại các sản phẩm cũ nếu xóa",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Chấp nhận xóa!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteAllCartItem", "Cart")',
+                        type: 'POST',
+                        dataType: 'JSON',
 
-    function updateQuantity(id) {
-        const newQuantity = $('#quantity_' + id).val();
-        const productCost = $('#product_cost_' + id).data('id');
-        $.ajax({
-            url: 'ajax-product.php',
-            type: 'post',
-            data: {
-                action: 'update',
-                id: id,
-                quantity: $('#quantity_' + id).val()
-            },
-            dataType: 'text',
-            success: function (result) {
-                // Update cart detail
-                // Update new quantity
-                const tdQuantity = $('#quantity_' + id).parent();
-                var updateQuanityHtml = `<input type="number" id="quantity_${id}" value="${newQuantity}" onchange="updateQuantity(${id})" min="1" style="width: 50px">`;
-                tdQuantity.html(updateQuanityHtml)
+                        success: function (data) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Giỏ hàng làm mới thành công',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                            setTimeout(() => location.reload(), 1000);
+                        }
+                    })
 
-                //update new total cost
-                const tdCost = $('#totalCost_' + id).parent();
-                var updateCostHtml = `<span data-id="${newQuantity * productCost}" id="totalCost_${id}">${newQuantity * productCost}</span>`
-                tdCost.html(updateCostHtml)
-
-                //Update total
-                const cartDetail = $('#cart-detail').children('tr')
-                let total = 0;
-                for (let i = 0; i < cartDetail.length; i++) {
-                    const value = cartDetail.eq(i).children('td').eq(4).children('span').data('id');
-                    total += value;
-                    cartDetail.eq(i).children('td').eq(4).children('span').text(new Intl.NumberFormat().format(value));
                 }
-                total = new Intl.NumberFormat().format(total)
-                $('#total_1').text(total)
-                $('#total_2').text(total)
-                $('#total_3').text(total)
-
-            }
+            })
         })
-    }
-</script>
+
+
+        $("#btn-save").click(() => {
+            Swal.fire({
+                title: 'Thông báo',
+                text: "Bạn muốn lưu thay đổi của giỏ hàng",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận lưu!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var data = [];
+                    $('.cart-item').each((idx, element) => {
+                        console.log("e", element)
+                        var productID = parseInt($(element).find(".product-id").val())
+                        var quantity = parseInt($(element).find(".quantity").val())
+                        data.push({ UserId: 0, ProductDetailId: productID, Quantity: quantity });
+                    })
+                    console.log(data);
+                    $.ajax({
+                        url: '@Url.Action("UpdateCartList", "Cart")',
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: { jsonData: JSON.stringify(data) },
+                        success: function (data) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Giỏ hàng được cập nhật',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                            setTimeout(() => location.reload(), 1000);
+                        }
+                    })
+
+                }
+            })
+        })
+
+        $("#btn-checkout").click(() => {
+            var data = [];
+            $('.cart-item').each((idx, element) => {
+                console.log("e", element)
+                var productID = parseInt($(element).find(".product-id").val())
+                var quantity = parseInt($(element).find(".quantity").val())
+                data.push({ UserId: 0, ProductDetailId: productID, Quantity: quantity });
+            })
+            var jsonData = JSON.stringify(data);
+            console.log("checkout -with: ", jsonData);
+
+            fetch('@Url.Action("SetCheckoutList", "Order")',
+                {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'appliaction/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jsonData)
+
+                }
+            ).then((res) => location.href = "/Order/Checkout");
+        })
+    </script>
+    
+}

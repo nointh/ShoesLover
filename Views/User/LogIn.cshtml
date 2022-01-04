@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<ShoesLover.Models.User>
+@using Microsoft.AspNetCore.Http;
 @if (Model.Any())
 {
     ViewData["Title"] = "LogInSuccess";
@@ -25,7 +26,6 @@
                 <div class="dot"></div>
                 <div class="dot"></div>
             </div>
-
         </section>
         <!-- AppStore and GooglePlay -->
         <section class="app-container">
@@ -37,7 +37,7 @@
             </div>
             <p>Nhận bản tin từ ILOVESHOES</p>
             <input type="text" placeholder="nhập email của bạn..">
-
+            <p>@Context.Session.GetString("UID")</p>
         </section>
 
 
@@ -124,7 +124,7 @@ else
 
 
 
-        h1 {
+        .login h1 {
             font-weight: bold;
             margin: 1px;
             text-align: center;
@@ -132,7 +132,7 @@ else
 
 
 
-        button {
+        .login button {
             border-radius: 20px;
             border: 2px solid green;
             background-color: green;
@@ -144,11 +144,11 @@ else
             text-transform: uppercase;
         }
 
-            button:active {
-                transform: scale(0.9);
-            }
+        .login button:active {
+            transform: scale(0.9);
+        }
 
-        form {
+        .login form {
             background-color: #FFFFFF;
             padding: 20px 50px 50px;
             text-align: center;
@@ -173,7 +173,7 @@ else
         }
     </style>
     <body>
-        <div class="container" id="container">
+        <div class="container login" id="container">
 
             <form action="/User/DangNhap" method="post">
                 <h1>fullname va password khong ton tai hoac sai</h1>

@@ -6,6 +6,7 @@
 @{
     ViewData["Title"] = "DangNhap";
     /*Layout = "~/Views/User/DangNhap.cshtml";*/
+
 }
 <!DOCTYPE html>
 
@@ -17,7 +18,7 @@
 
 
 
-    h1 {
+    .login h1 {
         font-weight: bold;
         margin: 1px;
         text-align: center;
@@ -25,7 +26,7 @@
 
 
 
-    button {
+    .login .btn {
         border-radius: 20px;
         border: 2px solid green;
         background-color: green;
@@ -37,11 +38,11 @@
         text-transform: uppercase;
     }
 
-        button:active {
-            transform: scale(0.9);
-        }
+    .login .btn:active {
+        transform: scale(0.9);
+    }
 
-    form {
+    .login form {
         background-color: #FFFFFF;
         padding: 20px 50px 50px;
         text-align: center;
@@ -50,34 +51,38 @@
 
     .container {
         background-color: #fff;
-        border-radius: 100px;
+        border-radius: 20px;
         box-shadow: 0 15px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-        position: relative;
         overflow: hidden;
         width: 600px;
         max-width: 100%;
         min-height: 480px;
         padding: 15px 90px 10px 100px;
         align-content: center;
-        display: flex;
-        margin-left: 450px;
-        margin-bottom: 100px;
-        margin-top: 100px;
+        margin: 100px auto;
+    }
+    .alert{
+        color:red;
+        font-size: 10px;
     }
 </style>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<body>
-    <div class="container" id="container">
 
-        <form action="/User/LogIn" method="post">
-            <h1>Đăng nhập</h1>
-            <input type="text" name="fullname" placeholder="Tên đăng nhập" style="background-color: #eee; border: none; padding: 15px 15px; margin: 10px; width: 100%;" />
-            <input type="password" name="password" placeholder="Nhập password" style="background-color: #eee; border: none; padding: 15px 15px; margin: 10px; width: 100%;" />
-            <button onclick="location.href='@Url.Action("LogIn", "User")'">Đăng nhập</button>
-        </form>
+<div class="container login" id="container">
+    <form action="/User/LogIn" method="post">
+        <h1>Đăng nhập</h1>
+        <input type="text" name="email" placeholder="Email đăng nhập" style="background-color: #eee; border: none; padding: 15px 15px; margin: 10px; width: 100%;" />
+        <input type="password" name="password" placeholder="Nhập password" style="background-color: #eee; border: none; padding: 15px 15px; margin: 10px; width: 100%;" />
+        @if (ViewData["redirectOption"] != null)
+        {
+            <input type="hidden" name="redirectOption" value="payment"/>
+        }
+        <button class="btn" onclick="location.href='@Url.Action("LogIn", "User")'">Đăng nhập</button>
+
+        <p style="margin-top: 10px">Bạn chưa có tài khoản? <a style="color:blue;" asp-action="DangKy">Đăng kí tại đây</a></p>
+        <p class="alert">@TempData["message"]</p>
+    </form>
 
 
-    </div>
-</body>
-</html>
+</div>
+

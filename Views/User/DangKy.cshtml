@@ -10,12 +10,12 @@
     }
 
 
-    h1 {
+    .container h1 {
         font-weight: bold;
         margin: 1px;
     }
 
-    p {
+    .container p {
         font-size: 14px;
         font-weight: 100;
         line-height: 20px;
@@ -23,7 +23,7 @@
         margin: 20px 0 30px;
     }
 
-    button {
+    .container button {
         border-radius: 20px;
         border: 2px solid green;
         background-color: green;
@@ -35,16 +35,16 @@
         text-transform: uppercase;
     }
 
-        button:active {
-            transform: scale(0.9);
-        }
+    .container button:active {
+        transform: scale(0.9);
+    }
 
-        button.ghost {
-            background-color: transparent;
-            border-color: #FFFFFF;
-        }
+    .container button.ghost {
+        background-color: transparent;
+        border-color: #FFFFFF;
+    }
 
-    form {
+    .container form {
         background-color: #FFFFFF;
         display: flex;
         align-items: center;
@@ -92,7 +92,6 @@
         height: 100%;
         overflow: hidden;
         transition: transform 0.6s ease-in-out;
-        z-index: 100;
     }
 
 
@@ -136,26 +135,25 @@
 
 @{
     ViewData["Title"] = "DangKy";
-    <body>
-        <div class="container" id="container">
-            <div class="form-container sign-in-container">
-                <form action="/User/InsertIn4" method="post">
-                    <h1>
-                        Đăng ký
-                    </h1>
-                    <label for="Fullname"></label><input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" type="text" placeholder="Tên đăng nhập" name="fullname" />
-                    <label for="Email"></label>   <input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" type="email" placeholder="Nhập email" name="email" />
-                    <label for="Password"></label><input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" type="password" placeholder="Nhập password" name="password" />
-                    <button type="submit" name="submit">Đăng ký </button>
-                </form>
-            </div>
-            <div class="overlay-container">
-                <div class="overlay">
-                    <div class="overlay-panel overlay-right">
-                        <h1>Hello!</h1>
-                        <p>Bạn đã có tài khoản </p>
-                        <button class="ghost" onclick="location.href='@Url.Action("DangNhap", "User")'">Đăng nhập</button>
-                    </div>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <form action="/User/InsertIn4" method="post">
+                <h1>
+                    Đăng ký
+                </h1>
+                <label for="Fullname"></label><input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" required type="text" placeholder="Tên đăng nhập" name="fullname" />
+                <label for="Email"></label>   <input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" required type="email" placeholder="Nhập email" name="email" />
+                <label for="Password"></label><input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" required type="password" placeholder="Nhập password" name="password" />
+                <button type="submit" name="submit">Đăng ký </button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello!</h1>
+                    <p>Bạn đã có tài khoản </p>
+                    <button class="ghost" onclick="location.href='@Url.Action("DangNhap", "User")'">Đăng nhập</button>
                 </div>
             </div>
         </div>

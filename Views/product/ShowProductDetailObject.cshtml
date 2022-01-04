@@ -71,7 +71,10 @@
                         }
                     </div>
                     <div class="product-content-right-size">
-                        <p style="font-weight:700; font-size:14px;"><span>Size: <span id="load_size"></span></span></p>
+                        <p style="font-weight:700; font-size:14px;">
+                            <input type="hidden" id="size-id" />
+                            <span>Size: <span id="load_size"></span></span>
+                        </p>
                         <ul class="size" id="my-li-size">
                             @foreach (var item in ViewBag.GetSizeByID)
                             {
@@ -88,11 +91,11 @@
                     <p id="check_size_empty"></p>
                     <p id="check_quantity_empty"></p>
                     <div class="product-content-right-button ">
-                        <a style="width:200px;" href="ThanhToan" class="btn_buy btn_buy_modify">
+                        <a style="width:200px;" id="add-to-cart" class="btn_buy">
                             <i class="fas fa-shopping-bag"></i>
                             <p style="position: relative; bottom:-2px;">THÊM VÀO GIỎ HÀNG</p>
                         </a>
-                        <a style="width:200px;" class="btn_buy btn_buy_modify" href="../cart/index">
+                        <a style="width:200px;" class="btn_buy" @*asp-controller="Order" asp-action="Checkout"*@ id="btn-checkout">
                             <p style="text-align:center; transform:translateY(50%);">MUA NGAY</p>
                         </a>
                     </div>
@@ -483,6 +486,39 @@
         }
 
     });
+    $("#add-to-cart").on("click", function () {
+        var load_check_size = $("#check_size_empty");
+        load_check_size.html("");
+        if ($("#load_size").text() == '') {
+            var str = '<span style="color:red;"> Vui lòng chọn size* </span>';
+            load_check_size.append(str);
+
+            return false;
+        }
+        else {
+            var size_id = $("")
+            $.ajax({
+                 url: '@Url.Action("AddToCart", "Cart")',
+                 type: 'POST',
+                 dataType: 'JSON',
+                data: { colorId: @color_url, sizeId: $("#size-id").val(), productId: @productid_url, quantity: $("#input_quantity").val() },
+                success: function (data) {
+                    var cartList = $(".cart__list-list");
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Giỏ hàng được thêm thành công',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    setTimeout(()=>location.reload(), 1200);
+
+
+                }
+            })
+        }
+
+    });
 
 //Active màu của sản phẩm được chọn
 
@@ -500,7 +536,7 @@
 
             $(this).on("click", function () {
                 var size_id = $(this).val();
-
+                $("#size-id").val(size_id)
                 console.log($("#input_quantity").val());
                 $("#input_quantity").val(1); //Set lại value trogn input
                 var load_size = $("#load_size");
@@ -591,6 +627,50 @@
            }
 
        });
+    $("#btn-checkout").click(async () => {
+
+        var load_check_size = $("#check_size_empty");
+        load_check_size.html("");
+        if ($("#load_size").text() == '') {
+            var str = '<span style="color:red;"> Vui lòng chọn size* </span>';
+            load_check_size.append(str);
+
+            return false;
+        }
+
+        var data = { colorId: @color_url, sizeId: $("#size-id").val(), productId: @productid_url};
+        jsonData = JSON.stringify(data)
+        fetch('@Url.Action("GetProductProductDetailId", "Product")',
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'appliaction/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+
+            }
+        ).then((res) => res.json())
+        .then(data => {
+
+            console.log("data ===", data.id)
+            var id = data.id
+            var arr = []
+            arr.push({ UserId: 0, ProductDetailId: id.toString(), Quantity: $("#input_quantity").val() })
+            jsonBody = JSON.stringify(arr);
+            console.log("json sent ==", jsonBody)
+            fetch('@Url.Action("SetCheckoutList", "Order")',
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'appliaction/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonBody)
+
+                }).then(res => location.href = '@Url.Action("Checkout","Order")')
+        })
+    })
 
 
 
@@ -673,3 +753,5 @@
 
    
 </script>
+</script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
