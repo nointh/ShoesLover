@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@foreach (var item in Model)
+{
+
+<div class="display-comment">
+
+    <div class="img-comment">
+        <input type="hidden" name="comment_product_id" class="comment_product_id" />
+        <img style="width: 50px;" src="~/image/User_font_awesome.svg.png" /> <br />
+        
+    </div>
+    
+    <div class="text-comment">
+        <div class="infor-comment">
+            <span style="color: blue;">@item.CommentName</span>
+            <span>@item.CommentDate</span> <br />
+        </div>     
+        <div>
+            @item.CommentText
+        </div>
+    </div>
+
+
+</div>
+}

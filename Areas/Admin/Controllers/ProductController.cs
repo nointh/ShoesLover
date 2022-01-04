@@ -220,6 +220,28 @@ namespace ShoesLover.Areas.Admin.Controllers
                 return RedirectToAction(nameof(ProductDetails), new { id = productDetail.ProductId });
             }
         }
+      /* [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateProductVariant(ProductColorVariant variant)
+        {
+          
+                StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+                if (context.InsertProductDetail(variant) > 0)
+                {
+                    TempData["message"] = "Thêm mới chi tiêt sản phẩm thành công";
+                }
+                else
+                {
+                    TempData["message"] = "Thêm mới chi tiêt sản phẩm thất bại";
+                }
+                return RedirectToAction(nameof(ProductDetails), new { id = variant.ProductId });
+            }
+            catch
+            {
+                TempData["message"] = "Có lỗi xảy ra";
+                return RedirectToAction(nameof(ProductDetails), new { id = variant.ProductId });
+            }
+        }  */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditProductDetail(ProductDetail productDetail)

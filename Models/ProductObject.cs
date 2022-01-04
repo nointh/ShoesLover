@@ -14,18 +14,12 @@ namespace ShoesLover.Models
         public int Quantity { get; set; }
         public bool Active { get; set; }
         public string DefaultImage { get; set; }
-        public string Product_detail_img_1 { get; set; }
-        public string Product_detail_img_2 { get; set; }
-        public string Product_detail_img_3 { get; set; }
-        public string Product_detail_img_4 { get; set; }
-        public string Product_detail_img_5 { get; set; }
-        public string Product_detail_img_6 { get; set; }
-        public string Product_detail_big_img_1 { get; set; }
-        public string Product_detail_big_img_2 { get; set; }
-        public string Product_detail_big_img_3 { get; set; }
-        public string Product_detail_big_img_4 { get; set; }
-        public string Product_detail_big_img_5 { get; set; }
-        public string Product_detail_big_img_6 { get; set; }
+        public string ImgBig1 { get; set; }
+        public string ImgBig2 { get; set; }
+        public string ImgBig3 { get; set; }
+        public string ImgBig4 { get; set; }
+        public string ImgBig5 { get; set; }
+        public string ImgBig6 { get; set; }   
         public string ColorName { get; set; }
         public string ColorImage { get; set; }
 

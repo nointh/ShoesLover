@@ -1,35 +1,136 @@
-﻿<div class="col l-3 m-0 c-0">
+﻿
+<link href="~/css/container.css" rel="stylesheet" />
+<div class="col l-3 m-0 c-0">
     <nav class="category">
-        <ul>
-            <li class="category-detail">
-                <a asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="2">Nữ</a>
-                <ul>
+        <ul class="menu-item">
+            <li class="category-detail menu-list-woman header-woman">
+                <p class="menu-list-item" asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="2">NỮ</p>
+                <ul class=" sub-menu-list sub-menu-list-woman">
+                    <li><a asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="2">Toàn bộ sản phẩm</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="10">Giày sneaker</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="9">Giày cao cổ</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="8">Giày cao gót</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="6">Giày xăng đan</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="7">Giày lười</a></li>
 
-                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="4">Sneaker</a></li>
-                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="5">Boot</a></li>
-                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="6">Cao gót</a></li>
-                    <!-- <li><a href="/product/ShowProducts?page=1&subcate_id=5">Giày bốt</a></li>
-                     <li><a href="/product/ShowProducts?page=1&subcate_id=6">Cao gót</a></li> -->
                 </ul>
             </li>
-            <li class="category-detail">
-                <a asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="1">Nam</a>
-                <ul>
-                    <!-- <li><a href="/product/ShowProducts?page=1&subcate_id=1">Sneaker</a></li>
-                    <li><a href="/product/ShowProducts?page=1&subcate_id=2">Giày bốt</a></li>
-                    <li><a href="/product/ShowProducts?page=1&subcate_id=3">Sandal</a></li> -->
-                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="1">Sneaker</a></li>
-                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="2">Boot</a></li>
-                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="3">Sandal</a></li>
+            <li class="category-detail menu-list-man header-man">
+                <p class="menu-list-item" asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="1">NAM</p>
+                <ul class=" sub-menu-list sub-menu-list-man">
+                    <li><a asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="1">Toàn bộ sản phẩm</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="1">Giày sneaker</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="2">Giày cao cổ</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="3">Giày xăng đan</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="4">Giày da</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="5">Giày lười</a></li>
+
                 </ul>
             </li>
-            <li class="category-detail">
-                <a href="/product/Sale">Sale</a>
-                <ul>
-                    <li><a href="/product/SaleWoman">Nữ</a></li>
-                    <li><a href="/product/SaleMan">Nam</a></li>
+
+            <li class="category-detail menu-list-unisex header-unisex">
+                <p class="menu-list-item" asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="1">UNISEX</p>
+                <ul class=" sub-menu-list sub-menu-list-unisex">
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="11">Giày thể thao</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="12">Giày sneaker</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="13">Giày da</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="14">Giày cao cổ</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="15">Giày xăng đan</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="16">Giày lười</a></li>
+
+                </ul>
+            </li>
+            <li class="category-detail menu-list-child header-child">
+                <p class="menu-list-item" asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="1">TRẺ EM</p>
+                <ul class=" sub-menu-list sub-menu-list-child">
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="17">Giày bé trai</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="18">Giày bé gái</a></li>
+
+                </ul>
+            </li>
+            <li class="category-detail menu-list-items header-items">
+                <p class="menu-list-item" asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="1">PHỤ KIỆN</p>
+                <ul class=" sub-menu-list sub-menu-list-items">
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="19">Vớ</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="22">Lót giày</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="20">Xi đánh giày</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="23">Bàn chải đáng giày</a></li>
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="21">Dây giày</a></li>
+
+                </ul>
+            </li>
+            <li class="category-detail menu-list-sale header-sale">
+                <p class="menu-list-item" href="/product/Sale">SALE 50%++</p>
+                <ul class=" sub-menu-list sub-menu-sale">
+                    <li><a asp-controller="product" asp-action="Sale" asp-route-page="1" asp-route-cate_id="25">Nữ</a></li>
+
+                    <li><a asp-controller="product" asp-action="ShowProducts" asp-route-page="1" asp-route-subcate_id="24">Nam</a></li>
+
                 </ul>
             </li>
         </ul>
     </nav>
 </div>
+
+<style>
+
+    .sub-menu-list-woman, .sub-menu-list-man, .sub-menu-sale , .sub-menu-list-items , .sub-menu-list-unisex, .sub-menu-list-child{
+        display: none;
+    }
+    .block .sub-menu-list-woman, .block .sub-menu-list-man, .block .sub-menu-sale , .block .sub-menu-list-unisex, .block .sub-menu-list-items , .block .sub-menu-list-child{
+        display: block;
+       
+       
+    }
+     .menu-item{
+         display: flex;
+         flex-direction:column;
+         justify-content: space-between;
+     }
+    .menu-list-woman, .menu-list-man, .menu-list-unisex, .menu-list-items , .menu-list-child {
+        padding-bottom: 10px;
+    }
+    .sub-menu-list{
+        font-weight:bold;
+        font-size:13px;
+        cursor:pointer;
+    }
+    
+    .sub-menu-list  a:hover{
+        text-decoration:underline;
+        color:red;
+       
+    }
+    .menu-list-item {
+        font-size: 15px;
+        font-weight: bold;
+        cursor:pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        padding-bottom: 20px;
+    }
+    .menu-list-item:hover{
+        text-decoration:underline;
+        color:red;
+    }
+    .category{
+        margin-right:100px;
+    }
+    .category p{
+        margin-right:90px;
+    }
+    
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $(".category-detail").each(function () {
+
+        $(this).on("click",function () {
+            $(this).toggleClass("block");
+            console.log("da click");
+        });
+       
+    });
+
+    
+</script>

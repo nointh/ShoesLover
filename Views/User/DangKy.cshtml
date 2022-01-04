@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    Layout = null;
+}
 @using ShoesLover.Models
 @model User
 
@@ -134,28 +136,28 @@
 
 @{
     ViewData["Title"] = "DangKy";
-<body>
-    <div class="container" id="container">
-        <div class="form-container sign-in-container">
-            <form action="/User/InsertIn4" method="post">
-                <h1>
-                    Đăng ký
-                </h1>
-                <label for="Fullname"></label><input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" type="text" placeholder="Tên đăng nhập" name="fullname" />
-                <label for="Email"></label>   <input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" type="email" placeholder="Nhập email" name="email" />
-                <label for="Password"></label><input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" type="password" placeholder="Nhập password" name="password" />
-                <button type="submit" name="submit">Đăng ký </button>
-            </form>
-        </div>
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-right">
-                    <h1>Hello!</h1>
-                    <p>Bạn đã có tài khoản </p>
-                    <button class="ghost" onclick="location.href='@Url.Action("DangNhap", "User")'">Đăng nhập</button>
+    <body>
+        <div class="container" id="container">
+            <div class="form-container sign-in-container">
+                <form action="/User/InsertIn4" method="post">
+                    <h1>
+                        Đăng ký
+                    </h1>
+                    <label for="Fullname"></label><input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" type="text" placeholder="Tên đăng nhập" name="fullname" />
+                    <label for="Email"></label>   <input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" type="email" placeholder="Nhập email" name="email" />
+                    <label for="Password"></label><input style=" background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%;" type="password" placeholder="Nhập password" name="password" />
+                    <button type="submit" name="submit">Đăng ký </button>
+                </form>
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-right">
+                        <h1>Hello!</h1>
+                        <p>Bạn đã có tài khoản </p>
+                        <button class="ghost" onclick="location.href='@Url.Action("DangNhap", "User")'">Đăng nhập</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 }

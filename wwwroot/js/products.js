@@ -258,3 +258,8 @@ obj_3.onmouseleave = function () {
     new_img.setAttribute('src', './assets/img/b8_default_img.jpg')
 }
 
+
+
+
+
+

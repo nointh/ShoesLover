@@ -1,239 +1,271 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
+
+
+
+<div class="products">
+    <div class="row ">
+        @foreach (var item in ViewBag.ShowProducts)
+        {
+        <div class="col l-4 m-4 c-6">
+            @{ Color a = new Color();
+                a = item.productcolorMaster[0];
+                <li class="li-product-id" value="@item.Id" style="list-style:none;">
+                    <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
+                        <img id="product-img-@item.Id" class="product-image" src="~/image/@item.DefaultImage" alt="">
+                        <h4 class="product-name">@item.ProductName</h4>
+                    </a>
+                    <p class="sale-label">
+                        <span>SALE</span>
+                    </p>
+                </li>
+                double regular = item.RegularPrice; <!--Đặt dấu . vào tiền-->
+                double sale = item.SalePrice;
+                string regular_price = regular.ToString("N0",
+                System.Globalization.CultureInfo.GetCultureInfo("de"));
+                string sale_price = sale.ToString("N0",
+               System.Globalization.CultureInfo.GetCultureInfo("de"));
+            }
+            <p class="p-money" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price<sup>đ</sup></span><span></span><span style="color: red;">@sale_price<sup>đ</sup></span></p>
+
+
+            <div class="watcher-product">
+                <ul>
+                    @foreach (var index in item.productcolorMaster)
+                    {
+                        <li value="@index.Id" class="li-color-@item.Id">
+                            <a>
+                                <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        }
+    </div>
+
+</div>
 @{
+    double page_all = Convert.ToDouble(ViewBag.GetTotalPage / Convert.ToDouble(9));
+    int page_total = Convert.ToInt32(Math.Ceiling(page_all));
+    int page_url = Convert.ToInt32(Context.Request.Query["page"]); //Lấy parameter page trên url
+    int page_prev = page_url - 1;
+    int page_after = page_url + 1;
+
 }
-
-
-
-@model SubCateObject
-
-
-
-<div class="container">
-    <div class="grid wide">
-        <div class="row">
-            <div class="col l-12 m-12 c-0">
-                <div class="navigation">
-                    <ul class="navigation-list">
-                        <li>
-                            <a href="../home/index">Trang chủ</a>
-                            <span>&rarr;</span>
-                        </li>
-                        <li>
-                            <a href="/product/ShowProductsCate?page=1&cate_id=@Model.Category_id">@Model.Category_name</a>
-                            <span>&rarr;</span>
-                        </li>
-
-                        <li>
-                            <a href="/product/ShowProducts?page=1&subcate_id=@Model.SubCate_id" style="color: red; font-weight:700;">@Model.SubCategory_name</a>
-
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-            <div class="col l-3 m-0 c-0">
-                <nav class="category">
-                    <ul>
-                        <li class="category-detail">
-                            <a href="/product/ShowProductsCate?page=1&cate_id=2">Nữ</a>
-                            <ul>
-                                <li><a href="/product/ShowProducts?page=1&subcate_id=4">Sneaker</a></li>
-                                <li><a href="/product/ShowProducts?page=1&subcate_id=5">Giày bốt</a></li>
-                                <li><a href="/product/ShowProducts?page=1&subcate_id=6">Cao gót</a></li>
-                            </ul>
-                        </li>
-                        <li class="category-detail">
-                            <a href="/product/ShowProductsCate?page=1&cate_id=1">Nam</a>
-                            <ul>
-                                <li><a href="/product/ShowProducts?page=1&subcate_id=1">Sneaker</a></li>
-                                <li><a href="/product/ShowProducts?page=1&subcate_id=2">Giày bốt</a></li>
-                                <li><a href="/product/ShowProducts?page=1&subcate_id=3">Sandal</a></li>
-                            </ul>
-                        </li>
-                        <li class="category-detail">
-                            <a href="/product/Sale">Sale</a>
-                            <ul>
-                                <li><a href="/product/SaleWoman">Nữ</a></li>
-                                <li><a href="/product/SaleMan">Nam</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="col l-9 m-12 c-12">
-                <div class="filter hide-on-mobile hide-on-tablet">
-                    <div class="filter-header">
-                        <span class="filter__sort">Sắp xếp theo</span>
-                        <a href="ShowProductPopularSubCate?page=1&subcate_id=@Model.SubCate_id" class="btn " id="btn_popular_item">
-                            Phổ Biến<a>
-                                <a href="ShowProductNewSubCate?page=1&subcate_id=@Model.SubCate_id" class="btn" id="btn_new_item">
-                                    Mới Nhất<a>
-                                        <a href="ShowBestSellerSubCate?page=1&subcate_id=@Model.SubCate_id" class="btn " id="btn_best_seller">
-                                            Bán Chạy<a>
-                                                <select class="price-selection select-active" name="forma" onchange="location = this.value;">
-                                                    <option class="price-sort-option" value="">----------Giá----------</option>
-                                                    <option class="price-sort-option " value="ShowPriceDESCSubCate?page=1&subcate_id=@Model.SubCate_id" selected>Giá: Cao đến thấp</option>
-                                                    <option class="price-sort-option" value="ShowPriceASCSubCate?page=1&subcate_id=@Model.SubCate_id">Giá: Thấp đến cao</option>
-
-                                                </select>
-                    </div>
-
-                    @{
-                        double page_all = Convert.ToDouble(ViewBag.ShowAllProductsSub / Convert.ToDouble(6));
-                        int page_total = Convert.ToInt32(Math.Ceiling(page_all));
-                        int page_url = Convert.ToInt32(Context.Request.Query["page"]); //Lấy parameter page trên url
-                        int page_prev = page_url - 1;
-                        int page_after = page_url + 1;
+<div class="pagination-top">
+    <ul>
+        @{
+            if (page_url > 1)
+            {
+                <li class="btn prev btn-pagination-prev" value="@page_url">
+                    <p class="pagination-last" style="width:32px; height:32px; ">
+                        <i style="width:32px; height:32px;" class="fas fa-angle-left"></i>
+                    </p>
+                </li>
+            }
+            @for (int j = 1; j <= page_total; j++)
+            {
+                <li class="pagination-price-btn" value="@j">
+                    @if (page_url == j)
+                    {
+                        <a class="btn-input-change" style="width:32px; height:32px; color: white; background: red">@j</a>
+                    }
+                    else
+                    {
+                        <a class="btn-input-change" style="width:32px; height:32px;">@j</a>
 
                     }
-                    <div class="filter-footer">
-                        <span class="page">
-                            <span class="active">@page_url</span>
-                            /
-                            <span class="total">@page_total</span>
-                        </span>
-                        @{ if (page_url == 1)
-                            {
-                                <div class="filter-footer-btn filter-footer-btn-left filter-footer-btn--disable">
-                                    <a href="#" class="filter-footer-link">
-                                        <i class="fas fa-angle-left"></i>
-                                    </a>
-                                </div>
-                                if (page_url == page_total)
-                                {
-                                    <div class="filter-footer-btn filter-footer-btn-right filter-footer-btn--disable">
-                                        <a href="#" class="filter-footer-link">
-                                            <i class="fas fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="filter-footer-btn filter-footer-btn-right">
-                                        <a href=" ShowPriceDESCSubCate?page=@page_after&subcate_id=@Model.SubCate_id" class="filter-footer-link">
-                                            <i class="fas fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                }
-                            }
-                            else if (page_url > 1 && page_url <= page_total - 1)
-                            {
-                                <div class="filter-footer-btn filter-footer-btn-left">
-                                    <a href=" ShowPriceDESCSubCate?page=@page_prev&subcate_id=@Model.SubCate_id" class="filter-footer-link">
-                                        <i class="fas fa-angle-left"></i>
-                                    </a>
-                                </div>
-                                <div class="filter-footer-btn filter-footer-btn-right">
-                                    <a href=" ShowPriceDESCSubCate?page=@page_after&subcate_id=@Model.SubCate_id" class="filter-footer-link">
-                                        <i class="fas fa-angle-right"></i>
-                                    </a>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="filter-footer-btn filter-footer-btn-left">
-                                    <a href=" ShowPriceDESCSubCate?page=@page_prev&subcate_id=@Model.SubCate_id" class="filter-footer-link">
-                                        <i class="fas fa-angle-left"></i>
-                                    </a>
-                                </div>
-                                <div class="filter-footer-btn filter-footer-btn-right filter-footer-btn--disable">
-                                    <a href="#" class="filter-footer-link">
-                                        <i class="fas fa-angle-right"></i>
-                                    </a>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-
-                <div class="products">
-                    <div class="row">
-                        @foreach (var item in ViewBag.ShowDESC)
-
-                        {
-                            <div class="col l-4 m-4 c-6">
-                                @{ Color a = new Color();
-                                    a = item.productcolorMaster[0];
-
-                                                                <li class="li-product-id" value="@item.Id" style="list-style:none;">
-                                                                    <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
-                                                                        <img id="product-img-@item.Id" class="product-image" src="~/image/product_default_img/@item.DefaultImage" alt="">
-
-
-                                                                        <h4 class="product-name">@item.ProductName</h4>
-                                                                    </a>
-                                                                </li>
-                                }
-
-                                <p style="text-align:center;"><span style="text-decoration:line-through; color:rgb(153,153,153);">@item.RegularPrice <sup>đ</sup></span><span>   </span><span style="color:red;">@item.SalePrice <sup>đ</sup></span></p>
-                                <div class="watcher-product">
-                                    <ul>
-                                        @foreach (var index in item.productcolorMaster)
-                                        {
-                                        <li value="@index.Id" class="li-color-@item.Id">
-
-                                            <a>
-
-                                                <img id="color_small_@index.Id" class="img-color-small" src="~/image/product_color/@index.ColorImage" alt="">
-                                            </a>
-
-
-                                        </li>
-
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-
-
-
-
-                <div class="pagination-top">
-                    <ul>
-                        @{
-                            if (page_url > 1)
-                            {
-                                <li class="btn prev">
-                                    <a style="width:32px; height:32px; " href=" ShowPriceDESCSubCate?page=@page_prev&subcate_id=@Model.SubCate_id">
-                                        <i style="width:32px; height:32px;" class="fas fa-angle-left"></i>
-                                    </a>
-                                </li>
-                            }
-                            @for (int j = 1; j <= page_total; j++)
-                            {
-                                <li>
-                                    @if (page_url == j)
-                                    {
-                                        <a style="width:32px; height:32px; color: white; background: red" href=" ShowPriceDESCSubCate?page=@j&subcate_id=@Model.SubCate_id">@j</a>
-                                    }
-                                    else
-                                    {
-                                        <a style="width: 32px; height: 32px;" href=" ShowPriceDESCSubCate?page=@j&subcate_id=@Model.SubCate_id">@j</a>
-                                    }
-                                </li>
-                            }
-                            if (page_url < page_total)
-                            {
-                                <li class="btn next">
-                                    <a style="width:32px; height:32px;"
-                                       href=" ShowPriceDESCSubCate?page=@page_after&subcate_id=@Model.SubCate_id">
-                                        <i style="width:32px; height:32px;" class="fas fa-angle-right"></i>
-                                    </a>
-                                </li>
-                            }
-
-                        }
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
+                </li>
+            }
+            if (page_url < page_total)
+            {
+                <li class="btn next btn-pagination-next" value="@page_url">
+                    <p class="pagination-last" style="width:32px; height:32px;">
+                        <i style="width:32px; height:32px;" class="fas fa-angle-right"></i>
+                    </p>
+                </li>
+            }
+        }
+    </ul>
 </div>
+
+
+<div class="header-page">
+
+    <i style="color : white;" class="fa fa-angle-double-up" aria-hidden="true"></i>
+
+</div>
+
+<style>
+    .header-page {
+        width: 35px;
+        height: 40px;
+        background: black;
+        float: right;
+        bottom: 70px;
+        position: fixed;
+        right: 40px;
+    }
+
+
+
+        .header-page i {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 13px;
+            font-size: 18px;
+        }
+</style>
 <script src="~/js/productHover.js"></script>
+<script src="~/js/jquery-3.6.0.min.js"></script>
+<script>
+    //Về đầu trang
+    $(".header-page").on("click", function () {
+
+        $('html').animate({ scrollTop: 0 }, 1000, 'linear');
+
+
+    })
+
+
+    $(".pagination-price-btn").each(function(){
+        $(this).on("click", function () {
+            var page = $(this).val();
+            var select_value = $("#btn-select-price").find(":selected").val(); // Lấy giá trị value của option đang được select
+              $.ajax({
+                url: "/product/"+select_value,
+                type: "Get",
+                dataType: "html",
+                data: { page: page, subcate_id: @Model.SubCate_id  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                    console.log(page);
+                },
+                error: () => alert("something wrong")
+            });
+
+
+        })
+    })
+
+     //Xử ly nút mũi tên về page trước
+     $(".btn-pagination-prev").on("click", function () {
+
+        var page = $(this).val() - 1;
+
+         var select_value = $("#btn-select-price").find(":selected").val(); // Lấy giá trị value của option đang được select
+              $.ajax({
+                url: "/product/"+select_value,
+                type: "Get",
+                dataType: "html",
+                data: { page: page, subcate_id: @Model.SubCate_id  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                    console.log(page);
+                },
+                error: () => alert("something wrong")
+            });
+
+
+
+     });
+     //Xử ly nút mũi tên về page sau
+    $(".btn-pagination-next").on("click", function () {
+
+        var page = $(this).val() + 1;
+
+        var select_value = $("#btn-select-price").find(":selected").val(); // Lấy giá trị value của option đang được select
+              $.ajax({
+                url: "/product/"+select_value,
+                type: "Get",
+                dataType: "html",
+                data: { page: page, subcate_id: @Model.SubCate_id  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                    console.log(page);
+                },
+                error: () => alert("something wrong")
+            });
+
+
+
+    });
+
+
+
+         var size_id;
+        var color_id;
+    $(".filter-color-item").each(function () {
+        $(this).on("click", function () {
+            color_id = $(this).val();
+        });
+    });
+    $(".filter-size-item").each(function () {
+        $(this).on("click", function () {
+            size_id = $(this).val();
+        });
+    });
+    $("#btn-cancel-color").on("click", function () {  //Gán lại undefined cho color_id khi mà nhấn nút huỷ
+        color_id = undefined;
+    })
+    $("#btn-cancel-size").on("click", function () {  //Gán lại undefined cho size_id khi mà nhấn nút huỷ
+        size_id = undefined;
+    })
+
+    $("#btn-filter-product").on("click", function () {
+        // Lọc theo size
+        if (size_id != undefined && color_id == undefined) {
+
+            $.ajax({
+                url: '@Url.Action("GetProductBySizeSub","product")',
+                type: "Get",
+                dataType: "html",
+                data: { page: 1, size_id: size_id, subcate_id: @ViewBag.GetSubCate  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                },
+                error: () => alert("something wrong")
+            });
+        }
+        //Lọc theo color
+        else if (size_id == undefined && color_id != undefined) {
+            $.ajax({
+                url: '@Url.Action("GetProductByColorSub","product")',
+                type: "Get",
+                dataType: "html",
+                data: { page: 1, color_id: color_id, subcate_id: @ViewBag.GetSubCate  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                },
+                error: () => alert("something wrong")
+            });
+
+        }
+        else {
+            $.ajax({
+                url: '@Url.Action("GetProductByColorSizeSub","product")',
+                type: "Get",
+                dataType: "html",
+                data: { page: 1, color_id: color_id, size_id:size_id, subcate_id: @ViewBag.GetSubCate   },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                },
+                error: () => alert("something wrong")
+            });
+        }
+
+
+
+    });
+
+
+
+</script>

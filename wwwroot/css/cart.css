@@ -1,0 +1,101 @@
+﻿.cart {
+    margin-top: 80px;
+    padding-top: 32px;
+}
+
+    .cart table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+
+
+.cart-detail tbody tr {
+    border-top: 2px solid #ccc;
+}
+
+.cart-detail th, .cart-detail td {
+    padding: 12px;
+}
+
+.cart-detail td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.cart-detail img {
+    max-width: 150px;
+}
+
+.cart-detail .color {
+    width: 40px;
+    height: 40px;
+    background-color: blue;
+    margin: 0 auto;
+}
+
+.cart-detail input[type="text"] {
+    width: 24px;
+    text-align: center;
+}
+
+.cart-detail a[title="Xóa"] {
+    display: block;
+    background-color: transparent;
+    border: 1px solid #000;
+    width: 24px;
+    padding: 2px;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+/* Cart money */
+.cart-money {
+    padding: 0 16px;
+    border-left: 2px solid #ccc;
+}
+
+    .cart-money caption,
+    .cart-money td {
+        padding: 12px 0;
+    }
+
+    .cart-money caption {
+        font-weight: bold;
+        border-bottom: 2px solid #ccc;
+    }
+
+    .cart-money tbody tr td:nth-child(2) {
+        text-align: right;
+    }
+
+    .cart-money tbody {
+        border-bottom: 2px solid #ccc;
+    }
+
+    .cart-money tfoot tr td:nth-child(2) {
+        text-align: right;
+        font-weight: bold;
+    }
+
+    .cart-money .button {
+        text-align: center;
+        margin: 32px 0;
+    }
+
+    .cart-money a {
+        display: inline-block;
+        padding: 8px 16px;
+        text-transform: uppercase;
+        margin-right: 16px;
+    }
+
+    .cart-money .pay {
+        background-color: #000;
+        color: #fff;
+    }
+
+    .cart-money .continue {
+        color: #000;
+        background: #ddd;
+    }

@@ -18,133 +18,68 @@
         <div class="row">
             @Html.Partial("~/Views/Shared/container_cate.cshtml")
             <div class="col l-9 m-12 c-12">
-                <div class="filter hide-on-mobile hide-on-tablet">
-                    <div class="filter-header">
-                        <span style="color:rgb(153,153,153);" class="filter__sort">Sắp xếp theo</span>
-                        <p href="#" class="btn  btn-nohover btn-container" id="btn_popular_item">Phổ Biến </p>
-                        <p href="#" class="btn  btn-nohover btn-container" id="btn_new_item">Mới Nhất </p>
-                        <p href="#" class="btn  btn-nohover btn-container" id="btn_best_seller ">Bán Chạy</p>
-                        <p class="btn btn-nohover btn-select-a"><span>----------Giá----------</span><i style="font-size: 11px; position: relative; top: 2px; left: 10px;" class="fas fa-chevron-down"></i></p>
-                    </div>
-                    @{
-                        double page_all = Convert.ToDouble(ViewBag.ShowAllProductsSearch / Convert.ToDouble(6));
-                        int page_total = Convert.ToInt32(Math.Ceiling(page_all));
-                        int page_url = Convert.ToInt32(Context.Request.Query["page"]); //Lấy parameter page trên url
-                        int page_prev = page_url - 1;
-                        int page_after = page_url + 1;
-                        string keyword_url = Convert.ToString(Context.Request.Query["keyword"]);
 
-                    }
-                    <div class="filter-footer">
-                        <span class="page">
-                            <span class="active">@page_url</span>
-                            /
-                            <span class="total">@page_total</span>
-                        </span>
-                        @{ if (page_url == 1)
-                            {
-                                <div class="filter-footer-btn filter-footer-btn-left filter-footer-btn--disable">
-                                    <a href="#" class="filter-footer-link">
-                                        <i class="fas fa-angle-left"></i>
-                                    </a>
-                                </div>
-                                if (page_url == page_total)
-                                {
-                                    <div class="filter-footer-btn filter-footer-btn-right filter-footer-btn--disable">
-                                        <a href="#" class="filter-footer-link">
-                                            <i class="fas fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="filter-footer-btn filter-footer-btn-right">
-                                        <a href="SearchProductByName?page=@page_after&keyword=@keyword_url" class="filter-footer-link">
-                                            <i class="fas fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                }
-                            }
-                            else if (page_url > 1 && page_url <= page_total - 1)
-                            {
-                                <div class="filter-footer-btn filter-footer-btn-left">
-                                    <a href="SearchProductByName?page=@page_prev&keyword=@keyword_url" class="filter-footer-link">
-                                        <i class="fas fa-angle-left"></i>
-                                    </a>
-                                </div>
-                                <div class="filter-footer-btn filter-footer-btn-right">
-                                    <a href="SearchProductByName?page=@page_after&keyword=@keyword_url" class="filter-footer-link">
-                                        <i class="fas fa-angle-right"></i>
-                                    </a>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="filter-footer-btn filter-footer-btn-left">
-                                    <a href="SearchProductByName?page=@page_prev&keyword=@keyword_url" class="filter-footer-link">
-                                        <i class="fas fa-angle-left"></i>
-                                    </a>
-                                </div>
-                                <div class="filter-footer-btn filter-footer-btn-right filter-footer-btn--disable">
-                                    <a href="#" class="filter-footer-link">
-                                        <i class="fas fa-angle-right"></i>
-                                    </a>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
+                @{
+                    double page_all = Convert.ToDouble(ViewBag.ShowAllProductsSearch / Convert.ToDouble(6));
+                    int page_total = Convert.ToInt32(Math.Ceiling(page_all));
+                    int page_url = Convert.ToInt32(Context.Request.Query["page"]); //Lấy parameter page trên url
+                    int page_prev = page_url - 1;
+                    int page_after = page_url + 1;
+                    string keyword_url = Convert.ToString(Context.Request.Query["keyword"]);
+
+                }
+                  <div style="font-size:15px; margin-bottom:20px;">Kết quả tìm kiếm cho: <span style="font-weight:bold">@keyword_url</span></div>       
+
                 <div class="products">
                     <div class="row">
                         @foreach (var item in Model)
 
                         {
-                            <div class="col l-4 m-4 c-6">
-                                @{ Color a = new Color();
-                                    a = item.productcolorMaster[0];
-
-                                                                <li class="li-product-id" value="@item.Id" style="list-style:none;">
-                                                                    <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
-                                                                        <img id="product-img-@item.Id" class="product-image" src="~/image/product_default_img/@item.DefaultImage" alt="">
-
-
-                                                                        <h4 class="product-name">@item.ProductName</h4>
-                                                                    </a>
-                                                                </li>
-                                }
-
-                                <p style="text-align:center;"><span style="text-decoration:line-through; color:rgb(153,153,153);">@item.RegularPrice <sup>đ</sup></span><span>   </span><span style="color:red;">@item.SalePrice <sup>đ</sup></span></p>
-                                <div class="watcher-product">
-                                    <ul>
-                                        @foreach (var index in item.productcolorMaster)
-                                        {
+                        <div class="col l-4 m-4 c-6">
+                            @{ Color a = new Color();
+                                a = item.productcolorMaster[0];
+                                <li class="li-product-id" value="@item.Id" style="list-style:none;">
+                                    <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
+                                        <img id="product-img-@item.Id" class="product-image" src="~/image/@item.DefaultImage" alt="">
+                                        <h4 class="product-name">@item.ProductName</h4>
+                                    </a>
+                                    <p class="sale-label">
+                                        <span>SALE</span>
+                                    </p>
+                                </li>
+                                double regular = item.RegularPrice; <!--Đặt dấu . vào tiền-->
+                                double sale = item.SalePrice;
+                                string regular_price = regular.ToString("N0",
+                                System.Globalization.CultureInfo.GetCultureInfo("de"));
+                                string sale_price = sale.ToString("N0",
+                               System.Globalization.CultureInfo.GetCultureInfo("de"));
+                            }
+                            <p class="p-money" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price<sup>đ</sup></span><span></span><span style="color: red;">@sale_price<sup>đ</sup></span></p>
+                            <div class="watcher-product">
+                                <ul>
+                                    @foreach (var index in item.productcolorMaster)
+                                    {
                                         <li value="@index.Id" class="li-color-@item.Id">
-
                                             <a>
-
-                                                <img id="color_small_@index.Id" class="img-color-small" src="~/image/product_color/@index.ColorImage" alt="">
+                                                <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
                                             </a>
-
-
                                         </li>
-
-                                        }
-                                    </ul>
-                                </div>
+                                    }
+                                </ul>
                             </div>
+                        </div>
                         }
                     </div>
                 </div>
-
                 <div class="pagination-top">
                     <ul>
                         @{
                             if (page_url > 1)
                             {
                                 <li class="btn prev">
-                                    <a style="width:32px; height:32px; " href="SearchProductByName?page=@page_prev&keyword=@keyword_url">
+                                    <p class="pagination-last" style="width:32px; height:32px; " href="SearchProductByName?page=@page_prev&keyword=@keyword_url">
                                         <i style="width:32px; height:32px;" class="fas fa-angle-left"></i>
-                                    </a>
+                                    </p>
                                 </li>
                             }
                             @for (int j = 1; j <= page_total; j++)
@@ -163,10 +98,10 @@
                             if (page_url < page_total)
                             {
                                 <li class="btn next">
-                                    <a style="width:32px; height:32px;"
+                                    <p class="pagination-last" style="width:32px; height:32px;"
                                        href="SearchProductByName?page=@page_after&keyword=@keyword_url">
                                         <i style="width:32px; height:32px;" class="fas fa-angle-right"></i>
-                                    </a>
+                                    </p>
                                 </li>
                             }
                         }
@@ -177,9 +112,5 @@
     </div>
 </div>
 
-<script>
 
-
-</script>
 <script src="~/js/productHover.js"></script>
-

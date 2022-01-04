@@ -1,0 +1,72 @@
+﻿<div class="filter-product">
+    <div>Title</div>
+    <div class="filter-function">
+        <div class="filter-modify">
+            <div>Bộ lọc</div>
+            <i class="fas fa-sort-down"></i>
+
+        </div>
+
+
+        <select class="sort-price">
+            <option>Giá</option>
+            <option>Giá: Cao đến thấp</option>
+            <option>Giá: Thấp đến cao</option>
+        </select>
+
+
+    </div>
+
+</div>
+<div class="filter-around">
+    <div class="filter-product-box ">
+        <div class="filter-product-flex-col">
+            <div class="filter-product-size">
+                SIZE:
+                <div class="filter-size-list">
+                    <p>36</p>
+                    <p>37</p>
+                </div>
+
+            </div>
+            <div class="filter-product-color">
+                MÀU:
+                <div class="filter-color-list">
+                    <img src="/image/black.jpg" />
+                    <img src="/image/red.jpg" />
+                </div>
+            </div>
+            <div class="filter-product-quantity">
+                CÒN HÀNG:
+                <div class="filter-quantity"><input type="checkbox" /></div>
+            </div>
+        </div>
+        <div class="filter-product-btn">
+            <a class="btn-filter">Lọc</a>
+            <a class="btn-filter">Đóng</a>
+        </div>
+
+    </div>
+</div>
+
+
+<input type="hidden" class="block-filter" />
+
+
+<style>
+    .block-filter .filter-product-box {
+        display: flex;
+    }
+
+    .filter-product-box {
+        display: none;
+    }
+</style>
+
+
+<script>
+    $(".filter-modify").on("click", function () {
+
+        $(".filter-around").toggleClass("block-filter");
+    });
+</script>

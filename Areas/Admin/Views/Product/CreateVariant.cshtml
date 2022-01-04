@@ -9,23 +9,59 @@
     </div>
     <div class="card-body">
         <form asp-controller="Product" asp-action="CreateVariant" method="post" class="form-control" enctype="multipart/form-data">
-            <input name="ProductId" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" value="@ViewBag.ProductId"/>
+            <input name="ProductId" type="hidden" class="col-lg-9 col-md-9 col-sm-9 p-0" value="@ViewBag.ProductId" />
 
             <div class="row m-3">
                 <label for="ColorId" class="col-form-label col-sm-4">Chọn màu sắc</label>
                 <div class="col-sm-8">
-                    <select name="ColorId"class="form-control" required>
-                        @foreach(Color color in ViewBag.Colors)
-            {
-                <option value="@color.Id">@color.ColorName</option>
-            }
+                    <select name="ColorId" class="form-control" required>
+                        @foreach (Color color in ViewBag.Colors)
+                        {
+                            <option value="@color.Id">@color.ColorName</option>
+                        }
                     </select>
                 </div>
             </div>
             <div class="row m-3">
-                <label for="ImageFile" class="col-form-label col-sm-4">Ảnh biến thể sản phẩm</label>
+                <label for="ImageFile" class="col-form-label col-sm-4">Ảnh mặc định</label>
                 <div class="col-sm-8">
-                    <input name="ImageFile" type="file" accept="image/*" class="form-control" required/>
+                    <input name="ImageFile" type="file" accept="image/*" class="form-control" required />
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="ImageFile1" class="col-form-label col-sm-4">Ảnh 1</label>
+                <div class="col-sm-8">
+                    <input name="ImageFile1" type="file" accept="image/*" class="form-control" required />
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="ImageFile2" class="col-form-label col-sm-4">Ảnh 2</label>
+                <div class="col-sm-8">
+                    <input name="ImageFile2" type="file" accept="image/*" class="form-control" required />
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="ImageFile3" class="col-form-label col-sm-4">Ảnh 3</label>
+                <div class="col-sm-8">
+                    <input name="ImageFile3" type="file" accept="image/*" class="form-control" required />
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="ImageFile4" class="col-form-label col-sm-4">Ảnh 4</label>
+                <div class="col-sm-8">
+                    <input name="ImageFile4" type="file" accept="image/*" class="form-control" required />
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="ImageFile5" class="col-form-label col-sm-4">Ảnh 5</label>
+                <div class="col-sm-8">
+                    <input name="ImageFile5" type="file" accept="image/*" class="form-control" required />
+                </div>
+            </div>
+            <div class="row m-3">
+                <label for="ImageFile6" class="col-form-label col-sm-4">Ảnh 6</label>
+                <div class="col-sm-8">
+                    <input name="ImageFile6" type="file" accept="image/*" class="form-control" required />
                 </div>
             </div>
             <div class="row m-3 justify-content-center">

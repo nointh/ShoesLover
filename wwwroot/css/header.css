@@ -8,6 +8,16 @@ header {
     right: 0;
     top: 0;
     box-shadow: 0 0 10px #ccc;
+    height:90px;
+   
+}
+
+header:hover{
+    background: white;
+}
+
+header.sticky{
+    background: white;
 }
 
 .header-nav {
@@ -37,11 +47,16 @@ header {
     width: 100%;
     object-fit: contain;
     padding-right: 32px;
+    position:relative;
+    right:15px;
 }
 
 /* Menu */
 .menu {
     flex: 3;
+    position:relative;
+    left:75px;
+    font-size:15px;
 }
 
 .menu-list {
@@ -70,13 +85,14 @@ header {
     background-color: #fff;
     border-top: 2px solid #000;
     box-shadow: 0 2px 4px #ccc;
-    top: 36px;
+    top: 62px;
     left: 12px;
+    width:145px;
 }
 
 .subMenu-list > li {
     display: inline-block;
-    min-width: 100px;
+    min-width: 100%;
 }
 
 .subMenu-list > li > a {
@@ -88,6 +104,8 @@ header {
 /* Others */
 .others {
     flex: 1;
+    position:relative;
+    left:12px;
 }
 
 .others > ul{
@@ -307,3 +325,38 @@ header {
     cursor: pointer;
     outline: 0;
 }
+
+
+
+
+.subMenu-list::after {
+    content: "";
+    width: 33px;
+    height: 30px;
+    background: transparent;
+    position: absolute;
+    top: -28px;
+    padding-right:10px;
+    left:-2px;
+}
+
+
+.subMenu-list {
+    transform-origin: left top;
+    animation: containergrow ease-in 0.3s;
+}
+
+@keyframes containergrow {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+
+
+
+

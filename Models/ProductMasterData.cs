@@ -30,6 +30,14 @@ namespace ShoesLover.Models
             this.ColorId = variant.ColorId;
             this.ProductId = variant.ProductId;
             this.ProductVariantImage = variant.ProductVariantImage;
+            this.ImageBig1 = variant.ImageBig1;
+            this.ImageBig2 = variant.ImageBig2;
+            this.ImageBig3 = variant.ImageBig3;
+            this.ImageBig4 = variant.ImageBig4;
+            this.ImageBig5 = variant.ImageBig5;
+            this.ImageBig6 = variant.ImageBig6;
+        
+           
             this.Active = variant.Active;
             ProductDetails = new List<ProductDetail>();
         }

@@ -1,0 +1,453 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model SubCateObject
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<div class="container">
+    <div class="grid wide">
+        <div class="row">
+            <div class="col l-12 m-12 c-0">
+                <div class="navigation">
+                    <ul class="navigation-list">
+                        <li class="navigation-item">
+                            <a href="../home/index">Trang chủ</a>
+                            <span>&rarr;</span>
+
+                        </li>
+                        <li class="navigation-item">
+                            <a href="/product/ShowProductsCate?page=1&cate_id=@Model.Category_id">@Model.Category_name</a>
+                            <span>&rarr;</span>
+                        </li>
+
+                        <li>
+                            <a href="/product/ShowProducts?page=1&subcate_id=@Model.SubCate_id" style="color: red; font-weight:700;">@Model.SubCategory_name</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            @Html.Partial("~/Views/Shared/container_cate.cshtml")
+
+            <div class="col l-9 m-12 c-12">
+
+                @{ int subcate_url = Convert.ToInt32(Context.Request.Query["subcate_id"]); }
+                
+
+                <form method="get" asp-controller="product" asp-action="ShowProductFilter">
+                    <input type="hidden" name="page" value="1" />
+                    <input id="get-size-id" type="hidden" name="size_id" />
+                    <input id="get-color-id" type="hidden" name="color_id" />
+                    <input type="hidden" name="subcate_id" value="@subcate_url" />
+                    <div class="filter-product">
+                        <div style="position:relative; top:23px;font-size: 17px; font-weight: 700; text-transform: uppercase;">@Model.SubCategory_name</div>
+                        <div class="filter-function">
+                            <div class="filter-modify">
+                                <div>Bộ lọc</div>
+                                <i class="fas fa-sort-down"></i>
+
+                            </div>
+
+
+                            <select class="sort-price" id="btn-select-price">
+                                <option>Giá</option>
+                                <option value="ShowPriceDESCSubCate">Giá: Cao đến thấp</option>
+                                <option value="ShowPriceASCSubCate">Giá: Thấp đến cao</option>
+                            </select>
+
+
+                        </div>
+
+                    </div>
+                    <div class="filter-around">
+                        <div class="filter-product-box ">
+                            <div class="filter-product-flex-col">
+                                <div class="filter-product-size">
+                                    SIZE:
+                                    <div class="filter-size-list">
+                                        @foreach (var item in ViewBag.ShowSizeSubFilter)
+                                        {
+                                            <li class="filter-size-item" value="@item.Id" style="cursor:pointer;list-style:none; margin-right:15px;"><p>@item.SizeName</p></li>
+                                        }
+                                    </div>
+                                    <input type="hidden" class="active-size" />
+                                </div>
+                                <div class="filter-product-color">
+                                    MÀU:
+                                    <div class="filter-color-list">
+                                        @foreach (var item in ViewBag.ShowColorSub)
+                                        {
+                                            <li class="filter-color-item" value="@item.Id" style="cursor:pointer;list-style:none; margin-right:15px; height:34px"><img src="/image/@item.ColorImage" /></li>
+                                        }
+                                        <input type="hidden" class="active-color" />
+                                    </div>
+                                </div>
+                                <!--   <div class="filter-product-quantity">
+                                    CÒN HÀNG:
+                                    <div class="filter-quantity"><input id="btn-check-quantity" type="checkbox" value="1"/></div>
+                                </div>  -->
+                            </div>
+                            <div class="filter-product-btn">
+                                <input type="submit" class="btn-filter" id="btn-filter-product" style="cursor:pointer;" value="Lọc"/>
+                                <a href="ShowProducts?page=1&subcate_id=@Model.SubCate_id" class="btn-filter" id="btn-cancel-filter" style="cursor:pointer;">Đóng</a>
+                                <div class="filter-cancel-choose">
+                                    <p id="btn-cancel-size">Huỷ chọn size</p>
+                                    <p id="btn-cancel-color">Huỷ chọn màu</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+                <div id="content">
+                    <div class="products">
+                        <div class="row ">
+                            @foreach (var item in ViewBag.ShowProducts)
+                            {
+                                <div class="col l-4 m-4 c-6">
+                                    @{ Color a = new Color();
+                                        a = item.productcolorMaster[0];
+                                        <li class="li-product-id" value="@item.Id" style="list-style:none;">
+                                            <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
+                                                <img id="product-img-@item.Id" class="product-image" src="~/image/@item.DefaultImage" alt="">
+                                                <h4 class="product-name">@item.ProductName</h4>
+                                            </a>
+                                        </li>
+                                    }
+                                    <p style="text-align:center;"><span style="text-decoration:line-through; color:rgb(153,153,153);">@item.RegularPrice <sup>đ</sup></span><span>   </span><span style="color:red">@item.SalePrice <sup>đ</sup></span></p>
+
+
+                                    <div class="watcher-product">
+                                        <ul>
+                                            @foreach (var index in item.productcolorMaster)
+                                            {
+                                                <li value="@index.Id" class="li-color-@item.Id">
+                                                    <a>
+                                                        <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                    @{
+                        double page_all = Convert.ToDouble(ViewBag.GetTotalPage / Convert.ToDouble(9));
+                        int page_total = Convert.ToInt32(Math.Ceiling(page_all));
+                        int page_url = Convert.ToInt32(Context.Request.Query["page"]); //Lấy parameter page trên url
+                        int page_prev = page_url - 1;
+                        int page_after = page_url + 1;
+
+                    }
+                    <div class="pagination-top">
+                        <ul>
+                            @{
+                                if (page_url > 1)
+                                {
+                                    <li class="btn prev">
+                                        <a style="width:32px; height:32px; " href="ShowProducts?page=@page_prev&subcate_id=@Model.SubCate_id">
+                                            <i style="width:32px; height:32px;" class="fas fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                }
+                                @for (int j = 1; j <= page_total; j++)
+                                {
+                                    <li>
+                                        @if (page_url == j)
+                                        {
+                                            <a style="width:32px; height:32px; color: white; background: red" href="ShowProducts?page=@j&subcate_id=@Model.SubCate_id">@j</a>
+                                        }
+                                        else
+                                        {
+                                            <a style="width: 32px; height: 32px;" href="ShowProducts?page=@j&subcate_id=@Model.SubCate_id">@j</a>
+                                        }
+                                    </li>
+                                }
+                                if (page_url < page_total)
+                                {
+                                    <li class="btn next">
+                                        <a style="width:32px; height:32px;"
+                                           href="ShowProducts?page=@page_after&subcate_id=@Model.SubCate_id">
+                                            <i style="width:32px; height:32px;" class="fas fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="header-page">
+
+    <i style="color : white;" class="fa fa-angle-double-up" aria-hidden="true"></i>
+
+</div>
+<style>
+
+
+    .block-filter .filter-product-box {
+        display: flex;
+    }
+
+    .filter-product-box {
+        display: none;
+    }
+
+    .active-size, .active-color {
+        border: 2px solid black;
+    }
+
+    .header-page {
+        width: 35px;
+        height: 40px;
+        background: black;
+        float: right;
+        bottom: 70px;
+        position: fixed;
+        right: 40px;
+    }
+
+        .header-page i {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 13px;
+            font-size: 18px;
+        }
+
+    .navigation-item a:hover {
+        color: black;
+    }
+
+    .navigation-item a {
+        color: rgb(153,153,153);
+    }
+    /*Tạo phần lên đầu trang*/
+    .header-page {
+        width: 35px;
+        height: 40px;
+        background: black;
+        float: right;
+        bottom: 70px;
+        position: fixed;
+        right: 40px;
+        display: none;
+    }
+
+    .notify-header-page {
+        // display: none;
+        color: white;
+        background: black;
+        float: right;
+        width: 30px;
+    }
+
+    .header-page i {
+        color: white;
+        position: absolute;
+        top: 10px;
+        right: 13px;
+        font-size: 18px;
+    }
+</style>
+
+
+<script src="~/js/productHover.js"></script>
+<script>
+    //Huỷ nút chọn size, chọn màu
+    $("#btn-cancel-size").on("click", function () {
+        $(".filter-size-item").removeClass("active-size");
+
+    })
+
+    $("#btn-cancel-color").on("click", function () {
+        $(".filter-color-item").removeClass("active-color");
+
+    })
+    //Về đầu trang
+    $(".header-page").on("click", function () {
+
+        $('html').animate({ scrollTop: 0 }, 1000, 'linear');
+
+
+    })
+    window.addEventListener("scroll", function () {
+        x = window.pageYOffset;
+        if (x > 40) {
+            $(".header-page").css("display", "block");
+
+        }
+        else {
+            $(".header-page").css("display", "none");
+        }
+
+
+    })
+
+    //Toggle cái bộ lọc
+    $(".filter-modify").on("click", function () {
+
+        $(".filter-around").toggleClass("block-filter");
+    });
+
+    //Add border khi click vào size, color
+    $(".filter-size-item").each(function () {
+        $(this).on("click", function () {
+            var current = document.getElementsByClassName("active-size");
+            current[0].className = current[0].className.replace(" active-size", "");
+            this.className += " active-size";
+        })
+    })
+
+    $(".filter-color-item").each(function () {
+        $(this).on("click", function () {
+            var current = document.getElementsByClassName("active-color");
+            current[0].className = current[0].className.replace(" active-color", "");
+            this.className += " active-color";
+        })
+    })
+
+    $(".filter-size-item").each(function () {
+        $(this).on("click", function () {
+            $("#get-size-id").attr("value", $(this).val());
+          
+        })
+    })
+    $(".filter-color-item").each(function () {
+        $(this).on("click", function () {
+            $("#get-color-id").attr("value", $(this).val());
+
+        })
+    })
+
+
+
+    //Xử lý nút "Loc"
+
+  /*      var size_id;
+        var color_id;
+    $(".filter-color-item").each(function () {
+        $(this).on("click", function () {
+            color_id = $(this).val();
+        });
+    });
+    $(".filter-size-item").each(function () {
+        $(this).on("click", function () {
+            size_id = $(this).val();
+        });
+    });
+
+    $("#btn-filter-product").on("click", function () {
+        // Lọc theo size
+        if (size_id != undefined && color_id == undefined) {
+            console.log(color_id);
+            console.log(size_id);
+            $.ajax({
+                url: 'Url.Action("GetProductBySizeSub","product")',
+                type: "Get",
+                dataType: "html",
+                data: { page: 1, size_id: size_id, subcate_id: Model.SubCate_id  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                },
+                error: () => alert("something wrong")
+            });
+        }
+        else if (size_id == undefined && color_id != undefined) {
+            $.ajax({
+                url: 'Url.Action("GetProductByColorSub","product")',
+                type: "Get",
+                dataType: "html",
+                data: { page: 1, color_id: color_id, subcate_id: Model.SubCate_id  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                },
+                error: () => alert("something wrong")
+            });
+
+        }
+        else {
+            $.ajax({
+                url: 'Url.Action("GetProductByColorSizeSub","product")',
+                type: "Get",
+                dataType: "html",
+                data: { page: 1, color_id: color_id, size_id:size_id, subcate_id: Model.SubCate_id  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                },
+                error: () => alert("something wrong")
+            });
+        }
+
+
+
+    });
+
+
+
+    $("#btn-select-price").on("change", function () {
+        var str = $(this).val();
+           var page =page_url;
+        $.ajax({
+
+                url: "/product/"+str,
+                type: "Get",
+                dataType: "html",
+                data: { page: page, subcate_id: Model.SubCate_id  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                    console.log(page);
+                },
+                error: () => alert("something wrong")
+            });
+    })
+
+
+
+    $(".btn-pagination").each(function () {
+        $(this).on("click", function () {
+            var page = $(this).val();
+            console.log(page);
+            if (size_id != undefined && color_id == undefined) {
+                 $.ajax({
+                  url: 'Url.Action("GetProductBySizeSub","product")',
+                type: "Get",
+                dataType: "html",
+                data: { page: page, size_id: size_id, subcate_id: Model.SubCate_id  },
+                success: function (data) {
+                    $("#content").empty(); //Xoá tất cả dữ liệu trước đó
+                    $("#content").html(data);//load lại cái mới
+                },
+                error: () => alert("something wrong")
+            });
+
+            }
+
+        })
+
+    })  */
+
+
+</script>

@@ -29,8 +29,15 @@
                     <thead>
                         <tr>
                             <th scope="col">Màu biến thể</th>
-                            <th scope="col">Ảnh biến thể</th>
-                            <th scope="col">Kích thước</th>
+                            <th scope="col">Ảnh mặc định</th>
+                            
+                            <th scope="col">Ảnh 1</th>
+                            <th scope="col">Ảnh 2</th>
+                            <th scope="col">Ảnh 3</th>
+                            <th scope="col">Ảnh 4</th>
+                            <th scope="col">Ảnh 5</th>
+                            <th scope="col">Ảnh 6</th>  
+                            <th scope="col">Kích thước</th>                    
                             <th scope="col">Tools</th>
                         </tr>
                     </thead>
@@ -40,17 +47,24 @@
                             Color color = colors.Where(color => color.Id == item.ColorId).FirstOrDefault();
                         <tr scope="row">
                             <td>@color.ColorName <img src="@("/image/" + color.ColorImage)" height="20" width="20" style="border-radius: 200px;" /></td>
-                            <td><img src="@("/image/" + item.ProductVariantImage)" style="max-width: 250px; max-height: 250px"/></td>
+                            <td><img src="@("/image/" + item.ProductVariantImage)" style="max-width: 100px; max-height: 100px" /></td>
+                            <td><img src="@("/image/" + item.ImageBig1)" style="max-width: 100px; max-height: 100px" /></td>
+                            <td><img src="@("/image/" + item.ImageBig2)" style="max-width: 100px; max-height: 100px" /></td>
+                            <td><img src="@("/image/" + item.ImageBig3)" style="max-width: 100px; max-height: 100px" /></td>
+                            <td><img src="@("/image/" + item.ImageBig4)" style="max-width: 100px; max-height: 100px" /></td>
+                            <td><img src="@("/image/" + item.ImageBig5)" style="max-width: 100px; max-height: 100px" /></td>
+                            <td><img src="@("/image/" + item.ImageBig6)" style="max-width: 100px; max-height: 100px" /></td>                          
                             <td>
-                                @foreach(var detail in item.ProductDetails)
+                                @foreach (var detail in item.ProductDetails)
                                 {
                                     string titleString = colors.Where<Color>(color => color.Id == item.ColorId).FirstOrDefault().ColorName + " || " + sizes.Where<Size>(size => size.Id == detail.SizeId).FirstOrDefault<Size>().SizeName;
-                                    string detailString = sizes.Where<Size>(size => size.Id == detail.SizeId).FirstOrDefault<Size>().SizeName + " || Số hàng: "+ detail.Quantity.ToString();
+                                    string detailString = sizes.Where<Size>(size => size.Id == detail.SizeId).FirstOrDefault<Size>().SizeName + " || Số hàng: " + detail.Quantity.ToString();
                                     <a href="#" class="update-detail">
                                         <input type="hidden" class="detail-id" value="@detail.Id">
-                                        <input type="hidden" class="title-string" value="@titleString"/>
-                                        <input type="hidden" class="detail-quantity" value="@detail.Quantity"/>
-                                    @detailString</a><br />
+                                        <input type="hidden" class="title-string" value="@titleString" />
+                                        <input type="hidden" class="detail-quantity" value="@detail.Quantity" />
+                                        @detailString
+                                    </a><br />
                                 }
                             </td>
                             <td>
@@ -58,8 +72,8 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @*<a asp-action="DeleteVariant" method="post" asp-route-colorId="@item.ColorId" asp-route-productId="@Model.Id" style="display: inline-block" class="delete-form">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>*@
+                <i class="fas fa-trash-alt"></i>
+            </a>*@
                                 <form asp-action="DeleteVariant" asp-route-colorId="@item.ColorId" asp-route-productId="@Model.Id" method="post" style="display: inline-block" class="delete-form">
                                     <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
                                 </form>
@@ -69,7 +83,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td>
+                            <td colspan="7">
                                 <a href="#" id="addVariantDetail" style="color: dodgerblue"> <i class="fas fa-plus"></i> Thêm chi tiết cho biến thể </a>
                             </td>
                             <th></th>
@@ -124,6 +138,7 @@
                             <input class="form-control" type="number" name="Quantity" required />
                         </div>
                     </div>
+                  
                     <div class="row m-3 justify-content-center">
                         <input type="submit" name="submit" value="Thêm" class="btn btn-primary col-3 m-2" />
                         @*<a asp-action="Index" class="btn btn-danger col-3 m-2">Hủy</a>*@

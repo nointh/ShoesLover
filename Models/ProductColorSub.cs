@@ -8,5 +8,6 @@ namespace ShoesLover.Models
     public class ProductColorSub : Product
     {
         public List<Color> productcolorMaster;
+        public List<ProductColorVariant> productvariant;
     }
 }

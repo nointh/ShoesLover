@@ -1,0 +1,21 @@
+﻿
+
+
+
+.sub-menu-list {
+    transform-origin: left top;
+    animation: containergrow ease-in 0.3s;
+}
+    .sub-menu-list > li > a{
+        font-size:15px;
+    }
+
+    @keyframes containergrow {
+        from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(100%);
+    }
+}

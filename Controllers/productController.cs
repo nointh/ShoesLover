@@ -30,7 +30,7 @@ namespace ShoesLover.Controllers
         public IActionResult SearchProductByName(int page, string keyword)
         {
             int count;
-            int start = page * 6 - 6;
+            int start = page * 9 - 9;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
             ViewBag.ShowAllProductsSearch = context.GetAllProductsSearch(keyword);
             return View(context.GetProductsSearch(start, keyword));
@@ -45,29 +45,12 @@ namespace ShoesLover.Controllers
 
 
 
-        public IActionResult ShowProductNewCate(int page, int cate_id)
+       
+
+
+      /*  public IActionResult ShowBestSellerCate(int page, int cate_id)
         {
-            int start = page * 6 - 6;
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            ViewBag.ShowNew = context.GetProductNewCate(start, cate_id);
-            ViewBag.ShowAllProductsCate = context.GetAllProductsNewCate(cate_id);
-            return View(context.GetCategoryById(cate_id));
-        }
-
-
-        public IActionResult ShowProductNewSubCate(int page, int subcate_id)
-        {
-            int start = page * 6 - 6;
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            ViewBag.ShowNew = context.GetProductNewSub(start, subcate_id);
-            ViewBag.ShowAllProductsSub = context.GetAllProductsNewSub(subcate_id);
-            return View(context.GetSubCate(subcate_id));
-        }
-
-
-        public IActionResult ShowBestSellerCate(int page, int cate_id)
-        {
-            int start = page * 6 - 6;
+            int start = page * 9 - 9;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
             ViewBag.ShowBestSeller = context.GetProductBestSellerCate(start, cate_id);
             ViewBag.ShowAllProductsCate = context.GetAllProductsBestSellerCate(cate_id);
@@ -75,65 +58,51 @@ namespace ShoesLover.Controllers
         }
         public IActionResult ShowBestSellerSubCate(int page, int subcate_id)
         {
-            int start = page * 6 - 6;
+            int start = page * 9 - 9;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
             ViewBag.ShowBestSeller = context.GetProductBestSellerSub(start, subcate_id);
             ViewBag.ShowAllProductsSub = context.GetAllProductsBestSellerSub(subcate_id);
             return View(context.GetSubCate(subcate_id));
-        }
+        } */
 
-        public IActionResult ShowPriceDESCCate(int page, int cate_id)
+        public PartialViewResult ShowPriceDESCCate(int page, int cate_id)
         {
-            int start = page * 6 - 6;
+            int start = page * 9 - 9;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            ViewBag.ShowDESC = context.GetProductDESCCate(start, cate_id);
-            ViewBag.ShowAllProductsCate = context.GetAllProductDESCCate(cate_id);
-            return View(context.GetCategoryById(cate_id));
+            ViewBag.ShowProducts = context.GetProductDESCCate(start, cate_id);
+            ViewBag.GetTotalPage = context.GetAllProductDESCCate(cate_id);
+            ViewBag.GetCate = cate_id;
+            return PartialView(context.GetCategoryById(cate_id));
         }
-        public IActionResult ShowPriceDESCSubCate(int page, int subcate_id)
-        {
-
-            int start = page * 6 - 6;
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            ViewBag.ShowDESC = context.GetProductDESCSub(start, subcate_id);
-            ViewBag.ShowAllProductsSub = context.GetAllProductsDESCSub(subcate_id);
-            return View(context.GetSubCate(subcate_id));
-        }
-        public IActionResult ShowPriceASCCate(int page, int cate_id)
-        {
-            int start = page * 6 - 6;
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            ViewBag.ShowASC = context.GetProductASCCate(start, cate_id);
-            ViewBag.ShowAllProductsCate = context.GetAllProductsASCCate(cate_id);
-            return View(context.GetCategoryById(cate_id));
-        }
-        public IActionResult ShowPriceASCSubCate(int page, int subcate_id)
+        public PartialViewResult ShowPriceDESCSubCate(int page, int subcate_id)
         {
 
-            int start = page * 6 - 6;
+            int start = page * 9 - 9;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            ViewBag.ShowASC = context.GetProductASCSub(start, subcate_id);
-            ViewBag.ShowAllProductsSub = context.GetAllProductsASCSub(subcate_id);
-            return View(context.GetSubCate(subcate_id));
+            ViewBag.GetSubCate = subcate_id;
+            ViewBag.ShowProducts = context.GetProductDESCSub(start, subcate_id);
+            ViewBag.GetTotalPage = context.GetAllProductsDESCSub(subcate_id);
+            return PartialView(context.GetSubCate(subcate_id));
         }
-        public IActionResult ShowProductPopularCate(int page, int cate_id)
+        public PartialViewResult ShowPriceASCCate(int page, int cate_id)
         {
-            int start = page * 6 - 6;
+            int start = page * 9 - 9;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            ViewBag.ShowPopular = context.GetProductPopularCate(start, cate_id);
-            ViewBag.ShowAllProductsCate = context.GetAllProductsPopularCate(cate_id);
-            return View(context.GetCategoryById(cate_id));
+            ViewBag.ShowProducts = context.GetProductASCCate(start, cate_id);
+            ViewBag.GetTotalPage = context.GetAllProductsASCCate(cate_id);
+            ViewBag.GetCate = cate_id;
+            return PartialView(context.GetCategoryById(cate_id));
         }
-        public IActionResult ShowProductPopularSubCate(int page, int subcate_id)
+        public PartialViewResult ShowPriceASCSubCate(int page, int subcate_id)
         {
-            int start = page * 6 - 6;
+
+            int start = page * 9 - 9;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-            ViewBag.ShowPopular = context.GetProductPopularSubCate(start, subcate_id);
-            ViewBag.ShowAllProductsSub = context.GetAllProductsPopularSub(subcate_id);
-            return View(context.GetSubCate(subcate_id));
-        }
-
-
+            ViewBag.ShowProducts = context.GetProductASCSub(start, subcate_id);
+            ViewBag.GetSubCate = subcate_id;
+            ViewBag.GetTotalPage = context.GetAllProductsASCSub(subcate_id);
+            return PartialView(context.GetSubCate(subcate_id));
+        }      
         public IActionResult ShowProductDetailObject(int color_id, int product_id)
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
@@ -145,18 +114,23 @@ namespace ShoesLover.Controllers
 
         public IActionResult ShowProducts(int page, int subcate_id)
         {
-            int start = page * 6 - 6;
+            int start = page * 9 - 9;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
             ViewBag.ShowProducts = context.GetProductsBySubcategoryID(start, subcate_id);
             ViewBag.ShowAllProductsSub = context.GetAllProductsSub(subcate_id);
+            ViewBag.ShowSizeSub = context.GetAllSizeSub(subcate_id);
+            ViewBag.ShowColorSub = context.GetAllColorSub(subcate_id);
             return View(context.GetSubCate(subcate_id));
         }
+        
         public IActionResult ShowProductsCate(int page, int cate_id)
         {
-            int start = page * 6 - 6;
+            int start = page * 9 - 9;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
             ViewBag.ShowProductsCate = context.GetProductsCateObj(start, cate_id);
             ViewBag.ShowAllProductsCate = context.GetAllProductsCate(cate_id);
+            ViewBag.ShowSizeCate = context.GetSizeCateID(cate_id);
+            ViewBag.ShowColorCate = context.GetColorCateID(cate_id);
             return View(context.GetCategoryById(cate_id));
         }
 
@@ -174,6 +148,101 @@ namespace ShoesLover.Controllers
             }
             return Json(pro);
         }
+        public PartialViewResult GetProductBySizeSub(int page ,int size_id, int subcate_id)
+        {
+            int start = page * 9 - 9;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.GetSubCate = subcate_id;
+            ViewBag.GetSize = size_id;
+            ViewBag.GetTotalPage = context.GetAllProductSizeSub(size_id, subcate_id);
+            ViewBag.ShowProducts = context.GetProductsBySizeSubID(start, size_id,subcate_id);           
+            return PartialView();
+        }
+        public PartialViewResult GetProductByColorSub(int page, int color_id, int subcate_id)
+        {
+            int start = page * 9 - 9;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.GetSubCate = subcate_id;
+            ViewBag.GetColor = color_id;
+            ViewBag.GetTotalPage = context.GetAllProductColorSub(color_id, subcate_id);
+            ViewBag.ShowProducts = context.GetProductsByColorSubID(start, color_id, subcate_id);
+            return PartialView();
+        }
+        public PartialViewResult GetProductByColorSizeSub(int page, int color_id, int size_id, int subcate_id)
+        {
+            int start = page * 9 - 9;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.GetSubCate = subcate_id;
+            ViewBag.GetSize = size_id;
+            ViewBag.GetColor = color_id;
+            ViewBag.GetTotalPage = context.GetAllProductColorSizeSub(color_id,size_id, subcate_id);
+            ViewBag.ShowProducts = context.GetProductsByColorSizeSubID(start, color_id,size_id, subcate_id);
+            return PartialView();
+        }
+        public PartialViewResult GetProductBySizeCate(int page, int size_id, int cate_id)
+        {
+            int start = page * 9 - 9;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.GetCate = cate_id;
+            ViewBag.GetSize = size_id;
+            ViewBag.GetTotalPage = context.GetAllProductSizeCate(size_id, cate_id);
+            ViewBag.ShowProducts = context.GetProductsBySizeCateID(start, size_id, cate_id);
+            return PartialView();
+        }
+        public PartialViewResult GetProductByColorCate(int page, int color_id, int cate_id)
+        {
+            int start = page * 9 - 9;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.GetCate = cate_id;
+            ViewBag.GetColor = color_id;
+            ViewBag.GetTotalPage = context.GetAllProductColorCate(color_id, cate_id);
+            ViewBag.ShowProducts = context.GetProductsByColorCateID(start, color_id, cate_id);
+            return PartialView();
+        }
+        public PartialViewResult GetProductByColorSizeCate(int page, int color_id, int size_id, int cate_id)
+        {
+            int start = page * 9 - 9;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.GetCate = cate_id;
+            ViewBag.GetSize = size_id;
+            ViewBag.GetColor = color_id;
+            ViewBag.GetTotalPage = context.GetAllProductColorSizeCate(color_id, size_id, cate_id);
+            ViewBag.ShowProducts = context.GetProductsByColorSizeCateID(start, color_id, size_id, cate_id);
+            return PartialView();
+        }
+
+     
+       /* public IActionResult ShowProductFilter(int page, int size_id, int color_id, int subcate_id)
+        {
+            string str = size_id.ToString();
+            string stri = color_id.ToString();
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            int start = page * 9 - 9;
+            ViewBag.ShowSizeSubFilter = context.GetAllSizeSubFilter(subcate_id);
+            ViewBag.ShowColorSub = context.GetAllColorSub(subcate_id);
+           if (String.IsNullOrEmpty(str) == false && String.IsNullOrEmpty(stri) == true)
+           {
+                //  ViewBag.GetSubCate = subcate_id;
+                ViewBag.GetTotalPage = context.GetAllProductSizeSub(size_id, subcate_id);
+                ViewBag.ShowProducts = context.GetProductsBySizeSubID(start, size_id, subcate_id);
+                
+
+            } 
+            
+            else if (String.IsNullOrEmpty(stri) == false && String.IsNullOrEmpty(str) == true)
+            {
+                ViewBag.GetTotalPage = context.GetAllProductColorSub(color_id, subcate_id);
+                ViewBag.ShowProducts = context.GetProductsByColorSubID(start, color_id, subcate_id);
+               
+            }
+            else
+            {
+                return View(context.GetSubCate(subcate_id));
+            }
+            return View(context.GetSubCate(subcate_id));
+           
+
+        }  */
 
     }
 }

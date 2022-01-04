@@ -1,0 +1,178 @@
+﻿.order-1 {
+    margin-top: 80px;
+    margin-bottom: 32px;
+    padding-top: 32px;
+}
+
+
+
+    .order-1-info .pay {
+        display: inline-block;
+        padding: 8px 16px;
+        text-transform: uppercase;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        margin-left:12px;
+    }
+
+    .order-1-info p {
+        text-align: right;
+    }
+
+.order-1-info-way {
+    font-size: 12px;
+    margin-top: 12px;
+}
+
+    .order-1-info-way a,
+    .order-1-info-way label {
+        display: inline-block;
+        padding: 4px;
+    }
+
+.order-1-info .label-pass {
+    display: none;
+}
+
+.order-1-info .display {
+    display: block;
+}
+
+/* order-1-money */
+.order-1-money {
+    padding-left: 16px;
+    border-left: 2px solid #ccc;
+}
+
+    .order-1-money table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .order-1-money tbody tr {
+        border-top: 2px solid #ccc;
+    }
+
+    .order-1-money tr td {
+        text-align: center;
+    }
+
+    .order-1-money th,
+    .order-1-money td {
+        padding: 12px;
+    }
+
+    .order-1-money tr th:nth-child(1),
+    .order-1-money tr td:nth-child(1) {
+        text-align: left;
+    }
+
+    .order-1-money tfoot {
+        border-top: 2px solid #ccc
+    }
+
+        .order-1-money tfoot tr td:nth-child(3) {
+            font-weight: bold;
+        }
+
+
+
+.sign {
+    padding-top: 20px;
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 50px;
+}
+
+    .sign h3 {
+        text-transform: uppercase;
+        text-align: center;
+        font-size: 16px;
+        margin: 20px 0;
+    }
+
+.sign-left, .sign-right {
+    padding: 0 16px;
+}
+
+    .sign-left h4,
+    .sign-right h4 {
+        margin: 32px 0;
+        font-size: 14px;
+    }
+
+.sign p {
+    margin-bottom: 32px;
+}
+
+.sign input, .sign select {
+    padding: 0 10px;
+    height: 28px;
+    line-height: 28px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 12px;
+    margin-bottom: 16px;
+    max-width: 240px;
+    width: 100%;
+}
+
+.sign a {
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.sign input[type="checkbox"] {
+    height: 15px;
+    width: 15px;
+    position: relative;
+    top: 2px;
+}
+
+.sign-btn {
+    display: block;
+    max-width: 200px;
+    width: 100%;
+    padding: 8px 16px;
+    background-color: #000;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 12px;
+    outline: none;
+    border: none;
+    margin-bottom: 48px;
+    margin-left:12px;
+    cursor: pointer;
+}
+
+.signup textarea {
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+}
+
+.signup span {
+    font-weight: bold;
+}
+
+.signup input, .signup select, .signup textarea {
+    width: 100%;
+}
+
+#signup-address {
+    max-width: 100%;
+}
+
+.signup .code-input {
+    display: inline-block;
+    border: 1px solid #989898;
+    flex: 1;
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: 700;
+    font-style: oblique;
+}
+
