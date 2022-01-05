@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 using ShoesLover.Models;
 using System;
@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections;
+using ShoesLover.Areas.Admin.Models;
 
 namespace ShoesLover.Data
 {
@@ -5085,6 +5086,33 @@ namespace ShoesLover.Data
             {
                 return -1;
             }
+        }
+        //Order CRUD - start
+        public List<AdminModel> GetAllAdminUser()
+        {
+            List<AdminModel> resultList = new List<AdminModel>();
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select * from admin";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    AdminModel item = new AdminModel
+                    {
+                        Username = reader["username"].ToString(),
+                        Password = reader["password"].ToString(),
+                    };
+                    resultList.Add(item);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return resultList;
         }
     }
 }

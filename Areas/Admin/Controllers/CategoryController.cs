@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoesLover.Data;
 using ShoesLover.Models;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 namespace ShoesLover.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
+
     public class CategoryController : Controller
     {
         // GET: CategoryController
