@@ -149,15 +149,16 @@
                                 <a asp-controller="User" asp-action="Index">
                                     <i class="fas fa-user" title="Đăng nhập"></i>
                                 </a>
-                                <div class="user-tab hide-on-mobile" style="width:auto">
+                                <div class="user-tab hide-on-mobile">
                                     @if(user == null)
                                     {
                                     <div class="user-info">
-                                        <p>Bạn chưa đăng nhập</p>
-                                        <div class="btn-group">
-                                            <a class="btn basic-btn" asp-controller="User" asp-action="DangNhap">Đăng nhập</a>
-                                            <a class="btn basic-btn" asp-controller="User" asp-action="DangKy">Đăng ký</a>
-                                        </div>
+                                        <p>Bạn chưa đăng nhập</p>                                            
+                                        <a class=" basic-btn" asp-controller="User" asp-action="DangNhap">Đăng nhập</a>
+                                        <a class=" basic-btn" asp-controller="User" asp-action="DangKy">Đăng ký</a>
+
+                                        @*<div class="btn-group">
+                                        </div>*@
                                     </div>
                                     }
                                     else
@@ -176,7 +177,7 @@
                                     <i class="fa fa-shopping-bag"></i>
                                 </a>
                                 <div class="cart__list hide-on-mobile" id="navbar-cart">
-                                    @if (Context.Session.GetString("cart") == null)
+                                    @if (Context.Session.GetString("cart") == null || cartList.Count == 0)
                                     {
                                         <div class="flex-column justify-content-center">
                                             <img class="no-cart" src="./image/no-cart.png" alt="">

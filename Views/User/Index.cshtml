@@ -1,5 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model User
 @{
+}
+<section class="person_page">
+    <div class="person_body card">
+        <div class="justify-content-center card-header">
+            <div class="person_header">
+                <h3>Chỉnh sửa thông tin cá nhân</h3>
+            </div>
+        </div>
+            <!-- Hiển thị thông tin khách hàng -->
+        <form class="card-body" asp-action="UpdateInfo">
+            <input name="ID" value="@Model.ID" type="hidden" />
+            <div class="row mb-3">
+                <div class="col-sm-6 person_label" ><i class="far fa-star"></i>Email</div>
+                <input name="Email" class="col-sm-3 form-control" value="@Model.Email" disabled/>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-6 person_label">Tên đầy đủ</div>
+                <input name="Fullname" class="col-sm-3 form-control" value="@Model.Fullname" />
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-6 person_label">Số điện thoại</div>
+                <input name="Phone" class="col-sm-3 form-control" value="@Model.Phone" />
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary text-center">Cập nhật</button>
+
+            </div>
+        </form>
+        @*<div class="row">
+            <div class="right_info col-sm-5">
+                <ul>
+                    <li><i class="far fa-star"></i>Email: <?php echo $r['email']; ?></li>
+                    <li><i class="far fa-calendar-alt"></i>Ngày sinh: <?php echo $r['ngaysinh']; ?> </li>
+                    <li><i class="fas fa-map-marked-alt"></i>Số điện thoại: <?php echo $r['phone']; ?></li>
+                    <li><i class="far fa-check-circle"></i>Ngày tạo: <?php echo $r['daycreate']; ?></li>
+                </ul>
+            </div>
+        </div>*@
+    </div>
+
+</section>
+@section Styles{
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/personal-page.css" />
 }

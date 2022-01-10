@@ -11,6 +11,7 @@ namespace ShoesLover.Models
         private string _fullname;
         private string _email;
         private string _password;
+        private string _phone;
         [Required(ErrorMessage ="Please insert fullname")]
         public string Fullname
         {
@@ -27,6 +28,17 @@ namespace ShoesLover.Models
         public string Password
         {
             get { return _password; }
+            set { _password = value; }
+        }
+
+        [Required(ErrorMessage = "Please insert phone number")]
+        public string Phone
+        {
+            get { 
+                if (string.IsNullOrEmpty(_phone)) 
+                    return _password;
+                else return "";
+            }
             set { _password = value; }
         }
         public User()

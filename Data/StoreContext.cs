@@ -463,7 +463,7 @@ namespace ShoesLover.Data
         
 
 
- public ProductDetail GetProductDetail(int id)
+        public ProductDetail GetProductDetail(int id)
         {
             ProductDetail productDetail = new ProductDetail();
             try { 
@@ -1481,6 +1481,58 @@ namespace ShoesLover.Data
         }
         //Size CRUD - end
 
+        //User CRUD - start
+        public List<User> GetUsers()
+        {
+            List<User> list = new List<User>();
+            try
+            {
+                using (var conn = GetConnection())
+                {
+                    conn.Open();
+                    string str = "select * from user";
+                    MySqlCommand cmd = new MySqlCommand(str, conn);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            list.Add(new User
+                            {
+                                ID = Convert.ToInt32(reader["id"]),
+                                Fullname = Convert.ToString(reader["fullname"]),
+                                Email = Convert.ToString(reader["email"]),
+                                Phone = Convert.ToString(reader["phone"]),
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return list;
+        }
+        public int DeleteUser(int id)
+        {
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "delete from user where id = @id";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("id", id);
+                return cmd.ExecuteNonQuery();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return -1;
+            }
+        }
+        //User CRUD - end
+
         //Color CRUD - start
         public List<Color> GetColors()
         {
@@ -1856,6 +1908,8 @@ namespace ShoesLover.Data
                         while (reader.Read())
                         {
                             user.Fullname = reader["fullname"].ToString();
+                            user.Email = reader["email"].ToString();
+                            user.Phone = reader["phone"].ToString();
                             user.ID = Convert.ToInt32(reader["id"]);
                         }
                         reader.Close();
@@ -1867,7 +1921,24 @@ namespace ShoesLover.Data
             }
             return null;
         }
-
+        public int UpdateUserInfo(User user)
+        {
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "update user set fullname = @fullname, phone = @phone where id = @id";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("id", user.ID);
+                cmd.Parameters.AddWithValue("fullname", user.Fullname);
+                cmd.Parameters.AddWithValue("phone", user.Phone);
+                return cmd.ExecuteNonQuery();
+            }
+            catch 
+            { 
+                return -1;
+            }
+        }
 
 
 
@@ -3835,7 +3906,7 @@ namespace ShoesLover.Data
         }
 
         
-             public int GetAllProductSizeSub(int size_id, int subcate_id)
+        public int GetAllProductSizeSub(int size_id, int subcate_id)
               {
             //int i = 0;
 
@@ -5232,6 +5303,48 @@ namespace ShoesLover.Data
             }
             return list;
 
+        }
+        public int GetNumberOfProduct()
+        {
+            int result = 0;
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select count(*) from product";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch { }
+            return result;
+        }
+        public int GetNumberOfOrder()
+        {
+            int result = 0;
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select count(*) from `order`";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch { }
+            return result;
+        }
+        public int GetNumberOfUser()
+        {
+            int result = 0;
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select count(*) from user";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch(Exception e) { Console.Write(e.Message); }
+            return result;
         }
     }
 }

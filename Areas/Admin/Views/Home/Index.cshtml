@@ -1,7 +1,60 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using ShoesLover.Data;
+
 @{
     ViewData["Title"] = "Home";
+    var db = Context.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+    int numOfUser = db.GetNumberOfUser();
+    int numOfOrder = db.GetNumberOfOrder();
+    int numOfProduct = db.GetNumberOfProduct();
+
 }
-<p>Hello </p>
+
+<div class="row justify-content-center">
+    <!-- card component -->
+    <!-- card Tin tức -->
+    <div class="card border-dark m-3 text-dark ad__card col-md-3">
+        <div class="card-header bg-transparent border-dark"><i class="fas fa-shopping-bag fa-3x"></i></div>
+        <div class="card-body text-dark">
+            <a asp-controller="Order" asp-action="index" class="card-title text-dark">
+                <b>
+                    @numOfOrder
+                </b>
+                <p class="card-text">
+                    Đơn hàng
+                </p>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="card border-dark m-3 text-dark ad__card col-md-3">
+        <div class="card-header bg-transparent border-dark"><i class="fas fa-users fa-3x"></i></div>
+        <div class="card-body text-dark">
+            <a asp-controller="User" asp-action="index" class="btn-box big span4 text-dark">
+                <b class="card-text">
+                    @numOfUser
+                </b>
+                <p class="card-title">
+                    Khách hàng
+                </p>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="card border-dark m-3 text-dark ad__card col-md-3">
+        <div class="card-header bg-transparent border-dark"><i class="fas fa-shoe-prints fa-3x"></i></div>
+        <div class="card-body text-dark">
+            <a asp-controller="Product" asp-action="index" class="btn-box big text-dark">
+                <b>
+                    @numOfProduct
+                </b>
+                <p class="card-title">
+                    Sản phẩm
+                </p>
+            </a>
+        </div>
+    </div>
+
+</div>
+

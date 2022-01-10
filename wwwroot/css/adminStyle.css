@@ -251,6 +251,12 @@ button i{
 	visibility:visible;
 	z-index:15;
 }
+
+/*admin home page*/
+.ad__card{
+    text-align: center;
+}
+
 /* media query start */
 @media only screen and (min-width: 992px)
 {
