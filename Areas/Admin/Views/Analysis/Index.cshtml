@@ -1,0 +1,68 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Analysis";
+}
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container row">
+                <!--
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">firstWeb</a>
+                -->
+                @*<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>*@
+                <div class="row justify-content-between">
+
+
+                    <div class="col-sm-3">
+                        <a class="nav-link text-dark" asp-area="Admin" asp-controller="Analysis" asp-action="SoGiay">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    <i class="fas fa-shoe-prints"></i>
+                                </div>
+                                Thống kê số lượng giày
+                            </div> 
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a class="nav-link text-dark" asp-area="Admin" asp-controller="Analysis" asp-action="LietKeSubcategory">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    <i class="fas fa-tag"></i>
+                                </div>
+                                Liệt kê giày theo danh mục
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a class="nav-link text-dark" asp-area="Admin" asp-controller="Analysis" asp-action="Top5BestSeller">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                Giày bán chạy nhất
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a class="nav-link text-dark" asp-area="Admin" asp-controller="Analysis" asp-action="DoanhThu">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                Doanh thu
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+</body>

@@ -1,7 +1,172 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using ShoesLover.Data;
+
 @{
     ViewData["Title"] = "Home";
+    var db = Context.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+    int numOfUser = db.GetNumberOfUser();
+    int numOfOrder = db.GetNumberOfOrder();
+    int numOfProduct = db.GetNumberOfProduct();
+
 }
-<p>Hello </p>
+
+<div class="row justify-content-center">
+    <!-- card component -->
+    <!-- card Tin tức -->
+    <div class="card border-dark m-3 text-dark ad__card col-md-3">
+        <div class="card-header bg-transparent border-dark"><i class="fas fa-shopping-bag fa-3x"></i></div>
+        <div class="card-body text-dark">
+            <a asp-controller="Order" asp-action="index" class="card-title text-dark">
+                <b>
+                    @numOfOrder
+                </b>
+                <p class="card-text">
+                    Đơn hàng
+                </p>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="card border-dark m-3 text-dark ad__card col-md-3">
+        <div class="card-header bg-transparent border-dark"><i class="fas fa-users fa-3x"></i></div>
+        <div class="card-body text-dark">
+            <a asp-controller="User" asp-action="index" class="btn-box big span4 text-dark">
+                <b class="card-text">
+                    @numOfUser
+                </b>
+                <p class="card-title">
+                    Khách hàng
+                </p>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="card border-dark m-3 text-dark ad__card col-md-3">
+        <div class="card-header bg-transparent border-dark"><i class="fas fa-shoe-prints fa-3x"></i></div>
+        <div class="card-body text-dark">
+            <a asp-controller="Product" asp-action="index" class="btn-box big text-dark">
+                <b>
+                    @numOfProduct
+                </b>
+                <p class="card-title">
+                    Sản phẩm
+                </p>
+            </a>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        <canvas height="150" id="revenueChart"></canvas>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-header text-center">
+                Doanh số khách hàng
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Người dùng</th>
+                            <th>Doanh số</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.TopCustomers as Dictionary<User, int>)
+                        {
+                            <tr>
+                                <td>@item.Key.Fullname</td>
+                                <td>@item.Value</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+<script type="text/javascript" charset="utf8" src="~/Chart.js/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+<script>
+    //set up
+    var fetchData = [];
+    $.ajax({
+            url: '@Url.Action("GetRevenueByDay", "Home")',
+            type: "POST",
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data);
+                data.forEach((element, index, array) => {
+                    fetchData.push(element);
+                });
+                console.log(fetchData);
+                const myData = {
+                    datasets: [
+                        {
+                            label: "Doanh số bán hàng",
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1,
+                            data: fetchData
+                            //    [
+                            //    { x: "2021-12-01", y: 701900},
+                            //    { x: "2021-12-02", y: 1000},
+                            //    { x: "2021-12-08", y: 8380000},
+                            //    { x: "2022-01-04", y: 7870000},
+                            //],
+                        }
+                    ]
+                }
+                //config
+                const config = {
+                    type: 'line',
+                    data: myData,
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'time',
+                                display: true,
+                                time: {
+                                    unit: 'day'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                }
+                // render
+                const ctx = document.getElementById("revenueChart").getContext("2d");
+                const myChart = new Chart(
+                    ctx,
+                    config
+                )
+            },
+            error: () => alert("something wrong")
+        })
+
+</script>
+}

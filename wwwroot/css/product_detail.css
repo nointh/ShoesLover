@@ -171,6 +171,13 @@
         color: #BF8A49;
         border: 2px solid #BF8A49;
         background-color: #fff;
+        cursor: pointer;
+    }
+    .product-content-right-button a:last-child:hover {
+        color: #FFF;
+        border: 2px solid #BF8A49;
+        background-color: #BF8A49;
+        cursor: pointer;
     }
 
 .product-content-right-icon {

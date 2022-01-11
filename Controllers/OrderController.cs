@@ -94,6 +94,8 @@ namespace ShoesLover.Controllers
                     HttpContext.Session.Remove("checkout");
                     store.UpdateCartList(cartList, user.ID);
                 }
+                TempData["message"] = "Order created";
+                TempData["message-status"] = "success";
                 return RedirectToAction("index", "home");
             }
             return RedirectToAction("checkout");

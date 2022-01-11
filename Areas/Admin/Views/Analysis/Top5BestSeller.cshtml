@@ -1,0 +1,104 @@
+﻿@model List<object>
+@{
+    ViewData["Title"] = "Top 5 best seller";
+}
+
+
+<div class="row">
+    <div class="col-sm-8">
+        <h4 class="text-center">Sơ đồ số lượng các sản phẩm bán được</h4>
+        <canvas height="150" id="revenueChart"></canvas>
+    </div>
+    <div class="col-sm-4">
+        <h4 class="text-center">Các sản phẩm bán chạy</h4>
+        <table class="table">
+            <tr>
+                <th>Tên giày</th>
+                <th>Số lượng đã bán</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.GetType().GetProperty("name").GetValue(item, null)
+                    </td>
+                    <td>
+                        @item.GetType().GetProperty("all").GetValue(item, null)
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript" charset="utf8" src="~/Chart.js/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+    <script>
+        //set up
+        @*console.log(@labels);*@
+    var fetchData = [];
+    $.ajax({
+            url: '@Url.Action("GetBestSellerProduct", "Analysis")',
+            type: "POST",
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data);
+                //data.forEach((element, index, array) => {
+                //    fetchData.push(element);
+                //});
+                //console.log(fetchData);
+                const myData = {
+                    labels: data[0],
+                    datasets: [
+                        {
+                        label: "Số lượng giày",
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1,
+                            data: data[1],
+                        }
+                    ]
+                }
+                //config
+                const config = {
+                    type: 'pie',
+                    data: myData,
+                    options: {
+                        title: {
+                            display: true,
+                            text: "Số lượng giày",
+                        },
+                    }
+                }
+                // render
+                const ctx = document.getElementById("revenueChart").getContext("2d");
+                const myChart = new Chart(
+                    ctx,
+                    config
+                )
+            },
+            error: () => alert("something wrong")
+        })
+
+    </script>
+}

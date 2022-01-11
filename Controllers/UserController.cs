@@ -17,7 +17,28 @@ namespace ShoesLover.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("user")))
+            {
+                return RedirectToAction(nameof(DangNhap));
+            }
+            User user = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
+            return View(user);
+        }
+        public IActionResult UpdateInfo(User user)
+        {
+            StoreContext db = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+            if (db.UpdateUserInfo(user) > 0)
+            {
+                TempData["message"] = "Update user info successfully";
+                TempData["message-status"] = "success";
+                return LocalRedirect("/");
+            }
+            else
+            {
+                TempData["message"] = "Update user info failed";
+                TempData["message-status"] = "error";
+                return RedirectToAction(nameof(Index));
+            }
         }
         public IActionResult DangKy()
         {
@@ -31,10 +52,14 @@ namespace ShoesLover.Controllers
             ViewData.Model = usr;                
             if (count > 0)
             {
-                ViewData["thongbao"] = "Đăng ký thành công";
+                TempData["message"] = "Sign up successfully";
+                TempData["message-status"] = "success";
             }
             else
-                ViewData["thongbao"] = "Đăng ký không thành công";
+            {
+                TempData["message"] = "Sign up failed";
+                TempData["message-status"] = "error";
+            }
             return View();
         }
         
@@ -53,11 +78,13 @@ namespace ShoesLover.Controllers
             var user = context.LogIn(email, password);
             if (user == null)
             {
-                TempData["message"] = "Đăng nhập thất bại";
+                TempData["message"] = "Log in failed";
+                TempData["message-status"] = "error";
                 return RedirectToAction(nameof(DangNhap));
             }
 
-            TempData["message"] = "Đăng nhập thành công";
+            TempData["message"] = "Log in successfully";
+            TempData["message-status"] = "success";
             HttpContext.Session.SetString("user",JsonConvert.SerializeObject(user));
             List<CartItem> cartItems = context.GetCartItemList(user.ID);
             List<CartItemDetail> cartList = new List<CartItemDetail>();

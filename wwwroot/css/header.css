@@ -202,7 +202,7 @@ header.sticky{
     top: -29px;
     right: 15px;
 }
-}
+
 
 .cart__list:hover {
     cursor: default;
@@ -224,11 +224,14 @@ header.sticky{
 .search-cart--wrap:hover .cart__list {
     display: block;
 }
+.search-cart--wrap {
+    position: relative;
+}
 /* user tab */
 .user-tab {
      display: none;   
     position: absolute;
-    width: auto;
+    width: 200px;
     background-color: #fff;
     right: 0.2rem;
     top: calc(100% - 1.3rem);
@@ -262,7 +265,8 @@ header.sticky{
     padding: 10px;
 }
 .user-info .btn-group{
-    margin-top: 15px;
+    margin-top: 10px;
+    text-align: center;
 }
 .user-info .basic-btn {
     padding: 7px 15px;
@@ -291,7 +295,7 @@ header.sticky{
 .exit-btn{
     position: relative;
     background-color: #ff0000A6;
-    padding: 10px 15px;
+    padding: 7px 15px;
     margin: 3px;
     border-radius: 5px;
     transition: background-color 1s linear 0.5s;
@@ -312,6 +316,9 @@ header.sticky{
 }
 .exit-btn:hover:before{
     width: 100%;
+}
+.exit-btn:hover{
+    color: white;
 }
 
 /* has cart */
