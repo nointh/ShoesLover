@@ -5194,7 +5194,7 @@ namespace ShoesLover.Data
             {
                 conn.Open();
 
-                string str = "select p.productname,pt.quantity as SL from product_detail pt,PRODUCT p where p.id = pt.product_id group by p.id";
+                string str = "select p.productname,sum(pt.quantity) as SL from product_detail pt,PRODUCT p where p.id = pt.product_id group by p.id";
 
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 using (var reader = cmd.ExecuteReader())
