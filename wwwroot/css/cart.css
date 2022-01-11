@@ -12,12 +12,12 @@ a:hover{
 .hightlight:hover{
     color:red;
 }
-.user-tab{
+/*.user-tab{
     top: calc(100% - 2rem)
-}
-.cart__list {
+} */
+/*.cart__list {
     top: calc(100% - 2rem)
-}
+}  */
 .cart__list h4{
     font-size: medium;
 }
@@ -47,9 +47,9 @@ a:hover{
     text-align:center;
 }
 
-.product-image{
-    max-width: 50px;
-    max-height: 50px;
+.product-image {
+    max-width: 90px;
+    max-height: 70px;
 }
 .cart-footer{
     display: flex;

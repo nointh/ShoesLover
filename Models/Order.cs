@@ -7,12 +7,15 @@ namespace ShoesLover.Models
 {
     public class Order
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public int UID { get; set; }
         public DateTime OrderDate { get; set; }
         public string Address { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
+        public string Reason { get; set; }
+        public int Status { get; set; }
+        public double Coupon { get; set; }
         public int Total { get; set; }
     }
 }

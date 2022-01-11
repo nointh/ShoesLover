@@ -7,7 +7,7 @@ load.onclick = function () {
 };
 
 
-if (@subcate_id >= 1 && @subcate_id <= 5) {
+/*if (@subcate_id >= 1 && @subcate_id <= 5) {
     $(".header-man").addClass("block");
 }
 if (@subcate_id >= 6 && @subcate_id <= 10) {
@@ -24,5 +24,5 @@ if (@subcate_id >= 19 && @subcate_id <= 23) {
 }
 if (@subcate_id >= 24 && @subcate_id <= 25) {
     $(".header-sale").addClass("block");
-}
+} */
 

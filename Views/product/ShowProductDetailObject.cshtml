@@ -25,7 +25,7 @@
                 <div class="col l-6 m-6 c-12 product-content-left ">
                     <div class="col l-12 m-12 c-0">
                         <div style="height:100%" class="product-content-left-big-img img-big  ">
-                            <img  style="height:70% ; border-radius:15px;" id="img_big" src="~/image/@Model.ImgBig1" alt="">
+                            <img style="height:70% ; border-radius:15px;" id="img_big" src="~/image/@Model.ImgBig1" alt="">
                         </div>
                     </div>
                     <div class="col l-12 m-12 c-0">
@@ -39,13 +39,13 @@
                         </div>
                     </div>
                 </div>
-              @{  double regular = Model.RegularPrice;  <!--Đặt dấu . vào tiền-->
-                      double sale = Model.SalePrice;
-                      string regular_price = regular.ToString("N0",
-                      System.Globalization.CultureInfo.GetCultureInfo("de"));
-                      string sale_price = sale.ToString("N0",
-                      System.Globalization.CultureInfo.GetCultureInfo("de"));
-                  }
+                @{ double regular = Model.RegularPrice; <!--Đặt dấu . vào tiền-->
+                    double sale = Model.SalePrice;
+                    string regular_price = regular.ToString("N0",
+                    System.Globalization.CultureInfo.GetCultureInfo("de"));
+                    string sale_price = sale.ToString("N0",
+                    System.Globalization.CultureInfo.GetCultureInfo("de"));
+                }
                 <div class="col l-6 m-6 c-12 product-content-right">
                     <div class="product-content-right-name">
                         <h1>@Model.ProductName</h1>
@@ -60,6 +60,14 @@
                             Màu sắc: <span style="color:rgb(153,153,153);">@Model.ColorName</span>
 
                         </p>
+                        <input type="hidden" value="@Model.ProductId" id="product-id" />
+                        <input type="hidden" value="@Model.ProductName" id="product-name" />
+                        <input type="hidden" value="@Model.ImgBig1" id="product-img" />
+                        <input type="hidden" value="@Model.RegularPrice" id="product-regular" />
+                        <input type="hidden" value="@Model.SalePrice" id="product-sale" />
+                        <a id="product-url" href="/product/ShowProductDetailObject?color_id=@Model.ColorId&product_id=@Model.ProductId"></a>
+
+
                         @{int color_url = Convert.ToInt32(Context.Request.Query["color_id"]); //Lấy parameter page trên url
                             int productid_url = Convert.ToInt32(Context.Request.Query["product_id"]);
                             <div class="product-content-right-color-img img-color  " style="display: flex;">
@@ -91,12 +99,12 @@
                     <p id="check_size_empty"></p>
                     <p id="check_quantity_empty"></p>
                     <div class="product-content-right-button ">
-                        <a style="width:200px;" id="add-to-cart" class="btn_buy">
+                        <a style="width: 200px;" id="add-to-cart" class="btn_buy">
                             <i class="fas fa-shopping-bag"></i>
                             <p style="position: relative; bottom:-2px;">THÊM VÀO GIỎ HÀNG</p>
                         </a>
                         <a style="width:200px;" class="btn_buy" @*asp-controller="Order" asp-action="Checkout"*@ id="btn-checkout">
-                            <p style="text-align:center; transform:translateY(50%);">MUA NGAY</p>
+                            <p style="text-align: center; transform: translateY(50%); padding-bottom: 5px;">MUA NGAY</p>
                         </a>
                     </div>
                     <div class=" product-content-right-icon  ">
@@ -115,8 +123,8 @@
 
                     </div>
                     <!-- <div class="product-content-right-qr">
-            <img src="" alt="">
-        </div> -->
+                        <img src="" alt="">
+                    </div> -->
                     <div class="product-content-right-bottom">
                         <div id="btn-arrow-down" class="product-content-right-bottom-top">
                             <i class="fas fa-chevron-down" style="position: relative;top:2px;"></i>
@@ -133,8 +141,8 @@
                                     <p style=" position: relative; cursor:pointer; bottom: -6px;">Tham kháo size</p>
                                 </div>
                                 <!-- <div class="product-content-right-bottom-content-title-item">
-                             <p>Tham khảo size</p>
-                    </div> -->
+                                         <p>Tham khảo size</p>
+                                </div> -->
                             </div>
                             <div class="product-content-right-bottom-content-description">
                                 <div class="product-content-right-bottom-content-description-detail ">
@@ -158,21 +166,27 @@
                                             Sản Phẩm
                                         </b>
                                     </p>
-                                   <span>• Chất liệu: Sợi vải và cao su đàn hồi chịu nhiệt tốt.</span><br><br>
-                                   <span> • Thiết kế: Thân giày bằng vải lưới, thoải mái và thoáng khí, thiết kế kiểu dáng đơn
-                                    giản, điều chỉnh dáng chân. Sử dụng công nghệ eye piece body film, nâng cao cảm giác
-                                    chất lượng cho người mang. Đế ngoài IP hoàn toàn mới, mềm mại và êm ái.</span><br><br>
-                                    <span>• Phù hợp:Vui chơi dạo phố, tiệt tùng, đi làm hay tập luyện thể thao nhẹ
-                                    nhàng.</span> <br><br>
-                                   <span> • Xuất xứ thương hiệu: Italia</span>
+                                    <span>• Chất liệu: Sợi vải và cao su đàn hồi chịu nhiệt tốt.</span><br><br>
+                                    <span>
+                                        • Thiết kế: Thân giày bằng vải lưới, thoải mái và thoáng khí, thiết kế kiểu dáng đơn
+                                        giản, điều chỉnh dáng chân. Sử dụng công nghệ eye piece body film, nâng cao cảm giác
+                                        chất lượng cho người mang. Đế ngoài IP hoàn toàn mới, mềm mại và êm ái.
+                                    </span><br><br>
+                                    <span>
+                                        • Phù hợp:Vui chơi dạo phố, tiệt tùng, đi làm hay tập luyện thể thao nhẹ
+                                        nhàng.
+                                    </span> <br><br>
+                                    <span> • Xuất xứ thương hiệu: Italia</span>
                                 </div>
                                 <div class="product-content-right-bottom-content-description-guarantee ">
                                     <b>(1) Phạm vi áp dụng </b><br><br>
 
-                                    <span>Áp dụng đối với sản phẩm phân phối tại hệ thống cửa hàng toàn quốc của Hoàng Phúc
-                                    Quốc Tế, thông qua trang thương mại điện tử tại địa chỉ https://hoang-phuc.com/ và
-                                    đối tác (hợp pháp) trên lãnh thổ Việt Nam do Hoàng Phúc Quốc Tế chỉ định tuỳ từng
-                                    thời điểm.</span><br><br>
+                                    <span>
+                                        Áp dụng đối với sản phẩm phân phối tại hệ thống cửa hàng toàn quốc của Hoàng Phúc
+                                        Quốc Tế, thông qua trang thương mại điện tử tại địa chỉ https://hoang-phuc.com/ và
+                                        đối tác (hợp pháp) trên lãnh thổ Việt Nam do Hoàng Phúc Quốc Tế chỉ định tuỳ từng
+                                        thời điểm.
+                                    </span><br><br>
 
                                     <b> (2) Điều kiện áp dụng</b><br><br>
                                     <table>
@@ -194,18 +208,26 @@
 
                                     </table>
                                     <br><br>
-                                    <span>(1) Điều kiện Bảo Hành: sản phẩm còn trong thời gian bảo hành. Ngoài thời gian Bảo
-                                    Hành, khách hàng có nhu cầu vui lòng sử dụng dịch vụ (tính phí) của Trung Tâm Bảo
-                                    Hành.</span><br><br>
+                                    <span>
+                                        (1) Điều kiện Bảo Hành: sản phẩm còn trong thời gian bảo hành. Ngoài thời gian Bảo
+                                        Hành, khách hàng có nhu cầu vui lòng sử dụng dịch vụ (tính phí) của Trung Tâm Bảo
+                                        Hành.
+                                    </span><br><br>
 
-                                    <span>(2) Sản phẩm bị lỗi phát sinh từ việc sử dụng và/hoặc bảo quản không đúng cách không
-                                    thuộc phạm vi Bảo Hành ngay cả trong thời hạn quy định.</span><br><br>
+                                    <span>
+                                        (2) Sản phẩm bị lỗi phát sinh từ việc sử dụng và/hoặc bảo quản không đúng cách không
+                                        thuộc phạm vi Bảo Hành ngay cả trong thời hạn quy định.
+                                    </span><br><br>
 
-                                    <span>(3) Chính sách Bảo Hành không áp dụng đối với các phụ kiện sau: vớ, dây giày, xi,
-                                    lót giày.</span><br><br>
+                                    <span>
+                                        (3) Chính sách Bảo Hành không áp dụng đối với các phụ kiện sau: vớ, dây giày, xi,
+                                        lót giày.
+                                    </span><br><br>
 
-                                    <span>(4) Chính sách Bảo Hành không áp dụng đối với sản phẩm mua ở nước ngoài (không
-                                    được phân phối bởi Hoàng Phúc Quốc Tế).</span>
+                                    <span>
+                                        (4) Chính sách Bảo Hành không áp dụng đối với sản phẩm mua ở nước ngoài (không
+                                        được phân phối bởi Hoàng Phúc Quốc Tế).
+                                    </span>
                                 </div>
                                 <div class="product-content-right-bottom-content-description-size">
 
@@ -226,66 +248,95 @@
                 <div class=" product-content row">
                     @foreach (var item in ViewBag.SPlienquan)
                     {
-                    <div class="col l-3 m-3 c-12 product-content-item">
-                        @{ Color a = new Color();
-                            a = item.productcolorMaster[0];
-                            <li class="li-product-id" value="@item.Id" style="list-style:none;">
-                                <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
-                                    <img id="product-img-@item.Id" class="product-image" src="~/image/@item.DefaultImage" alt="">
-                                    <h4 class="product-name">@item.ProductName</h4>
-                                </a>
-                                <p class="sale-label">
-                                    <span>SALE</span>
-                                </p>
-                            </li>
-                            double regular_pro_relate = item.RegularPrice; <!--Đặt dấu . vào tiền-->
-                            double sale_pro_relate = item.SalePrice;
-                            string regular_price_relate = regular.ToString("N0",
-                            System.Globalization.CultureInfo.GetCultureInfo("de"));
-                            string sale_price_relate = sale.ToString("N0",
-                           System.Globalization.CultureInfo.GetCultureInfo("de"));
-                        }
-                        <p class="p-money price-relate" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price_relate<sup>đ</sup></span><span></span><span style="color: red;">@sale_price_relate<sup>đ</sup></span></p>
-                        <div class="watcher-product">
-                            <ul>
-                                @foreach (var index in item.productcolorMaster)
-                                {
-                                    <li value="@index.Id" class="li-color-@item.Id">
-                                        <a>
-                                            <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                        <div class="product-variant">
-                            @foreach (var index in item.productvariant)
-                            {
-                                <input class="variant-img-@item.Id" type="hidden" value="@index.ColorId" src="~/image/@index.ProductVariantImage" />
-
+                        <div class="col l-3 m-3 c-12 product-content-item">
+                            @{ Color a = new Color();
+                                a = item.productcolorMaster[0];
+                                <li class="li-product-id" value="@item.Id" style="list-style:none;">
+                                    <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
+                                        <img id="product-img-@item.Id" class="product-image sale-tag" src="~/image/@item.DefaultImage" alt="">
+                                        <h4 class="product-name">@item.ProductName</h4>
+                                    </a>
+                                    <p class="sale-label-relate">
+                                        <span>SALE</span>
+                                    </p>
+                                </li>
+                                double regular_pro_relate = item.RegularPrice; <!--Đặt dấu . vào tiền-->
+                                double sale_pro_relate = item.SalePrice;
+                                string regular_price_relate = regular.ToString("N0",
+                                System.Globalization.CultureInfo.GetCultureInfo("de"));
+                                string sale_price_relate = sale.ToString("N0",
+                                System.Globalization.CultureInfo.GetCultureInfo("de"));
                             }
+                            <p class="p-money price-relate" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price_relate<sup>đ</sup></span><span></span><span style="color: red;">@sale_price_relate<sup>đ</sup></span></p>
+                            <div class="watcher-product">
+                                <ul style=" position: relative; bottom: 30px;">
+                                    @foreach (var index in item.productcolorMaster)
+                                    {
+                                        <li value="@index.Id" class="li-color-@item.Id">
+                                            <a>
+                                                <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="product-variant">
+                                @foreach (var index in item.productvariant)
+                                {
+                                    <input class="variant-img-@item.Id" type="hidden" value="@index.ColorId" src="~/image/@index.ProductVariantImage" />
+
+                                }
+                            </div>
                         </div>
-                    </div>
-                    }
+                                }
                 </div>
                 <div class="review-comment ">
 
-                    <div>REVIEW NHANH</div>
-                    <div id="comment-show"></div>
-                    
-                    <input type="hidden" name="comment_product_id" class="comment_product_id" value="@Model.ProductId"/>
-                         
+                    <div style="margin-bottom: 15px;">Đánh Giá - Nhận Xét Từ Khách Hàng</div>
+                    <div>
+                        @{
+                            double rating_d = ViewBag.ShowRating;
+                            int rating = Convert.ToInt32(Math.Ceiling(rating_d));
+                            var color = "";
+                        <ul class="list-rating" style="margin-bottom:20px;" title="AverageRating">
+                            @for (int i = 1; i <= 5; i++)
+                            {
 
-                   
-                    
+                               
+                                if (i <= rating)
+                                {
+                                     color = "color:#ffcc00;";
+                                }
+                                else
+                                {
+                                    color = "color:#ccc;";
+                                }
+                                 
+
+                            
+                 
+                            <li class="rating" title="Star rating" id="@productid_url-@color_url-@i" data-index="@i" data-rating="@rating"
+                            data-product_id="@productid_url" data-color_id="@color_url" style="color:#ccc;cursor:pointer; font-size:30px; @color">&#9733;</li>
+                            }
+                        </ul>
+                                    }
+                    </div>
+                    <div id="comment-show"></div>
+
+                    <input type="hidden" name="comment_product_id" class="comment_product_id" value="@Model.ProductId" />
+
+
+
+
                     <p style="margin-bottom:20px">Bình luận</p>
                     <div class="comment-customer">
                         <input class="input-comment comment-name" type="text" placeholder="Tên" />
                     </div>
-                    <textarea type="text" class="comment-content space-write-comment"> </textarea>                 
-                    <input class="btn-send-comment" type="button" value="Gửi bình luận" /> 
-                     <div style="color: red;"id="notify-comment"></div>
+                    <textarea type="text" class="comment-content space-write-comment"> </textarea>
+                    <input class="btn-send-comment" type="button" value="Gửi bình luận" />
+                    <div style="color: red;" id="notify-comment"></div>
                 </div>
+               
             </div>
         </div>
     </div>
@@ -306,11 +357,11 @@
             <table>
                 <tr>
                     <td rowspan="4"><img src="~/image/size_foot_img.webp" alt=""></td>
-                    <td style="height:40px; vertical-align: middle; text-align: left;" colspan="8">SIZE GIÀY DÉP</td>                                                    
+                    <td style="height:40px; vertical-align: middle; text-align: left;" colspan="8">SIZE GIÀY DÉP</td>
                 </tr>
                 <tr>
-                    <td style="vertical-align: middle; text-align: left;" rowspan="2">Tên gọi</td>                                                       
-                    <td style="vertical-align: middle; text-align: left;" colspan="7">SIZE</td>                                               
+                    <td style="vertical-align: middle; text-align: left;" rowspan="2">Tên gọi</td>
+                    <td style="vertical-align: middle; text-align: left;" colspan="7">SIZE</td>
                 </tr>
                 <tr style="text-align: center;">
                     <td>36</td>
@@ -322,7 +373,7 @@
                     <td>42</td>
                 </tr>
                 <tr style="text-align: center;">
-                    <td style="height:40px ;vertical-align: middle;  text-align: left;">Chiều dài bàn chân(cm)</td>                                                   
+                    <td style="height:40px ;vertical-align: middle;  text-align: left;">Chiều dài bàn chân(cm)</td>
                     <td>22</td>
                     <td>23</td>
                     <td>23.8</td>
@@ -344,35 +395,88 @@
 
 
 <style>
-   
-    .li-default-border {
-        border: 2px solid rgb(153,153,153);
+
+    .list-rating{
+        display: flex;
     }
+                                li{
+        list-style: none;
+    }
+    .li-default-border {
+                            border: 2px solid rgb(153,153,153);
+                            }
 
     .li-active-color {
-        border: 2px solid black;
-    }
+                            border: 2px solid black;
+                            }
 
     .li-active-border {
-        border: 2px solid black;
-    }
+                            border: 2px solid black;
+                            }
 
     .border-detail {
-        border-bottom: 2px solid black;
-        position: relative;
-        bottom: -2px;
-    }
-    .btn-size-detail p:focus{
-    
-    }
+                                border-bottom: 2px solid black;
+                            position: relative;
+                            bottom: -2px;
+                            }
+    .img-color-small{
+                            width:30px;
+                            }
 
-   
+    .btn-size-detail p:focus {
+                            }
 </style>
 <script src="~/js/productHover.js"></script>
 <script src="~/js/product_detail.js"></script>
 <script>
 
+    function remove_background(product_id, color_id) {
+        for (var count = 1; count <= 5; count++) {
+            $("#" + product_id + "-" + color_id + "-" + count).css("color", "#ccc");
+        }
+    };
 
+
+    $(document).on('mouseenter', '.rating', function () {
+        var index = $(this).data("index");
+        var product_id = $(this).data("product_id");
+        var color_id = $(this).data("color_id");
+        remove_background(product_id, color_id);
+        for (var count = 1; count <= index; count++) {
+            $("#" + product_id + "-"+color_id+"-" + count).css("color", "#ffcc00");
+        }
+    });
+
+
+    $(document).on('mouseleave', '.rating', function () {
+        var index = $(this).data("index");
+        var product_id = $(this).data("product_id");
+        var color_id = $(this).data("color_id");
+        var rating = $(this).data("rating");
+        remove_background(product_id, color_id);
+        for (var count = 1; count <= rating; count++) {
+            $("#" + product_id + "-" + color_id + "-" + count).css("color", "#ffcc00");
+        }
+    });
+
+    $(document).on('click', '.rating', function () {
+        var index = $(this).data("index");
+        var product_id = $(this).data("product_id");
+        var color_id = $(this).data("color_id");
+        $.ajax({
+            url: "../rating/InsertRating",
+            type: "POST",
+            dataType: "html",
+            data: { product_id: product_id, index: index, color_id: color_id },
+            success: function (data) {           //Xoá tất cả dữ liệu trước đó
+                alert("Bạn đã đánh giá sản phẩm " + index + "trên 5 sao");
+            },
+            error: () => alert("something wrong")
+        });
+       
+    });
+
+    
     $(".btn-size-detail").click(function () {
         $("#main-header").css("background", "rgba(255,255,255,0.4)");
         $("#main-header").css({ 'box-shadow': '' });
@@ -394,30 +498,22 @@
     //Làm về tab trong phần mô tả
     const detail = document.querySelector(".detail-product");
     const guarantee = document.querySelector(".guarantee-product");
-
-
     if (detail) {
         detail.addEventListener("click", function () {
             document.querySelector(".product-content-right-bottom-content-description-detail").style.display = "block";
             document.querySelector(".detail-product").classList.add("border-detail");
             document.querySelector(".guarantee-product").classList.remove("border-detail");
             document.querySelector(".product-content-right-bottom-content-description-guarantee").style.display = "none";
-
-
-
         })
     }
-
     if (guarantee) {
         guarantee.addEventListener("click", function () {
             document.querySelector(".product-content-right-bottom-content-description-detail").style.display = "none";
             document.querySelector(".detail-product").classList.remove("border-detail");
             document.querySelector(".guarantee-product").classList.add("border-detail");
-            document.querySelector(".product-content-right-bottom-content-description-guarantee").style.display = "block";
-
+           document.querySelector(".product-content-right-bottom-content-description-guarantee").style.display = "block";
         })
     }
-
     //  khi click vao arrow thi hien ra detail
     const buttonArrow = document.querySelector(".product-content-right-bottom-top");
     if (buttonArrow) {
@@ -436,17 +532,11 @@
 
     })
 
-
-
 //thay đổi ảnh khi click
 
       $(".img_1").on("click", function () {
-
-
           $("#img_big").removeAttr("src");
           $("#img_big").attr("src", "/image/@Model.ImgBig1");
-
-
     });
     $(".img_2").on("click", function () {
 
@@ -524,11 +614,10 @@
 
      $(".li-color").each(function (li_item, index){
         var temp = $(this).val();
-        if (@color_url== temp) {
-            $(this).removeClass("li-default-border");
-            $(this).addClass("li-active-border");
-        }
-
+         if (@color_url== temp) {
+             $(this).removeClass("li-default-border");
+             $(this).addClass("li-active-border");
+         }
     })
 
 //Chọn size
@@ -577,23 +666,13 @@
                                 })
                                 load_check_quantity.append(quantity_notify);
                                 return false;
-
-
                             }
                             else {
                                 $("#input_quantity").attr({ "max": quantity });
                             }
-
-
-
-
-
-
                         })
-
                     },
                     error: () => alert("something wrong")
-
                 });
             });
      });
@@ -672,22 +751,14 @@
         })
     })
 
-
-
-
-
-
     $(".product-content-right-bottom-top").on("click", function () {
         if ($(".product-content-right-bottom-content").hasClass("activeB") == true) {
             $(".img-bottom-small").addClass("img-bottom-active");
             $(".img-bottom-small").removeClass("img-bottom-regular");
         }
         else {
-
-
             $(".img-bottom-small").addClass("img-bottom-regular");
             $(".img-bottom-small").removeClass("img-bottom-active");
-
         }
 
     })
@@ -704,11 +775,9 @@
 
 //load comment
     $(document).ready(function () {
-       
         var product_id = $(".comment_product_id").val();
         load_comment();
         function load_comment() {
-          
             // console.log(product_id);
             $.ajax({
                 url: "../comment/ShowComment",
@@ -717,7 +786,6 @@
                 data: { product_id: product_id },
                 success: function (data) {           //Xoá tất cả dữ liệu trước đó
                     $("#comment-show").html(data);//load lại cái mới
-
                 },
                 error: () => alert("something wrong")
             });
@@ -726,32 +794,24 @@
             var comment_name = $(".comment-name").val();
             var comment_text = $(".comment-content").val();
               var color_id = @color_url;
-            var comment_status = 0; 
+            var comment_status = 0;
             console.log(product_id);
             $.ajax({
                 url: "../comment/InsertComment",
                 type: "POST",
                 dataType: "html",
                 data: { product_id: product_id, comment_name: comment_name, comment_text: comment_text, comment_status: comment_status, comment_color_id:color_id},
-                success: function (data) {           //Xoá tất cả dữ liệu trước đó
-                       //load lại cái mới
-                    $("#notify-comment").html(data);
+                success: function (data) {           //Xoá tất cả dữ liệu trước đó                      
+                    $("#notify-comment").html(data); //load lại cái mới
                     load_comment();
                     $("#notify-comment").fadeOut(5000);
                     $(".comment-name").val("");
                     $(".comment-content").val("");
-
                 },
                 error: () => alert("something wrong")
             });
 
         })
     });
-
-
-    //Gửi comment
-
-   
-</script>
 </script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

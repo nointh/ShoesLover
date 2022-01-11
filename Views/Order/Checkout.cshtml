@@ -32,12 +32,12 @@
 
 }
 <!---------------------------------------- Order-1 ---------------------------------------->
-<div class="container">
+<div class="container" style="margin-bottom: 80px">
     <div class="grid wide">
         <div class="row">
-            <div class="col l-7 m-7 c-12 left">
+            <div class="col l-12 m-12 c-12" style="display: flex; margin-top:200px;">
 
-                <div class="order-1-info">
+                <div class="order-1-info col l-6 m-6 c-12" style="width:50%;">
                     <h4 class="text-center mt-2">Vui lòng nhập thông tin giao hàng</h4>
                     @if (Context.Session.GetString("user") == null)
                     {
@@ -67,14 +67,14 @@
                                     <label for="signup-lastname">
                                         <span>Tên người nhận hàng <span class="highlight">*</span> </span>
                                         <br>
-                                        <input  class="form-control" required name="fullname" type="text" value="@currentUser.Fullname" id="signup-lastname" placeholder="Họ...">
+                                        <input class="form-control" required name="fullname" type="text" value="@currentUser.Fullname" id="signup-lastname" placeholder="Họ...">
                                     </label>
                                 </div>
                                 <div class="col-sm-6 mb-3">
                                     <label for="signup-phone">
                                         <span>Số điện thoại liên lạc <span class="highlight">*</span> </span>
                                         <br>
-                                        <input  class="form-control" required name="phone" type="text" value="" id="signup-phone" placeholder="Điện thoại...">
+                                        <input class="form-control" required name="phone" type="text" value="" id="signup-phone" placeholder="Điện thoại...">
                                     </label>
                                 </div>
 
@@ -84,7 +84,7 @@
                                     <label for="signup-province">
                                         <span>Tỉnh/TP <span class="highlight">*</span> </span>
                                         <br>
-                                        <select  class="form-control form-select" required name="province" id="signup-province">
+                                        <select class="form-control form-select" required name="province" id="signup-province">
                                             <option value="'.$customer['customer__province'].'"></option>';
                                             <!--  } -->
                                         </select>
@@ -94,7 +94,7 @@
                                     <label for="signup-district">
                                         <span>Quận/Huyện <span class="highlight">*</span> </span>
                                         <br>
-                                        <select  class="form-control form-select" required name="district" id="signup-district">
+                                        <select class="form-control form-select" required name="district" id="signup-district">
                                             <option value=""></option>
 
                                         </select>
@@ -105,81 +105,163 @@
                                         <span>Số nhà, đường <span class="highlight">*</span> </span>
                                         <br>
 
-                                        <input  class="form-control" required name="addressDetail" id="addressDetail" placeholder="Địa chỉ nhà, đường">
+                                        <input class="form-control" required name="addressDetail" id="addressDetail" placeholder="Địa chỉ nhà, đường">
                                     </label>
                                 </div>
                                 <input id="fullAddress" type="hidden" name="fullAddress" value="" class="form-control wide">
                                 <br />
 
-                            </div>                                
-                            <div class="row flex-row justify-content-center align-items-center" >
-                                <button type="submit" class="pay btn btn-dark m-3">Đặt hàng</button>
+                            </div>
+                            <input type="hidden" id="get-coupond_id" name="coupon" value="" />
+                            <div class="row flex-row justify-content-center align-items-center">
+                                <button type="submit" class="pay btn btn-dark m-3 btn-order">Đặt hàng</button>
 
                             </div>
+
 
                         </form>
 
                     </div>
 
                 </div>
-            </div>
 
-            <div class="col l-5 m-5 c-12 right">
-                <div class="order-1-money">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Tên sản phẩm</th>
-                                <th>Chi tiết</th>
-                                <th>Số lượng</th>
-                                <th>Thành tiền</th>
-                            </tr>
-                        </thead>
-                        @foreach (var item in cartItemDetails)
-                        {
-                            <tr>
-                                <td>
-                                    @item.ProductName
-                                </td>
-                                <td>
-                                    @{
-                                        string color = item.ParseCartDetailItem(db).ColorName;
-                                        string size = item.ParseCartDetailItem(db).SizeName;
-                                    }
-                                    Màu: @color<br/> Kích thước: @size
-                                </td>
-                                <td>
-                                    <span>@item.Quantity</span>  <!--Số lượng-->
-                                </td>
-                                <td>@(String.Format("{0:0,0;0} VND", (item.Quantity * item.PricePerUnit)))</td>  <!--Tiền x số lượng-->
-                            </tr>
+
+                <div class="col l-6 m-6 c-12" style="width:50%;">
+                    <div class="order-1-money">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Chi tiết</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in cartItemDetails)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.ProductName
+                                    </td>
+                                    <td>
+                                        @{
+                                            string color = item.ParseCartDetailItem(db).ColorName;
+                                            string size = item.ParseCartDetailItem(db).SizeName;
+                                        }
+                                        Màu: @color<br /> Kích thước: @size
+                                    </td>
+                                    <td>
+                                        <span>@item.Quantity</span>  <!--Số lượng-->
+                                    </td>
+                                    <td>@(String.Format("{0:0,0;0} VND", (item.Quantity * item.PricePerUnit)))</td>  <!--Tiền x số lượng-->
+                                </tr>
+                            }
+
+
+
+
+
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <!--  <tr>
+                <td colspan="3" class="font-weight-bolder">
+                  <!-- Tổng số tiền cần thanh toán:  <span>String.Format("{0:0,0;0} VND", total)</span>
+
+                </td>
+            </tr>  -->
+                            </tfoot>
+                        </table>
+                        <div class="close-payment" >
+                            <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@total</span></div>
+                            <div id="show-sale-price"></div>
+                            <div id="show-total"></div>
+                        </div>
+                        <div class="close-payment-2" >
+                            <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@total</span></div>
+                            <div id="show-sale-price-2"></div>
+                            <div id="show-total-2"></div>
+                        </div>
+                        <div class="close-payment-3">
+                            <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@total</span></div>
+                            <div id="show-sale-price-3"></div>
+                            <div id="show-total-3"></div>
+                        </div>
+
+                        <div class="coupon-voucher">
+                            <div style="margin-bottom: 10px;"><i class="fas fa-dollar-sign"></i><span> Voucher 5% (áp dụng cho đơn hàng trên 1.000.000<sup>đ</sup>)</span><button id="6c5cdada274b85ed586a" class="btn-coupon-price btn-coupon-1" style="margin-left: 37px; background: rgb(40,167,69); color:white;">Áp dụng</button></div>
+                            <div style="margin-bottom: 10px;"><i class="fas fa-dollar-sign"></i><span> Voucher 10% (áp dụng cho đơn hàng trên 2.000.000<sup>đ</sup>)</span><button id="cd6dd524a9a37a1f4a08" class="btn-coupon-price btn-coupon-2" style="margin-left: 30px">Áp dụng</button></div>
+                            <div style="margin-bottom: 10px;">
+                                <i class="fas fa-dollar-sign"></i><span> Voucher 20% (áp dụng cho đơn hàng trên 5.000.000<sup>đ</sup>)</span><button id="4c8abdcd4a842dd42a75" class="btn-coupon-price btn-coupon-3" style="margin-left: 30px">Áp dụng</button>
+                            </div>
+
+                        </div>
+                        <div style="margin-bottom: 20px;">
+
+                            <label>Nhập mã giảm giá: &nbsp;</label><input class="coupon-code" type="text" />
+
+                        </div>
+
+                        <div id="total-payment" style=" text-align: center; font-size: 18px; font-weight: bold;">  TỔNG THANH TOÁN: <span id="total-price-coupon">@total</span><span></span></div>
+                         @{ 
+                             double vnd_to_usd = (double)total/22715;
                         }
-
-
-
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3" class="font-weight-bolder">
-                                    Tổng số tiền cần thanh toán:  <span>@String.Format("{0:0,0;0} VND", total)</span>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                       <div>
+                           <div id="paypal-button">
+                               <input type="hidden" id="vnd_to_usd" value="@Math.Round(vnd_to_usd,2)" />
+                               
+                           </div>
+                       </div>
+                    </div>
                 </div>
             </div>
+
         </div>
-
     </div>
-
 </div>
+<style>
+    .coupon {
+        display: flex;
+        justify-content: space-around;
+    }
+    .close-payment-2,.close-payment-3{
+        display: none;
+    }
+
+    .temp-price {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    tr:last-child {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .coupon-voucher {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn-coupon-price {
+        background: rgb(40,167,69);
+        color: white;
+        width: 70px;
+        height: 35px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .coupon-voucher {
+        margin-top: 40px;
+    }
+</style>
 
 @section Scripts{
     <script>
         $(document).ready(function () {
             $('#total-post').val($('#total-show').val())
         })
+
     </script>
 
     <script src='https://cdn.jsdelivr.net/gh/vietblogdao/js/districts.min.js'></script>
@@ -229,7 +311,66 @@
                 fullAddress.val(addressDetail.val() + ", " + dataDistrict[parseInt(selectDistrict.val())] + ", " + c[parseInt(selectProvince.val())]);
             }
         })
+        //Coupon
+        $(".btn-coupon-1").on("click", function () {
+            $(".close-payment-2").css("display", "none");
+            $(".close-payment-3").css("display", "none");
+            $(".close-payment").css("display", "block");
+            var coupon = $(this).attr("id");
+            $(".coupon-code").val(coupon);
+            if (coupon == '6c5cdada274b85ed586a') {
+                if (@total >= 1000000) {
+                    $("#get-coupond_id").val(0.05);
+                    $("#show-sale-price").append('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + 0.05*@total +'</span></div>');
+                    $("#show-total").append('<div class="temp-price" style="text-align: right; margin-bottom: 50px;"><span>Thành tiền: </span><span id="total-payment">' + 0.95*@total +'</span></div>')
+                    $("#total-payment").empty();
+                    $("#total-payment").append('<span id="total-price-coupon">' + 0.95 *@total+ '</span><span></span>');
+                }
+                else {
+                    alert("Thành tiền đơn hàng của bạn không đủ để áp dụng Voucher này!");
+                    $(".coupon-code").val("");
+                }
+            }
+        });
+        $(".btn-coupon-2").on("click", function () {
+            $(".close-payment").css("display", "none");
+            $(".close-payment-3").css("display", "none");
+            $(".close-payment-2").css("display", "block");
+                var coupon = $(this).attr("id");
+            $(".coupon-code").val(coupon);
+                if (@total >= 2000000) {
+                    $("#get-coupond_id").val(0.1);
+                    $("#show-sale-price-2").append('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + 0.1*@total +'</span></div>');
+                    $("#show-total-2").append('<div class="temp-price" style="text-align: right; margin-bottom: 50px;"><span>Thành tiền: </span><span id="total-payment-2">' + 0.9*@total +'</span></div>')
+                    $("#total-payment-2").empty();
+                    $("#total-payment-2").append('<span id="total-price-coupon">' + 0.9 *@total+ '</span><span></span>');
+                }
+                else {
+                    alert("Thành tiền đơn hàng của bạn không đủ để áp dụng Voucher này!");
+                    $(".coupon-code").val("");
+                }
+          });
+        $(".btn-coupon-3").on("click", function () {
+            $(".close-payment-2").css("display", "none");
+            $(".close-payment").css("display", "none");
+            $(".close-payment-3").css("display", "block");
+                 var coupon = $(this).attr("id");
+            $(".coupon-code").val(coupon);
+                if (@total >= 5000000) {
+                    $("#get-coupond_id").val(0.2);
+                    $("#show-sale-price-3").append('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + 0.2*@total +'</span></div>');
+                    $("#show-total-3").append('<div class="temp-price" style="text-align: right; margin-bottom: 50px;"><span>Thành tiền: </span><span id="total-payment-3">' + 0.8*@total +'</span></div>')
+                    $("#total-payment-3").empty();
+                    $("#total-payment-3").append('<span id="total-price-coupon">' + 0.8*@total+ '</span><span></span>');
+                }
+                else {
+                    alert("Thành tiền đơn hàng của bạn không đủ để áp dụng Voucher này!");
+                    $(".coupon-code").val("");
+                }
+        });
 
+
+       
     </script>
 }
 

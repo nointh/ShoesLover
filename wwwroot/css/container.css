@@ -19,3 +19,38 @@
         transform: scaleY(100%);
     }
 }
+
+
+.catalog {
+    font-size: 17px;
+    font-weight: bold;
+    color: red;
+    margin-bottom: 15px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.style-wishlist{
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-name-wishlist {
+    line-height: 1.8rem;
+    height: 1.8rem;
+    overflow: hidden;
+    display: block;
+    /*Tạo dấu ... khi tên dài*/
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+.blink_me {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+        
+    }
+}

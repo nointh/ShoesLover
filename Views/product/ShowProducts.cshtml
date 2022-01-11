@@ -7,6 +7,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link href="~/css/products.css" rel="stylesheet" />
+<link href="~/css/container.css" rel="stylesheet" />
 <div class="container">
     <div class="grid wide">
         <div class="row">
@@ -18,7 +19,7 @@
                             <span>&rarr;</span>
 
                         </li>
-                        <li  class="navigation-item">
+                        <li class="navigation-item">
                             <a href="/product/ShowProductsCate?page=1&cate_id=@Model.Category_id">@Model.Category_name</a>
                             <span>&rarr;</span>
                         </li>
@@ -32,16 +33,16 @@
             </div>
             @Html.Partial("~/Views/Shared/container_cate.cshtml")
 
-        <div class="col l-9 m-12 c-12">
+            <div class="col l-9 m-12 c-12">
 
-            @{ int subcate_url = Convert.ToInt32(Context.Request.Query["subcate_id"]); //Lấy parameter page trên url
-}
+                @{ int subcate_url = Convert.ToInt32(Context.Request.Query["subcate_id"]); //Lấy parameter page trên url
+                }
 
-           <!-- <form method="get" asp-controller="product" asp-action="ShowProductFilter">
-                <input type="hidden" name="page" value="1" />
-                <input id="get-size-id" type="hidden" name="size_id" />
-               <input id="get-color-id" type="hidden" name="color_id" /> 
-                <input  type="hidden" name="subcate_id" value="subcate_url"/>  -->
+                <!-- <form method="get" asp-controller="product" asp-action="ShowProductFilter">
+                     <input type="hidden" name="page" value="1" />
+                     <input id="get-size-id" type="hidden" name="size_id" />
+                    <input id="get-color-id" type="hidden" name="color_id" />
+                     <input  type="hidden" name="subcate_id" value="subcate_url"/>  -->
                 <div class="filter-product">
                     <div style="position:relative; top:23px;font-size: 17px; font-weight: 700; text-transform: uppercase;">@Model.SubCategory_name</div>
                     <div class="filter-function">
@@ -50,12 +51,12 @@
                             <i class="fas fa-sort-down"></i>
                             <input type="hidden" class=" active-filter" />
                         </div>
-                       <select class="sort-price" id="btn-select-price">
+                        <select class="sort-price" id="btn-select-price">
                             <option>Giá</option>
                             <option value="ShowPriceDESCSubCate">Giá: Cao đến thấp</option>
                             <option value="ShowPriceASCSubCate">Giá: Thấp đến cao</option>
                         </select>
-                   </div>
+                    </div>
                 </div>
                 <div class="filter-around">
                     <div class="filter-product-box ">
@@ -79,10 +80,10 @@
                                     }
                                     <input type="hidden" class="active-color" />
                                 </div>
-                            </div>                     
+                            </div>
                         </div>
                         <div class="filter-product-btn">
-                          <!--  <input type="submit" class="btn-filter" id="btn-filter-product" style="cursor:pointer;" value="Lọc"/> -->
+                            <!--  <input type="submit" class="btn-filter" id="btn-filter-product" style="cursor:pointer;" value="Lọc"/> -->
                             <a class="btn-filter" id="btn-filter-product" style="cursor:pointer;">Lọc</a>
                             <a href="ShowProducts?page=1&subcate_id=@Model.SubCate_id" class="btn-filter" id="btn-cancel-filter" style="cursor:pointer;">Đóng</a>
                             <div class="filter-cancel-choose">
@@ -93,108 +94,124 @@
 
                     </div>
                 </div>
-           <!-- </form>  -->
-            <div id="content">
-                <div class="products">
-                    <div class="row ">
-                        @foreach (var item in ViewBag.ShowProducts)
-                        {
-                        <div class="col l-4 m-4 c-6 product-margin">
-                            @{ Color a = new Color();
-                                a = item.productcolorMaster[0];
-                                <li class="li-product-id" value="@item.Id" style="list-style:none;">
+                <!-- </form>  -->
+                <div id="content">
+                    <div class="products">
+                        <div class="row ">
+                            @foreach (var item in ViewBag.ShowProducts)
+                            {
+                                <input type="hidden" value="@item.Id" id="product-id" />
+                                <div class="col l-4 m-4 c-6 product-margin">
+                                    @{ Color a = new Color();
+                                        a = item.productcolorMaster[0];
+                                        <li class="li-product-id" value="@item.Id" style="list-style:none;">
 
-                                    <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
-                                        <img id="product-img-@item.Id" class="product-image" src="~/image/@item.DefaultImage" alt="">
-                                        <h4 class="product-name">@item.ProductName</h4>
-                                    </a>
-                                    <p class="sale-label">
-                                        <span>SALE</span>
-                                    </p>
-                                </li>
-                                double regular = item.RegularPrice;  <!--Đặt dấu . vào tiền-->
-                                double sale = item.SalePrice;                              
-                                string regular_price = regular.ToString("N0",
-                                System.Globalization.CultureInfo.GetCultureInfo("de"));
-                                string sale_price = sale.ToString("N0",
-                               System.Globalization.CultureInfo.GetCultureInfo("de"));
-
-                            }
-                            <p class="p-money" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price<sup>đ</sup></span><span></span><span style="color:red">@sale_price<sup>đ</sup></span></p>
-                           
-                            <div class="watcher-product">
-                                <ul>
-                                    @foreach (var index in item.productcolorMaster)
-                                    {
-                                        <li value="@index.Id" class="li-color-@item.Id">
-                                            <a>
-                                                <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
+                                          <a id="@item.Id" href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product" onclick="product_viewed(this.id)">
+                                                <img id="product-img-@item.Id" class="product-image" src="~/image/@item.DefaultImage" alt="">
+                                                <h4 class="product-name">@item.ProductName</h4>
                                             </a>
+                                            <p class="sale-label">
+                                                <span>SALE</span>
+                                            </p>
+
                                         </li>
+                                        double regular = item.RegularPrice; <!--Đặt dấu . vào tiền-->
+                                        double sale = item.SalePrice;
+                                        string regular_price = regular.ToString("N0",
+                                        System.Globalization.CultureInfo.GetCultureInfo("de"));
+                                        string sale_price = sale.ToString("N0",
+                                       System.Globalization.CultureInfo.GetCultureInfo("de"));
+
+
+                                        <p class="p-money" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price<sup>đ</sup></span><span></span><span style="color:red">@sale_price<sup>đ</sup></span></p>
+                                        <input type="hidden" value="@item.ProductName" class="wishlist-product_name-@item.Id" />
+                                        <input type="hidden" value="@item.DefaultImage" class="wishlist-default_image-@item.Id" />
+                                        <input type="hidden" value="@regular_price" class="wishlist-regular_price-@item.Id" />
+                                        <input type="hidden" value="@sale_price" class="wishlist-sale_price-@item.Id" />
+                                        <a class="wishlist_product_url-@item.Id" href="/product/ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id"></a>
+
                                     }
-                                </ul>
-                            </div>
-                           <div class="product-variant">
-                               @foreach(var index in item.productvariant)
-                                { 
-                                   <input class="variant-img-@item.Id" type="hidden" value="@index.ColorId" src="~/image/@index.ProductVariantImage"/>
-                                
-                                }
-                           </div>
+
+                                    <input type="hidden" value="@item.Id" />
+
+                                    <div class="watcher-product">
+                                        <ul>
+                                            @foreach (var index in item.productcolorMaster)
+                                            {
+                                                <li value="@index.Id" class="li-color-@item.Id">
+                                                    <a>
+                                                        <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="rating-product-interface">
+                                        <div id="@item.Id" class="button_wishlist" onclick="add_wishlist(this.id)"><i class="far fa-heart"></i><span>Yêu thích</span></div>
+                                        <p><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><span>Đánh giá</span></p>
+
+                                    </div>
+                                    <div class="product-variant">
+                                        @foreach (var index in item.productvariant)
+                                        {
+                                            <input class="variant-img-@item.Id" type="hidden" value="@index.ColorId" src="~/image/@index.ProductVariantImage" />
+
+                                        }
+                                    </div>
+                                </div>
+                            }
                         </div>
-                        }
+
                     </div>
+                    @{
+                        double page_all = Convert.ToDouble(ViewBag.ShowAllProductsSub / Convert.ToDouble(9));
+                        int page_total = Convert.ToInt32(Math.Ceiling(page_all));
+                        int page_url = Convert.ToInt32(Context.Request.Query["page"]); //Lấy parameter page trên url
+                        int page_prev = page_url - 1;
+                        int page_after = page_url + 1;
 
+                    }
+                    <div class="pagination-top">
+                        <ul>
+                            @{
+                                if (page_url > 1)
+                                {
+                                    <li class="btn prev">
+                                        <p class="pagination-last" style="width:32px; height:32px; " href="ShowProducts?page=@page_prev&subcate_id=@Model.SubCate_id">
+                                            <i style="width:32px; height:32px;" class="fas fa-angle-left"></i>
+                                        </p>
+                                    </li>
+                                }
+                                @for (int j = 1; j <= page_total; j++)
+                                {
+                                    <li>
+                                        @if (page_url == j)
+                                        {
+                                            <a style="width:32px; height:32px; color: white; background: red" href="ShowProducts?page=@j&subcate_id=@Model.SubCate_id">@j</a>
+                                        }
+                                        else
+                                        {
+                                            <a style="width: 32px; height: 32px;" href="ShowProducts?page=@j&subcate_id=@Model.SubCate_id">@j</a>
+                                        }
+                                    </li>
+                                }
+                                if (page_url < page_total)
+                                {
+                                    <li class="btn next">
+                                        <p class="pagination-last" style="width:32px; height:32px;"
+                                           href="ShowProducts?page=@page_after&subcate_id=@Model.SubCate_id">
+                                            <i style="width:32px; height:32px;" class="fas fa-angle-right"></i>
+                                        </p>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
                 </div>
-                @{
-                    double page_all = Convert.ToDouble(ViewBag.ShowAllProductsSub / Convert.ToDouble(9));
-                    int page_total = Convert.ToInt32(Math.Ceiling(page_all));
-                    int page_url = Convert.ToInt32(Context.Request.Query["page"]); //Lấy parameter page trên url
-                    int page_prev = page_url - 1;
-                    int page_after = page_url + 1;
 
-                }
-                <div class="pagination-top">
-                    <ul>
-                        @{
-                            if (page_url > 1)
-                            {
-                                <li class="btn prev">
-                                    <p class="pagination-last" style="width:32px; height:32px; " href="ShowProducts?page=@page_prev&subcate_id=@Model.SubCate_id">
-                                        <i style="width:32px; height:32px;" class="fas fa-angle-left"></i>
-                                    </p>
-                                </li>
-                            }
-                            @for (int j = 1; j <= page_total; j++)
-                            {
-                                <li>
-                                    @if (page_url == j)
-                                    {
-                                        <a style="width:32px; height:32px; color: white; background: red" href="ShowProducts?page=@j&subcate_id=@Model.SubCate_id">@j</a>
-                                    }
-                                    else
-                                    {
-                                        <a style="width: 32px; height: 32px;" href="ShowProducts?page=@j&subcate_id=@Model.SubCate_id">@j</a>
-                                    }
-                                </li>
-                            }
-                            if (page_url < page_total)
-                            {
-                                <li class="btn next">
-                                    <p class="pagination-last" style="width:32px; height:32px;"
-                                       href="ShowProducts?page=@page_after&subcate_id=@Model.SubCate_id">
-                                        <i style="width:32px; height:32px;" class="fas fa-angle-right"></i>
-                                    </p>
-                                </li>
-                            }
-                        }
-                    </ul>
-                </div>
+
+
             </div>
-
-
-
-        </div>
 
         </div>
     </div>
@@ -204,17 +221,19 @@
 
 
 <div class="header-page">
-    
-        <i style="color : white;"class="fa fa-angle-double-up" aria-hidden="true"></i>
-    
+
+    <i style="color : white;" class="fa fa-angle-double-up" aria-hidden="true"></i>
+
 </div>
 <style>
     .block-filter .filter-product-box {
         display: flex;
     }
+
     .block .filter-product-box {
         display: flex;
     }
+
     .filter-product-box {
         display: none;
     }
@@ -269,10 +288,10 @@
             right: 13px;
             font-size: 18px;
         }
+
     .active-filter {
         border: 2px solid black;
     }
-   
 </style>
 
 <script src="~/js/products.js"></script>
@@ -352,8 +371,8 @@
         })
     })
 
-   
-  
+
+
 
 
     //Xử lý lọc
@@ -380,7 +399,7 @@
     $("#btn-filter-product").on("click", function () {
         // Lọc theo size
         if (size_id != undefined && color_id == undefined) {
-           
+
             $.ajax({
                 url: '@Url.Action("GetProductBySizeSub","product")',
                 type: "Get",
@@ -445,8 +464,140 @@
             });
     })
 
+    //Tạo sản phẩm yêu thích
+
+    function add_wishlist(click_id) {
+
+        var id = click_id;
+        var name = $(".wishlist-product_name-" + id).val();
+        var image = $(".wishlist-default_image-" + id).val();
+        var regular = $(".wishlist-regular_price-" + id).val();
+        var sale = $(".wishlist-sale_price-" + id).val();
+        var url = $(".wishlist_product_url-" + id).attr("href");
+        var new_item = {
+            'id': id,
+            'name': name,
+            'image': '/image/' + image,
+            'regular': regular,
+            'sale': sale,
+            'url':'https://localhost:5001' + url
+        }
+        if (localStorage.getItem('data') == null) { //nếu key data bằng rỗng
+            localStorage.setItem('data', '[]'); //set lại cho nó rỗng
+        }
+        var old_data = JSON.parse(localStorage.getItem('data')); //lấy dữ liệu
+       // old_data.push(new_item); //Nếu mà trong cái sản phẩm yêu thích có dữ liệu rồi thì nó sẽ đấy cái product mới vào
+       //   localStorage.setItem('data', JSON.stringify(old_data));  //set lại key data của item  /*
+
+        var matches = $.grep(old_data, function (obj) {
+            return obj.id == id;
+        });
+        if (matches.length) {
+
+          //  alert("Sản phẩm bạn đã thêm vào rồi không thể thêm nữa");
+        }
+        else {
+            old_data.push(new_item);
+            $("#row_wishlist").append('<div  id="' + new_item.id +'" style="margin:10px 0; display: flex; justify-content:space-between;"><div class="col-md-4"><img src="' + new_item.image + '" width="80%"></div>' +
+                '<div style="font-size:11px" ><p class="product-name-wishlist" style="color: black;">' + new_item.name + '</p><p style="color: black; text-decoration: line-through;">' + new_item.regular + '</p><p style="color: red"> ' + new_item.sale + '</p > <a style="color: blue;text-decoration: underline;" href="' + new_item.url + '">Xem chi tiết</a></div ></div > ');
+        }
+
+        localStorage.setItem('data', JSON.stringify(old_data));
+    }
+
+        
+          function View() {
+        if (localStorage.getItem('data') != null) {
+            var data = JSON.parse(localStorage.getItem('data'));
+            data.reverse(); //đảo ngược sản phẩm mới thêm lên đầu
+            document.getElementById('row_wishlist').style.overflow = 'scroll';
+            document.getElementById('row_wishlist').style.height = '300px';
+            for (i = 0; i < data.length; i++) {
+
+                var name = data[i].name;
+                var id = data[i].id;
+                var sale = data[i].sale;
+                var regular = data[i].regular;
+                var image = data[i].image;
+                var url = data[i].url;
+                $("#row_wishlist").append('<div id="'+id+'" style="margin:10px 0; display: flex; justify-content:space-between;"><div class="col-md-4"><img src="' + image + '" width="80%"></div>' +
+                    '<div style="font-size:11px"><p class="product-name-wishlist" style="color: black;">' + name + '</p><p style="color: black;text-decoration: line-through;" >' + regular + '</p><p style="color:red">' + sale +'</p><a style="color: blue;text-decoration: underline;" href="' +url + '">Xem chi tiết</a></div></div>');
+            }
+        }
+    }
+    View();
 
 
-  
-   
+
+    //viewed
+
+
+
+
+    function product_viewed(click_id) {
+
+        var id = click_id;
+        var name = $(".wishlist-product_name-" + id).val();
+        var image = $(".wishlist-default_image-" + id).val();
+        var regular = $(".wishlist-regular_price-" + id).val();
+        var sale = $(".wishlist-sale_price-" + id).val();
+        var url = $(".wishlist_product_url-" + id).attr("href");
+        var new_item = {
+            'id': id,
+            'name': name,
+            'image': '/image/' + image,
+            'regular': regular,
+            'sale': sale,
+            'url': 'https://localhost:5001' + url
+        }
+        if (localStorage.getItem('viewed') == null) { //nếu key data bằng rỗng
+            localStorage.setItem('viewed', '[]'); //set lại cho nó rỗng
+        }
+        var old_data = JSON.parse(localStorage.getItem('viewed')); //lấy dữ liệu
+        // old_data.push(new_item); //Nếu mà trong cái sản phẩm yêu thích có dữ liệu rồi thì nó sẽ đấy cái product mới vào
+        //   localStorage.setItem('data', JSON.stringify(old_data));  //set lại key data của item  /*
+
+        var matches = $.grep(old_data, function (obj) {
+            return obj.id == id;
+        });
+        if (matches.length) {
+
+           // alert("Sản phẩm bạn đã thêm vào rồi không thể thêm nữa");
+        }
+        else {
+            old_data.push(new_item);
+            $("#row_wishlist").append('<div id="' + new_item.id +'" style="margin:10px 0; display: flex; justify-content:space-between;"><div class="col-md-4"><img style ="width:70px; margin-top:8px ;" src="' + new_item.image + '"></div>' +
+                '<div style="margin-left: 15px; font-size:11px" ><p class="product-name-wishlist" style="color: black;">' + new_item.name + '</p><p style="color: black; text-decoration: line-through;">' + new_item.regular + '</p><p style="color: red"> ' + new_item.sale + '</p > <a style="color: blue;text-decoration: underline;" href="' + new_item.url + '">Xem chi tiết</a></div ></div > ');
+        }
+
+        localStorage.setItem('viewed', JSON.stringify(old_data));
+    }
+
+
+    function Viewed() {
+        if (localStorage.getItem('viewed') != null) {
+            var data = JSON.parse(localStorage.getItem('viewed'));
+            data.reverse(); //đảo ngược sản phẩm mới thêm lên đầu
+            document.getElementById('row_viewed').style.overflow = 'scroll';
+            document.getElementById('row_viewed').style.height = '300px';
+            for (i = 0; i < data.length; i++) {
+
+                var name = data[i].name;
+                var id = data[i].id;
+                var sale = data[i].sale;
+                var regular = data[i].regular;
+                var image = data[i].image;
+                var url = data[i].url;
+                $("#row_viewed").append('<div id="' + id +'" style="margin:10px 0; display: flex; justify-content:space-between;"><div class="col-md-4"><img style ="width:70px; margin-top:8px ;" src="' + image + '"></div>' +
+                    '<div style="margin-left: 15px; font-size:11px"><p class="product-name-wishlist" style="color: black;">' + name + '</p><p style="color: black;text-decoration: line-through;" >' + regular + '</p><p style="color:red">' + sale + '</p><a style="color: blue;text-decoration: underline;" href="' + url + '">Xem chi tiết</a></div></div>');
+            }
+        }
+    }
+    Viewed();
+
+
+
+
+
+
 </script>

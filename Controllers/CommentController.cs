@@ -19,8 +19,7 @@ namespace ShoesLover.Controllers
 
         public PartialViewResult ShowComment(int product_id)
         {
-            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
-
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;        
             return PartialView(context.GetComment(product_id));
         }
 

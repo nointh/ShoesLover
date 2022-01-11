@@ -13,11 +13,9 @@
     <link href="~/css/index.css" rel="stylesheet" />
     <link href="~/css/responsive.css" rel="stylesheet" />
     <link href="~/css/slider.css" rel="stylesheet" />
-    <link href="~/css/modal__size.css" rel="stylesheet" />
-    
+    <meta http-equiv="pragma" content="no-cache" />
 
 
-    <link href="~/css/products.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
 
 
@@ -26,6 +24,7 @@
 
     <title>Shop bán giày</title>
 </head>
+
 <body>
 
     <div id="main">
@@ -53,6 +52,50 @@
     </div>
 
 </body>
+
 </html>
 
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
 
+    var usd = $("#vnd_to_usd").val();
+  //  alert(usd);
+    paypal.Button.render({
+        // Configure environment
+        env: 'sandbox',
+        client: {
+            sandbox: 'AfdYgDuvJ2fVHKGBWF7L1kOtcPEQgEISxKTMEYfkKlEfMFAQWVhTtjA8_WcRF2OuhGH4BpeusfwWSapu',
+            production: 'demo_production_client_id'
+        },
+        // Customize button (optional)
+        locale: 'en_US',
+        style: {
+            size: 'small',
+            color: 'gold',
+            shape: 'pill',
+        },
+
+        // Enable Pay Now checkout flow (optional)
+        commit: true,
+
+        // Set up a payment
+        payment: function (data, actions) {
+            return actions.payment.create({
+                transactions: [{
+                    amount: {
+                        total: `${usd}`,
+                        currency: 'USD'
+                    }
+                }]
+            });
+        },
+        // Execute the payment
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function () {
+                // Show a confirmation message to the buyer
+                window.alert('Thank you for your purchase!');
+            });
+        }
+    }, '#paypal-button');
+
+</script>

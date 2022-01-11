@@ -442,3 +442,23 @@ img {
     image-rendering: auto;
 }
 
+
+
+.rating-product-interface {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rating-product-interface span{
+    margin-left: 5px;
+}
+
+.blink_me {
+    animation: blinker 0.02s linear infinite;
+}
+
+@keyframes blinker {
+    70% {
+        opacity: 0.8;
+    }
+}

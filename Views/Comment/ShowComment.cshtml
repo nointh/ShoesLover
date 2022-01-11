@@ -7,24 +7,71 @@
 @foreach (var item in Model)
 {
 
-<div class="display-comment">
+    <div class="display-comment">
+        <div class="comment-customer">
+            <div class="img-comment">
+                <input type="hidden" name="comment_product_id" class="comment_product_id" />
+                <p style="width: 40px; height: 40px; background: rgb(242,242,242); border-radius:50%;text-align:center;"><span style="position: relative; top: 12px;">TD</span></p>
+            </div>
 
-    <div class="img-comment">
-        <input type="hidden" name="comment_product_id" class="comment_product_id" />
-        <img style="width: 50px;" src="~/image/User_font_awesome.svg.png" /> <br />
-        
-    </div>
-    
-    <div class="text-comment">
-        <div class="infor-comment">
-            <span style="color: blue;">@item.CommentName</span>
-            <span>@item.CommentDate</span> <br />
-        </div>     
-        <div>
-            @item.CommentText
+            <div class="text-comment">
+                <div class="infor-comment">
+                    <span style="color: blue;">@item.CommentName</span>
+                    <span>@item.CommentDate</span> <br />
+                </div>
+                <div>
+                    @item.CommentText
+                </div>
+            </div>
         </div>
+       
+        @foreach (var index in item.listparentcomment)
+        {
+
+            <div class="comment-admin">
+                <div class="img-comment ">
+                    <input type="hidden" name="comment_product_id" class="comment_product_id" />
+                    <p style="width: 40px; height: 40px; background: rgb(242,242,242); border-radius:50%;text-align:center;"><span style="position: relative; top: 12px;">Ad</span></p>
+                </div>
+
+                <div class="text-comment">
+                    <div class="infor-comment">
+                        <span style="color: blue;">@index.CommentName</span>
+                        <span>@index.CommentDate</span> <br />
+                    </div>
+                    <div>
+                        @index.CommentText
+                    </div>
+                </div>
+            </div>
+
+        }
+
+
     </div>
 
 
-</div>
 }
+
+<style>
+    .comment-customer{
+        display: flex;
+
+    }
+    .show-comment-admin {
+        display: flex;
+        margin: 30px 0 30px 50px;
+    }
+
+    .info-com {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .comment-admin {
+        margin-top: 10px;
+        margin-left : 30px;
+        display: flex;
+        
+    }
+</style>

@@ -1,0 +1,436 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div style="margin-bottom:50px;" class="container-fluid">
+    <div class="card border-info">
+        <div class="card-header d-flex justify-content-between">
+            <h3 class="card-title align-middle" style="margin:0 auto;">THÔNG TIN NGƯỜI MUA</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table id="main_table" class="table-card align-middle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tên</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Địa chỉ</th>
+                            <th scope="col">Hiển thị</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                            <tr scope="row">                               
+                                <td>@Model.Name</td>                              
+                                <td>@Model.Phone</td>  
+                                <td>@Model.Address</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@Model.UID">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form asp-action="Delete" asp-route-id="@Model.UID" style="display: inline-block" class="delete-form">
+                                        <input type="hidden" name="id" value="@Model.UID" />
+                                        <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
+                                    </form>
+                                </td>
+
+                            </tr>
+                        
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<br /><br />
+      <div style="margin-bottom:50px;" class="container-fluid">
+          <div class="card border-info">
+              <div class="card-header d-flex justify-content-between">
+                  <h3 class="card-title align-middle"  style="margin:0 auto;">THÔNG TIN CHI TIẾT ĐƠN HÀNG</h3>
+              </div>
+              <div class="card-body">
+                  <div class="table-responsive">
+
+                      <table id="main_table" class="table-card align-middle" style="width:100%">
+                          <thead>
+                              <tr>
+                                  <th scope="col">Hình sản phẩm</th>
+                                  <th scope="col">Tên sản phẩm</th>
+                                  <th scope="col">Tên thương hiệu</th>
+                                  <th scope="col">Màu</th>
+                                  <th scope="col">Size</th>
+                                  <th scope="col">Số lượng</th>
+                                  <th scope="col">Giá</th>
+
+                                  <th scope="col">Hiển thị</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              @foreach (var item in ViewBag.ShowInfoOrderDetail)
+                              {
+                              <tr scope="row">
+                                  <td style="padding:10px 0px; "><img style="width: 20%" src="~/image/@item.ProductImage" /></td>
+                                  <td><a style="color: blue; text-decoration: underline" href="https://localhost:5001/product/ShowProductDetailObject?product_id=@item.ProductID&color_id=@item.ColorID" target="_blank">@item.ProductName</a></td>
+                                  <td>@item.BrandName</td>
+                                  <td><img style="width: 20%" src="~/image/@item.ColorImage" /></td>
+                                  <td>@item.SizeName</td>
+                                  <td>@item.Quantity</td>
+                                  <td>@item.SalePrice</td>
+
+                                  <td>
+                                      <a asp-action="Edit" asp-route-id="@item.OrderID">
+                                          <i class="fas fa-edit"></i>
+                                      </a>
+                                      <form asp-action="Delete" asp-route-id="@item.OrderID" style="display: inline-block" class="delete-form">
+                                          <input type="hidden" name="id" value="@item.OrderID" />
+                                          <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
+                                      </form>
+                                  </td>
+
+                              </tr>
+
+                              }
+                          </tbody>
+
+                      </table>
+                      @{
+                          double total = Model.Total; <!--Đặt dấu . vào tiền-->
+                         
+                          string total_price = total.ToString("N0",
+                          System.Globalization.CultureInfo.GetCultureInfo("de"));
+                         
+                      }
+                      <div class="total-order">TỔNG TIỀN: @total_price<sup>đ</sup></div>
+                  </div>
+              </div>
+
+          </div>
+
+      </div>
+      <div class="status-order-action">
+          <label>Trạng Thái:</label>
+          <div class="status-order-list">
+              @if (Model.Status == 0)
+              {
+
+                 <!-- <div class="status-order-item" style=" background: rgb(0,123,255); color:white;"><span class="item-show" style=" margin-left: 10px;">Chờ xác nhận</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></div> -->
+                  <li value="0" id="@Model.ID" class="status-order-item status-order-temp item-cancel" style="background: rgb(0,123,255); color: white;"><span class="item-show" style=" margin-left: 10px;">Chờ xác nhận</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                  <textarea placeholder="Lý do" class="text-area" style="width:172px">@Model.Reason</textarea>
+                  <div class="div-btn-complete">
+                      <button class="btn-complete">Hoàn thành</button>
+                  </div>
+
+              }
+
+              else if (Model.Status == 1)
+              {
+                 <!-- <div class="status-order-item" style="background: rgb(255,193,7) ; color : black"><span class="item-show" style=" margin-left: 10px;">Chờ lấy hàng</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></div>  -->
+                  <li value="1" id="@Model.ID" class="status-order-item status-order-temp item-cancel" style="background: rgb(255,193,7); color: black"><span class="item-show" style=" margin-left: 10px;">Chờ lấy hàng</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                  <textarea placeholder="Lý do" class="text-area" style="width:172px">@Model.Reason</textarea>
+                  <div class="div-btn-complete">
+                      <button class="btn-complete">Hoàn thành</button>
+                  </div>
+              }
+              else if (Model.Status == 2)
+              {
+                <!--  <div class="status-order-item" style="background: rgb(220,53,69); color: white"><span class="item-show " style=" margin-left: 10px;">Đang giao</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></div> -->
+                  <li value="2" id="@Model.ID" class="status-order-item status-order-temp item-cancel" style="background: rgb(23,162,216); color: white"><span class="item-show" style=" margin-left: 10px;">Đang giao</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                  <textarea placeholder="Lý do" class="text-area" style="width:172px">@Model.Reason</textarea>
+                  <div class="div-btn-complete">
+                      <button class="btn-complete">Hoàn thành</button>
+                  </div>
+              }
+              else if (Model.Status == 3)
+              {
+                <!--  <div class="status-order-item" style="background: rgb(40,167,69); color: white"><span class="item-show " style=" margin-left: 10px;">Đã giao</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></div> -->
+                  <li value="3" id="@Model.ID" class="status-order-item status-order-temp item-cancel" style="background: rgb(40,167,69); color: white"><span class="item-show" style=" margin-left: 10px;">Đã giao</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                  <textarea placeholder="Lý do" class="text-area" style="width:172px">@Model.Reason</textarea>
+                  <div class="div-btn-complete">
+                      <button class="btn-complete">Hoàn thành</button>
+                  </div>
+              }
+              else if (Model.Status == 4)
+              {
+                  <li value="4" id="@Model.ID" class="status-order-item status-order-temp item-cancel" style="background: rgb(220,53,69); color: white"><span class="item-show" style=" margin-left: 10px;">Đã huỷ</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                  <textarea placeholder="Lý do" class="text-area" style="width:172px">@Model.Reason</textarea>
+                  
+                  <!--<div class="status-order-item" style="background: rgb(220,53,69); color: white"><span class="item-show " style=" margin-left: 10px;">Đã huỷ</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></div>  -->
+              }
+              else
+              {
+                  <li value="5" id="@Model.ID" class="status-order-item status-order-temp item-cancel" style="background: rgb(35,39,43); color: white"><span class="item-show" style=" margin-left: 10px;">Trả hàng</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                  <textarea placeholder="Lý do" class="text-area" style="width:172px">@Model.Reason</textarea>
+                  <div class="div-btn-complete">
+                      <button class="btn-complete">Hoàn thành</button>
+                  </div>
+                <!--  <div class="status-order-item ttt" style="background: rgb(35,39,43); color: white"><span class="item-show " style=" margin-left: 10px;">Trả hàng</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></div>  -->
+
+              }
+              <div id="@ViewBag.Old_Order_Date" class="status-order-item-hide">
+                  <li id="@ViewBag.Order_ID" value="0" class="item-confirm item-status-move" style=" width: 100%; text-align: left; padding-left: 10px;">Chờ xác nhận</li>
+                  <li id="@ViewBag.Order_ID" value="1" class="item-inventory item-status-move" style=" width: 100%; text-align: left; padding-left: 10px;">Chờ lấy hàng</li>
+                  <li id="@ViewBag.Order_ID" value="2" class="item-shipping item-status-move" style="width: 100%; text-align: left; padding-left: 10px;">Đang giao</li>
+                  <li id="@ViewBag.Order_ID" value="3" class="item-shipped item-status-move" style=" width: 100%; text-align: left; padding-left: 10px;">Đã giao</li>
+                  <li id="@ViewBag.Order_ID" value="4" class="  item-cancel-reason" style=" width: 100%; text-align: left; padding-left: 10px;">Đã huỷ</li>
+                  <li id="@ViewBag.Order_ID" value="5" class="item-return item-status-move" style=" width: 100%; text-align: left; padding-left: 10px;">Trả hàng</li>
+              </div>
+
+          </div>
+      </div>
+
+<br /><br />
+   <!--  <div class="container-fluid">
+          <div class="card border-info">
+              <div class="card-header d-flex justify-content-between">
+                  <h3 class="card-title align-middle"  style="margin:0 auto;">THÔNG TIN VẬN CHUYỂN</h3>
+              </div>
+              <div class="card-body">
+                  <div class="table-responsive">
+
+                      <table id="main_table" class="table-card align-middle" style="width:100%">
+                          <thead>
+                              <tr>
+                                  <th scope="col">Tên</th>
+                                  <th scope="col">Phone</th>
+                                  <th scope="col">Địa chỉ</th>
+                                  <th scope="col">Email</th>
+                              </tr>
+                          </thead>
+                       <!--   <tbody>
+                              foreach (var item in Model)
+                              {
+                                  <tr scope="row">
+                                      <td>item.Name</td>
+                                      <td>item.Address</td>
+                                      <td>item.Phone</td>
+                                      <td>
+                                          <a asp-action="Edit" asp-route-id="item.ID">
+                                              <i class="fas fa-edit"></i>
+                                          </a>
+                                          <form asp-action="Delete" asp-route-id="item.ID" style="display: inline-block" class="delete-form">
+                                              <input type="hidden" name="id" value="item.ID" />
+                                              <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
+                                          </form>
+                                      </td>
+
+                                  </tr>
+                              }
+                          </tbody>  
+
+                      </table>
+                  </div>
+              </div>
+
+          </div>
+
+      </div>      -->
+<style>
+
+    #main_table_filter {
+        margin-bottom: 10px;
+    }
+    li {
+        list-style: none;
+    }
+
+    .total-order{
+        text-align:right;
+        font-size:18px;
+        font-weight: bold;
+        margin: 30px 40px 30px 0;
+    }
+    .status-order-action {
+        text-align: right;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0 40px 30px 0;
+        display: flex;   
+        justify-content: flex-end;
+
+    }
+    .status-order-action label{
+        margin-right:30px;
+    }
+    .status-order-item {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+    .status-order-list {
+        display: flex;
+        margin-right: 40px;
+        flex-direction: column;
+    }
+    .status-order-item-hide {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 10px;
+        display: flex;
+        cursor:  pointer;
+        flex-direction:column;
+        align-items:start;
+     
+    }
+    .status-order-item-hide{
+        display: none;
+    }
+    .block .status-order-item-hide{
+        display: flex;
+    }
+    .item-confirm:hover {
+        background: rgb(0, 123, 255);
+        color: white;
+    }
+
+    .item-inventory:hover {
+        background: rgb(255,193,7);
+        color: black;
+    }
+
+    .item-shipping:hover {
+        background: rgb(23,162,216);
+        color: white;
+    }
+
+    .item-shipped:hover {
+        background: rgb(40,167,69);
+        color: white;
+    }
+
+    .item-cancel-reason:hover {
+        background: rgb(220,53,69);
+        color: white;
+    }
+
+    .item-return:hover {
+        background: rgb(35,39,43);
+        color: white;
+    }
+    .div-btn-complete{
+        display: none;
+    }
+    .text-area{
+        display: block;
+    }
+</style>
+@section Scripts{ 
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+
+    <script>
+
+        $(".status-order-temp").on("click", function () {
+
+            $(".status-order-action").toggleClass("block");
+        })
+        $(".item-confirm").on("click", function () {
+            $(".item-show").empty();
+            $(".item-show").text("Chờ xác nhận");
+            $(".status-order-item").css({ "background": "rgb(0, 123, 255)", "color": "white" });
+            $(".status-order-action").toggleClass("block");
+
+        })
+        $(".item-inventory").on("click", function () {
+            $(".item-show").empty();
+            $(".item-show").text("Chờ lấy hàng");
+            $(".status-order-item").css({ "background": "rgb(255,193,7)", "color": "black" });
+            $(".status-order-action").toggleClass("block");
+
+        })
+        $(".item-shipping").on("click", function () {
+            $(".item-show").empty();
+            $(".item-show").text("Đang giao");
+            $(".status-order-item").css({ "background": "rgb(23,162,216)", "color": "white" });
+            $(".status-order-action").toggleClass("block");
+
+        })
+        $(".item-shipped").on("click", function () {
+            $(".item-show").empty();
+            $(".item-show").text("Đã giao");
+            $(".status-order-item").css({ "background": "rgb(40,167,69)", "color": "white" });
+            $(".status-order-action").toggleClass("block");
+
+        })
+        $(".item-cancel-reason").on("click", function () {
+            $(".item-show").empty();
+            $(".item-show").text("Đã huỷ");
+            $(".status-order-item").css({ "background": "rgb(220,53,69)", "color": "white" });
+           $(".status-order-action").toggleClass("block");
+
+        })
+        $(".item-return").on("click", function () {
+            $(".item-show").empty();
+            $(".item-show").text("Trả hàng");
+            $(".status-order-item").css({ "background": "rgb(35,39,43)", "color": "white" });
+            $(".status-order-action").toggleClass("block");
+
+        })
+
+
+ $(".item-status-move").each(function () {
+            $(this).on("click", function () {
+                var order_id = $(this).attr("id");
+                var status_id = $(this).val();
+                var text = $(this).text();
+                $(".text-area").css("display", "none");
+                var old_order_date = $(".status-order-item-hide").attr("id");              
+                $.ajax({
+                    url: "/Order/UpdateOrder",
+                    type: "POST",
+                    dataType: "html",
+                    data: { order_id: order_id, status_id: status_id, old_order_date: old_order_date },
+                    success: function (data) {
+                        alert("Đơn hàng đã chuyển sang trạng thái: " + text);
+                    },
+                    error: () => alert("something wrong")
+
+
+                });
+
+
+            })
+        })
+
+
+        $(".item-cancel-reason").on("click", function () {
+            $(".div-btn-complete").css("display", "block");
+            $(".text-area").css("display", "block");
+            var order_id = $(this).attr("id");
+            var old_order_date = $(".status-order-item-hide").attr("id");
+            $(".btn-complete").on("click", function () {
+                $(".btn-complete").empty();
+                var reason = $(".text-area").val();
+                $.ajax({
+                    url: "https://localhost:5001/Order/UpdateOrderReason",
+                    type: "POST",
+                    dataType: "html",
+                    data: { order_id: order_id, old_order_date: old_order_date, text: reason },
+                    success: function (data) {
+                        alert("Đơn hàng đã huỷ thành công");
+                    },
+                    error: () => alert("something wrong")
+                });
+            })
+           
+            
+        })
+
+        if ($(".item-cancel").val() != 4) {
+            $(".text-area").css("display", "none");
+        }
+        else {
+            $(".text-area").css("display", "block");
+        }
+    </script>
+}
+

@@ -43,9 +43,9 @@
                                         <i class="fas fa-user-circle"></i>
                                     </a>
                                 </div>
-                                <li class="menu-list__products category-header-woman">
+                                <li class="menu-list__products category-header-woman category-detail">
                                     <a href="/product/ShowProductsCate?page=1&cate_id=2">
-                                        <span>NỮ</span>
+                                        <span >NỮ</span>
                                         <!-- <i class="fas fa-angle-down"></i> -->
                                     </a>
                                     <ul class="subMenu-list">
@@ -58,9 +58,9 @@
                                     </ul>
 
                                 </li>
-                                <li class="menu-list__products category-detail-header">
+                                <li class="menu-list__products category-detail-header category-detail">
                                     <a href="/product/ShowProductsCate?page=1&cate_id=1">
-                                        <span>NAM</span>
+                                        <span >NAM</span>
                                         <!-- <i class="fas fa-angle-down"></i> -->
                                     </a>
                                     <ul class="subMenu-list">
@@ -73,9 +73,9 @@
                                     </ul>
                                 </li>
 
-                                <li class="menu-list__products">
+                                <li class="menu-list__products category-detail">
                                     <a href="/product/ShowProducts?page=1&subcate_id=11">
-                                        <span>UNISEX</span>
+                                        <span >UNISEX</span>
                                         <!-- <i class="fas fa-angle-down"></i> -->
                                     </a>
                                     <ul class="subMenu-list">
@@ -87,9 +87,9 @@
                                         <li><a href="/product/ShowProducts?page=1&subcate_id=16">Giày lười</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-list__products">
+                                <li class="menu-list__products category-detail">
                                     <a href="/product/ShowProducts?page=1&subcate_id=17">
-                                        <span>TRẺ EM</span>
+                                        <span >TRẺ EM</span>
                                         <!-- <i class="fas fa-angle-down"></i> -->
                                     </a>
                                     <ul class="subMenu-list">
@@ -99,9 +99,9 @@
 
                                     </ul>
                                 </li>
-                                <li class="menu-list__products">
+                                <li class="menu-list__products  category-detail">
                                     <a href="/product/ShowProducts?page=1&subcate_id=19">
-                                        <span>PHỤ KIỆN</span>
+                                        <span >PHỤ KIỆN</span>
                                         <!-- <i class="fas fa-angle-down"></i> -->
                                     </a>
                                     <ul class="subMenu-list">
@@ -112,9 +112,9 @@
                                         <li><a href="/product/ShowProducts?page=1&subcate_id=21">Dây giày</a></li>
                                     </ul>
                                 </li>
-                                <li class="menu-list__products">
+                                <li class="menu-list__products category-detail">
                                     <a href="/product/Sale?page=1&cate_id=2" class="highlight">
-                                        <span>SALE 50%++</span>
+                                        <span class="blink_me" >SALE 50%++</span>
                                         <!--<i class="fas fa-angle-down"></i> -->
                                     </a>
                                     <ul class="subMenu-list">
@@ -164,7 +164,7 @@
                                     {
                                     <div class="user-info">
                                         <p>Chào mừng @user.Fullname</p>
-                                        <a class="basic-btn" asp-controller="Order" asp-action="Home">Đơn hàng</a>
+                                        <a class="basic-btn" href="../Order/ViewOrderCustomer?id=@user.ID">Đơn hàng</a>
                                         <a class="exit-btn" asp-controller="User" asp-action="LogOut">Đăng xuất</a>
 
                                     </div>
@@ -179,7 +179,7 @@
                                     @if (Context.Session.GetString("cart") == null)
                                     {
                                         <div class="flex-column justify-content-center">
-                                            <img class="no-cart" src="./image/no-cart.png" alt="">
+                                            <img class="no-cart" src="~/image/no-cart.png" alt="">
                                             <span class="cart__list--empty">Chưa Có Sản Phẩm</span>
                                                 
                                         </div>
@@ -192,7 +192,7 @@
                                             {
                                                 <li class="cart__list-item">
                                                     <a href="">
-                                                        <img class="cart__list-item-img" src="~/images/" alt="">
+                                                        <img style="width:50px;" class="cart__list-item-img" src="~/image/@item.Image" alt="">
 
 
                                                         <div class="cart__list-item-description">
@@ -528,5 +528,14 @@ if (@subcate_id >= 24 && @subcate_id <= 25) {
             $(this > ".subMenu-list").css("display", "block");
         })
     })
+
+    $(".category-detail").each(function () {
+
+        $(this).on("click", function () {
+            $(this).toggleClass("block");
+
+        });
+
+    });
 
 </script>

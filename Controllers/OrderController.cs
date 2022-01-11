@@ -50,9 +50,9 @@ namespace ShoesLover.Controllers
             }    
             return View();
         }
-        public IActionResult ConfirmOrder(string fullname, string phone, string fullAddress)
+        public IActionResult ConfirmOrder(string fullname, string phone, string fullAddress, string coupon)
         {
-
+            var cou = Convert.ToDouble(coupon);
             StoreContext store = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
             if (HttpContext.Session.GetString("user") == null || HttpContext.Session.GetString("checkout") == null)
             {
@@ -61,11 +61,14 @@ namespace ShoesLover.Controllers
             User user = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("user"));
             List<CartItem> checkoutList = JsonConvert.DeserializeObject<List<CartItem>>(HttpContext.Session.GetString("checkout"));
             Order order = new Order
-            {
+            {  
+
+                
                 UID = user.ID,
                 Name = fullname,
                 Address = fullAddress,
                 Phone = phone,
+                Coupon = cou,
                 OrderDate = DateTime.Now
             };
             if (store.CreateOrder(order, checkoutList) > 0)
@@ -95,5 +98,67 @@ namespace ShoesLover.Controllers
             }
             return RedirectToAction("checkout");
         }
+        public PartialViewResult UpdateOrder(string order_id, int status_id, DateTime old_order_date)
+        {
+            int count;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            count = context.UpdateOrder(order_id, status_id, old_order_date);
+            if (count > 0)
+            {
+                ViewData["thongbao"] = "Update thành công";
+            }
+            else
+            {
+                ViewData["thongbao"] = "Update thất bại";
+            }
+
+            return PartialView();
+        }
+
+        public IActionResult ViewOrderCustomer( int id)
+        {
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.ShowDetailOrder = context.GetOrderDetailByID(id);
+            ViewBag.GetOrderID = context.GetOrderIDByID(id);
+            return View(context.GetCustomerByID(id));
+        }
+        public PartialViewResult ViewAllOrderCustomer(int uid)
+        {
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            ViewBag.ShowDetailOrder = context.GetOrderDetailByID(uid);
+            ViewBag.GetOrderID = context.GetOrderIDByID(uid);
+            return PartialView(context.GetCustomerByID(uid));
+        }
+
+        public PartialViewResult UpdateOrderReason(string order_id, DateTime old_order_date, string text)
+        {
+            int count;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            count = context.UpdateOrderReason(order_id, old_order_date ,text);
+            if (count > 0)
+            {
+                ViewData["thongbao"] = "Update thành công";
+            }
+            else
+            {
+                ViewData["thongbao"] = "Update thất bại";
+            }
+
+            return PartialView();
+        }
+        public PartialViewResult ShowOrderStatus(int uid, int status_id)
+        {
+           
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+           
+
+            return PartialView( context.GetOrderStatusList(uid, status_id));
+        }
+
+      
+
+
+
+
     }
 }

@@ -22,9 +22,12 @@
     <table class="table justify-content-lg-center" id="cart-table">
         <thead>
             <tr>
-                <th scope="col">Sản phẩm</th>
+                <th scope="col" style="text-align:center;">Hình</th>
+                <th scope="col" style="text-align:center;">Tên</th>
+                <th scope="col">Size</th>
+                <th scope="col">Màu</th>
+                <th scope="col" style="text-align: center;">Số lượng</th>
                 <th scope="col">Đơn giá</th>
-                <th scope="col">Số lượng</th>
                 <th scope="col">Tổng</th>
             </tr>
         </thead>
@@ -36,50 +39,53 @@
                         <p>Bạn chưa thêm sản phẩm nào vào giỏ hàng</p>
                     </td>
                 </tr>
-            }   
-            else
-            @foreach (var item in cartList)
-            {
-                <tr class="cart-item">
-                    <td>
-                        <input type="hidden" value="@item.ProductDetailId" class="product-id" />
-
-                        <div class="row">
-                            <a class="btn-remove">
-                                <i class="fas fa-times-circle"></i>
-                            </a>
-                            <div class="col-sm-4">
-                                <img src="@("~/image/" + item.Image)" class="product-image" />
-
-                            </div>
-                            <div class="col-sm-6">
-                                <p>@item.ProductName</p>
-                                <p>Màu: @item.ColorName - Size: @item.SizeName</p>
-                            </div>
-
-                        </div>
-                    </td>
-                    <td>
-                        <div class="price" value="@item.PricePerUnit">
-                            @item.PricePerUnit
-                        </div>
-                    </td>
-                    <td style="align-items: center">
-                        <a class="btn-decrease">
-                            <i class="fas fa-minus"></i>
-                        </a>
-                        <input type="number" min="0" class="quantity" value="@item.Quantity" />
-                        <a class="btn-increase">
-                            <i class="fas fa-plus"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <div class="sub-total">
-                            @(item.Quantity * item.PricePerUnit)
-                        </div>
-                    </td>
-                </tr>
             }
+            else
+                @foreach (var item in cartList)
+                {
+                    <tr class="cart-item">
+                        <td>
+                            <input type="hidden" value="@item.ProductDetailId" class="product-id" />
+
+                            <div class="row-img">
+                                <a class="btn-remove">
+                                    <i class="fas fa-times-circle"></i>
+                                </a>
+                                <div >
+                                    <img style="width:90px;" src="~/image/@item.Image" class="product-image" />
+
+                                </div>
+
+
+                            </div>
+                        </td>
+                        <td style="text-align:center;">
+
+                            <p>@item.ProductName</p>
+
+                        </td>
+                        <td> @item.SizeName</td>
+                        <td> @item.ColorName</td>
+                        <td style="align-items: center ; text-align: center;">
+                            <a class="btn-decrease">
+                                <i class="fas fa-minus"></i>
+                            </a>
+                            <input type="number" min="0" class="quantity" value="@item.Quantity" />
+                            <a class="btn-increase">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </td>
+                        <td> @item.PricePerUnit</td>
+                        <td>
+                            <div class="sub-total">
+                                @(item.Quantity * item.PricePerUnit)
+                            </div>
+                        </td>
+
+
+
+                    </tr>
+                }
         </tbody>
     </table>
     <h5 style="text-align: end; margin: 15px;">Tổng cộng: <span class="total-price"></span></h5>
@@ -95,7 +101,18 @@
     </div>
 
 </div>
+<style>
+    /* .product-image {
+        max-width: 80px;
+        max-height: 60px;
+    }  */
 
+    .row-img{
+        display: flex;
+        justify-content: center;
+        align-items:center;
+    }
+</style>
 
 @section Styles{
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -203,5 +220,5 @@
             ).then((res) => location.href = "/Order/Checkout");
         })
     </script>
-    
+
 }

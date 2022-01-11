@@ -7,7 +7,7 @@ namespace ShoesLover.Models
 {
     public class OrderDetail
     {
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         public int ProductDetailId { get; set; }
         public int Quantity { get; set; }
     }

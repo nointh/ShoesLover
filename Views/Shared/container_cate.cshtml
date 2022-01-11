@@ -1,7 +1,9 @@
 ﻿
 <link href="~/css/container.css" rel="stylesheet" />
 <div class="col l-3 m-0 c-0">
+    <div class="catalog" style="margin-top:23px;">DANH MỤC</div>
     <nav class="category">
+
         <ul class="menu-item">
             <li class="category-detail menu-list-woman header-woman">
                 <p class="menu-list-item" asp-controller="product" asp-action="ShowProductsCate" asp-route-page="1" asp-route-cate_id="2">NỮ</p>
@@ -60,7 +62,7 @@
                 </ul>
             </li>
             <li class="category-detail menu-list-sale header-sale">
-                <p class="menu-list-item" href="/product/Sale">SALE 50%++</p>
+                <p class="menu-list-item blink_me" href="/product/Sale">SALE 50%++</p>
                 <ul class=" sub-menu-list sub-menu-sale">
                     <li><a asp-controller="product" asp-action="Sale" asp-route-page="1" asp-route-cate_id="25">Nữ</a></li>
 
@@ -69,11 +71,32 @@
                 </ul>
             </li>
         </ul>
+
     </nav>
+    <div class="catalog catalog-like">SẢN PHẨM YÊU THÍCH
+        <div id="row_wishlist" >
+
+        </div>
+    
+    </div>
+    <div class="catalog catalog-viewed">SẢN PHẨM ĐÃ XEM
+        <div id="row_viewed">
+
+        </div>
+    </div>
 </div>
 
 <style>
-
+   
+    #row_wishlist, #row_viewed{
+        display: none;
+    }
+     .block-like #row_wishlist{
+         display: block;
+     }
+     .block-viewed #row_viewed{
+         display: block;
+     }
     .sub-menu-list-woman, .sub-menu-list-man, .sub-menu-sale , .sub-menu-list-items , .sub-menu-list-unisex, .sub-menu-list-child{
         display: none;
     }
@@ -127,10 +150,24 @@
 
         $(this).on("click",function () {
             $(this).toggleClass("block");
-            console.log("da click");
+           
         });
        
     });
 
+        $(".catalog-like").on("click", function () {
+            $(this).toggleClass("block-like");
+          
+        });
+    $(".catalog-viewed").on("click", function () {
+        $(this).toggleClass("block-viewed");
+
+    });
+    
+
+
+
+
+   
     
 </script>
