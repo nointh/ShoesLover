@@ -5304,6 +5304,39 @@ namespace ShoesLover.Data
             return list;
 
         }
+        public List<object> TopBestSeller()
+        {
+            List<object> list = new List<object>();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string str = "select p.productname as name1, sum(o.quantity) as SL1 " +
+                    "from product p,order_detail o, product_detail pd " +
+                    "where p.id=pd.product_id and o.product_detail_id=pd.id " +
+                    "group by productname " +
+                    "order by o.quantity DESC ";
+
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var ob = new { name = reader["name1"].ToString(), all = Convert.ToInt32(reader["SL1"]) };
+                        list.Add(ob);
+
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+
+        }
+
         public int GetNumberOfProduct()
         {
             int result = 0;
@@ -5345,6 +5378,63 @@ namespace ShoesLover.Data
             }
             catch(Exception e) { Console.Write(e.Message); }
             return result;
+        }
+        public Dictionary<User, int> GetTopSalesCustomers()
+        {
+            Dictionary<User, int> result = new Dictionary<User, int>();
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select u.id as userid, fullname, email, sum(total) as doanhso from `order` o right join user u " +
+                    "on u.id = o.uid " +
+                    "where status = 3 " +
+                    "group by u.id " +
+                    "order by sum(total) desc " +
+                    "limit 10 ";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result.Add(new User
+                    {
+                        ID = Convert.ToInt32(reader["userid"]),
+                        Fullname = reader["fullname"].ToString(),
+                        Email = reader["email"].ToString()
+                    }, 
+                    Convert.ToInt32(reader["doanhso"]));
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return result;
+        }
+        public List<Order> GetSalesByDay()
+        {
+            List<Order> list = new List<Order>();
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select order_date, sum(total) as tong from `order` where status = 3 group by order_date";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(new Order
+                    {
+                        OrderDate = Convert.ToDateTime(reader["order_date"]),
+                        Total = Convert.ToInt32(reader["tong"]),
+                    });
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return list;
         }
     }
 }

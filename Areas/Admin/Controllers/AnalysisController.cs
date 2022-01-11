@@ -5,10 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using ShoesLover.Data;
 using ShoesLover.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShoesLover.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class AnalysisController : Controller
     {
         public ActionResult Index()
@@ -24,6 +26,28 @@ namespace ShoesLover.Areas.Admin.Controllers
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
             return View(context.DoanhThu());
+        }
+        public IActionResult GetRevenueByMonth()
+        {
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+            var list = context.DoanhThu();
+            var labels = list.Select(item => item.GetType().GetProperty("year").GetValue(item, null)).ToArray();
+            var value = list.Select(item => item.GetType().GetProperty("tong").GetValue(item, null)).ToArray();
+            List<object> result = new List<object>();
+            result.Add(labels);
+            result.Add(value);
+            return Json(result);
+        }
+        public IActionResult GetStockQuantity()
+        {
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+            var list = context.SoLuongGiay();
+            var labels = list.Select(item => item.GetType().GetProperty("tengiay").GetValue(item, null)).ToArray();
+            var value = list.Select(item => item.GetType().GetProperty("soluong").GetValue(item, null)).ToArray();
+            List<object> result = new List<object>();
+            result.Add(labels);
+            result.Add(value);
+            return Json(result);
         }
         public IActionResult LietKeSubCategory()
         {
@@ -41,6 +65,18 @@ namespace ShoesLover.Areas.Admin.Controllers
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
             return View(context.Top5BestSeller());
+        }
+
+        public IActionResult GetBestSellerProduct()
+        {
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
+            var list = context.TopBestSeller();
+            var labels = list.Select(item => item.GetType().GetProperty("name").GetValue(item, null)).ToArray();
+            var value = list.Select(item => item.GetType().GetProperty("all").GetValue(item, null)).ToArray();
+            List<object> result = new List<object>();
+            result.Add(labels);
+            result.Add(value);
+            return Json(result);
         }
     }
 }
