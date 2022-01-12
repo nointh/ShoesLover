@@ -100,7 +100,7 @@ namespace ShoesLover.Controllers
             }
             return RedirectToAction("checkout");
         }
-        public PartialViewResult UpdateOrder(string order_id, int status_id, DateTime old_order_date)
+        public PartialViewResult UpdateOrder(int order_id, int status_id, DateTime old_order_date)
         {
             int count;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
@@ -132,7 +132,7 @@ namespace ShoesLover.Controllers
             return PartialView(context.GetCustomerByID(uid));
         }
 
-        public PartialViewResult UpdateOrderReason(string order_id, DateTime old_order_date, string text)
+        public PartialViewResult UpdateOrderReason(int order_id, DateTime old_order_date, string text)
         {
             int count;
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;

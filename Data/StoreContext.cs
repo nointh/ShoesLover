@@ -2018,7 +2018,7 @@ namespace ShoesLover.Data
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-               
+
                 var str = "select avg(rating) from rating where product_id = @product_id and color_id =@color_id";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("product_id", product_id);
@@ -2027,8 +2027,8 @@ namespace ShoesLover.Data
                 {
                     rating = 0;
                     return rating;
-                   
-                   
+
+
                 }
                 else
                 {
@@ -2036,9 +2036,9 @@ namespace ShoesLover.Data
                     return rating;
                 }
 
-              
+
             }
-           
+
         }
 
 
@@ -4903,7 +4903,7 @@ namespace ShoesLover.Data
         }
         public string ShowProductNameByCommentProID(int id)
         {
-          
+
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
@@ -4913,12 +4913,12 @@ namespace ShoesLover.Data
                 using (var reader = cmd.ExecuteReader())
                 {
                     reader.Read();
-                    
-                     return( Convert.ToString(reader["productName"]));
-                  
+
+                    return (Convert.ToString(reader["productName"]));
+
                 }
             }
-           
+
         }
         public List<Comment> GetCommentByProID(int product_id)
         {
@@ -5007,7 +5007,7 @@ namespace ShoesLover.Data
             }
             return list;
         }
-       
+
         public int InsertComment(string comment_name, int product_id, string comment_text, int comment_status, int comment_color_id)
         {
             using (MySqlConnection conn = GetConnection())
@@ -5075,7 +5075,7 @@ namespace ShoesLover.Data
 
             }
         }
-        public int UpdateOrder(string id, int status_id, DateTime old_order_date)
+        public int UpdateOrder(int id, int status_id, DateTime old_order_date)
         {
             using (MySqlConnection conn = GetConnection())
             {
@@ -5093,7 +5093,7 @@ namespace ShoesLover.Data
             }
         }
 
-        public int UpdateOrderReason(string id, DateTime old_order_date, string text)
+        public int UpdateOrderReason(int id, DateTime old_order_date, string text)
         {
             using (MySqlConnection conn = GetConnection())
             {
@@ -5269,20 +5269,20 @@ namespace ShoesLover.Data
             try
             {
                 //Hash cái mã đơn hàng 
-              /*  Random rnd = new Random();
-                MD5 md = MD5.Create();
-                DateTime dt = DateTime.Now;
-                var str = (String.Format("{0:s ss}", dt)); //Random và theo ngày giờ hệ thống
-                byte[] inputstr = System.Text.Encoding.ASCII.GetBytes(str);
-                byte[] hash = md.ComputeHash(inputstr);
-                StringBuilder sp = new StringBuilder();
-                for (int i = 0; i < hash.Length; i++)
-                {
-                    sp.Append(hash[i].ToString("x"));
-                }
-                var id = sp.ToString();  */
+                /*  Random rnd = new Random();
+                  MD5 md = MD5.Create();
+                  DateTime dt = DateTime.Now;
+                  var str = (String.Format("{0:s ss}", dt)); //Random và theo ngày giờ hệ thống
+                  byte[] inputstr = System.Text.Encoding.ASCII.GetBytes(str);
+                  byte[] hash = md.ComputeHash(inputstr);
+                  StringBuilder sp = new StringBuilder();
+                  for (int i = 0; i < hash.Length; i++)
+                  {
+                      sp.Append(hash[i].ToString("x"));
+                  }
+                  var id = sp.ToString();  */
                 string insertOrderSql = "insert into `order` (uid, order_date, address, name, phone, total,status,reason,coupon) values (@uid, @date, @address, @name, @phone, @total_new,0,@reason,@coupon)";
-                 string getOrderId = "select last_insert_id()";
+                string getOrderId = "select last_insert_id()";
                 string insertOrderDetailSql = "insert into `order_detail` (order_id, product_detail_id, quantity) values (@orderId, @pid, @quantity)";
                 using var conn = GetConnection();
                 conn.Open();
@@ -5304,7 +5304,7 @@ namespace ShoesLover.Data
                 var total_new = order.Total - order.Coupon * order.Total;
 
                 cmd.Parameters.AddWithValue("total_new", total_new);
-              
+
                 cmd.ExecuteNonQuery();
                 cmd = new MySqlCommand(getOrderId, conn);
                 order.ID = Convert.ToInt32(cmd.ExecuteScalar());
@@ -5446,292 +5446,292 @@ namespace ShoesLover.Data
             return d;
         }
 
-       
-                //Order CRUD - start
-                public List<AdminModel> GetAllAdminUser()
+
+        //Order CRUD - start
+        public List<AdminModel> GetAllAdminUser()
+        {
+            List<AdminModel> resultList = new List<AdminModel>();
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select * from admin";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    List<AdminModel> resultList = new List<AdminModel>();
-                    try
+                    AdminModel item = new AdminModel
                     {
-                        using var conn = GetConnection();
-                        conn.Open();
-                        string str = "select * from admin";
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        using var reader = cmd.ExecuteReader();
-                        while (reader.Read())
+                        Username = reader["username"].ToString(),
+                        Password = reader["password"].ToString(),
+                    };
+                    resultList.Add(item);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return resultList;
+        }
+        //Analysis
+        public List<object> SoLuongGiay()
+        {
+            List<object> list = new List<object>();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string str = "select p.productname,sum(pt.quantity) as SL from product_detail pt,PRODUCT p where p.id = pt.product_id group by p.id";
+
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var ob = new { tengiay = reader["productname"].ToString(), soluong = Convert.ToInt32(reader["SL"]) };
+                        list.Add(ob);
+
+                    }
+                    reader.Close();
+                }
+
+                conn.Close();
+
+            }
+            return list;
+
+        }
+
+
+        public List<Product> GetProducts1(int msc)
+        {
+            List<Product> list = new List<Product>();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = "select * from PRODUCT where subcategory_id=@msc";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("msc", msc);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new Product()
                         {
-                            AdminModel item = new AdminModel
-                            {
-                                Username = reader["username"].ToString(),
-                                Password = reader["password"].ToString(),
-                            };
-                            resultList.Add(item);
-                        }
+                            Id = Convert.ToInt32(reader["id"]),
+                            ProductName = reader["productName"].ToString(),
+                        });
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                    return resultList;
+                    reader.Close();
                 }
-                //Analysis
-                public List<object> SoLuongGiay()
+
+                conn.Close();
+
+            }
+            return list;
+        }
+        public List<object> DoanhThu()
+        {
+            List<object> list = new List<object>();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string str = "SELECT sum(total) as tong, date_format(order_date, '%Y - %m') as MonthYear FROM `order` group by MonthYear";
+
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    List<object> list = new List<object>();
-
-                    using (MySqlConnection conn = GetConnection())
+                    while (reader.Read())
                     {
-                        conn.Open();
-
-                        string str = "select p.productname,sum(pt.quantity) as SL from product_detail pt,PRODUCT p where p.id = pt.product_id group by p.id";
-
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var ob = new { tengiay = reader["productname"].ToString(), soluong = Convert.ToInt32(reader["SL"]) };
-                                list.Add(ob);
-
-                            }
-                            reader.Close();
-                        }
-
-                        conn.Close();
+                        var ob = new { year = reader["MonthYear"].ToString(), tong = Convert.ToInt32(reader["tong"]) };
+                        list.Add(ob);
 
                     }
-                    return list;
-
+                    reader.Close();
                 }
 
+                conn.Close();
 
-                public List<Product> GetProducts1(int msc)
+            }
+            return list;
+
+        }
+        public List<object> Top5BestSeller()
+        {
+            List<object> list = new List<object>();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string str = "select p.productname as name1, sum(o.quantity) as SL1 " +
+                    "from product p,order_detail o, product_detail pd " +
+                    "where p.id=pd.product_id and o.product_detail_id=pd.id " +
+                    "group by productname " +
+                    "order by o.quantity DESC " +
+                    "limit 5";
+
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    List<Product> list = new List<Product>();
-
-                    using (MySqlConnection conn = GetConnection())
+                    while (reader.Read())
                     {
-                        conn.Open();
-                        string str = "select * from PRODUCT where subcategory_id=@msc";
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        cmd.Parameters.AddWithValue("msc", msc);
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                list.Add(new Product()
-                                {
-                                    Id = Convert.ToInt32(reader["id"]),
-                                    ProductName = reader["productName"].ToString(),
-                                });
-                            }
-                            reader.Close();
-                        }
-
-                        conn.Close();
+                        var ob = new { name = reader["name1"].ToString(), all = Convert.ToInt32(reader["SL1"]) };
+                        list.Add(ob);
 
                     }
-                    return list;
+                    reader.Close();
                 }
-                public List<object> DoanhThu()
+
+                conn.Close();
+
+            }
+            return list;
+
+        }
+        public List<object> TopBestSeller()
+        {
+            List<object> list = new List<object>();
+
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string str = "select p.productname as name1, sum(o.quantity) as SL1 " +
+                    "from product p,order_detail o, product_detail pd " +
+                    "where p.id=pd.product_id and o.product_detail_id=pd.id " +
+                    "group by productname " +
+                    "order by o.quantity DESC ";
+
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    List<object> list = new List<object>();
-
-                    using (MySqlConnection conn = GetConnection())
+                    while (reader.Read())
                     {
-                        conn.Open();
-
-                        string str = "SELECT sum(total) as tong, date_format(order_date, '%Y - %m') as MonthYear FROM `order` group by MonthYear";
-
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var ob = new { year = reader["MonthYear"].ToString(), tong = Convert.ToInt32(reader["tong"]) };
-                                list.Add(ob);
-
-                            }
-                            reader.Close();
-                        }
-
-                        conn.Close();
+                        var ob = new { name = reader["name1"].ToString(), all = Convert.ToInt32(reader["SL1"]) };
+                        list.Add(ob);
 
                     }
-                    return list;
-
+                    reader.Close();
                 }
-                public List<object> Top5BestSeller()
+
+                conn.Close();
+
+            }
+            return list;
+
+        }
+
+        public int GetNumberOfProduct()
+        {
+            int result = 0;
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select count(*) from product";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch { }
+            return result;
+        }
+        public int GetNumberOfOrder()
+        {
+            int result = 0;
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select count(*) from `order`";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch { }
+            return result;
+        }
+        public int GetNumberOfUser()
+        {
+            int result = 0;
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select count(*) from user";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (Exception e) { Console.Write(e.Message); }
+            return result;
+        }
+        public Dictionary<User, int> GetTopSalesCustomers()
+        {
+            Dictionary<User, int> result = new Dictionary<User, int>();
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select u.id as userid, fullname, email, sum(total) as doanhso from `order` o right join user u " +
+                    "on u.id = o.uid " +
+                    "where status = 3 " +
+                    "group by u.id " +
+                    "order by sum(total) desc " +
+                    "limit 10 ";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    List<object> list = new List<object>();
-
-                    using (MySqlConnection conn = GetConnection())
+                    result.Add(new User
                     {
-                        conn.Open();
-
-                        string str = "select p.productname as name1, sum(o.quantity) as SL1 " +
-                            "from product p,order_detail o, product_detail pd " +
-                            "where p.id=pd.product_id and o.product_detail_id=pd.id " +
-                            "group by productname " +
-                            "order by o.quantity DESC " +
-                            "limit 5";
-
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var ob = new { name = reader["name1"].ToString(), all = Convert.ToInt32(reader["SL1"]) };
-                                list.Add(ob);
-
-                            }
-                            reader.Close();
-                        }
-
-                        conn.Close();
-
-                    }
-                    return list;
-
+                        ID = Convert.ToInt32(reader["userid"]),
+                        Fullname = reader["fullname"].ToString(),
+                        Email = reader["email"].ToString()
+                    },
+                    Convert.ToInt32(reader["doanhso"]));
                 }
-                public List<object> TopBestSeller()
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return result;
+        }
+        public List<Order> GetSalesByDay()
+        {
+            List<Order> list = new List<Order>();
+            try
+            {
+                using var conn = GetConnection();
+                conn.Open();
+                string str = "select order_date, sum(total) as tong from `order` where status = 3 group by order_date";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    List<object> list = new List<object>();
-
-                    using (MySqlConnection conn = GetConnection())
+                    list.Add(new Order
                     {
-                        conn.Open();
-
-                        string str = "select p.productname as name1, sum(o.quantity) as SL1 " +
-                            "from product p,order_detail o, product_detail pd " +
-                            "where p.id=pd.product_id and o.product_detail_id=pd.id " +
-                            "group by productname " +
-                            "order by o.quantity DESC ";
-
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var ob = new { name = reader["name1"].ToString(), all = Convert.ToInt32(reader["SL1"]) };
-                                list.Add(ob);
-
-                            }
-                            reader.Close();
-                        }
-
-                        conn.Close();
-
-                    }
-                    return list;
-
+                        OrderDate = Convert.ToDateTime(reader["order_date"]),
+                        Total = Convert.ToInt32(reader["tong"]),
+                    });
                 }
-
-                public int GetNumberOfProduct()
-                {
-                    int result = 0;
-                    try
-                    {
-                        using var conn = GetConnection();
-                        conn.Open();
-                        string str = "select count(*) from product";
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        result = Convert.ToInt32(cmd.ExecuteScalar());
-                    }
-                    catch { }
-                    return result;
-                }
-                public int GetNumberOfOrder()
-                {
-                    int result = 0;
-                    try
-                    {
-                        using var conn = GetConnection();
-                        conn.Open();
-                        string str = "select count(*) from `order`";
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        result = Convert.ToInt32(cmd.ExecuteScalar());
-                    }
-                    catch { }
-                    return result;
-                }
-                public int GetNumberOfUser()
-                {
-                    int result = 0;
-                    try
-                    {
-                        using var conn = GetConnection();
-                        conn.Open();
-                        string str = "select count(*) from user";
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        result = Convert.ToInt32(cmd.ExecuteScalar());
-                    }
-                    catch (Exception e) { Console.Write(e.Message); }
-                    return result;
-                }
-                public Dictionary<User, int> GetTopSalesCustomers()
-                {
-                    Dictionary<User, int> result = new Dictionary<User, int>();
-                    try
-                    {
-                        using var conn = GetConnection();
-                        conn.Open();
-                        string str = "select u.id as userid, fullname, email, sum(total) as doanhso from `order` o right join user u " +
-                            "on u.id = o.uid " +
-                            "where status = 3 " +
-                            "group by u.id " +
-                            "order by sum(total) desc " +
-                            "limit 10 ";
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        using var reader = cmd.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            result.Add(new User
-                            {
-                                ID = Convert.ToInt32(reader["userid"]),
-                                Fullname = reader["fullname"].ToString(),
-                                Email = reader["email"].ToString()
-                            },
-                            Convert.ToInt32(reader["doanhso"]));
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                    return result;
-                }
-                public List<Order> GetSalesByDay()
-                {
-                    List<Order> list = new List<Order>();
-                    try
-                    {
-                        using var conn = GetConnection();
-                        conn.Open();
-                        string str = "select order_date, sum(total) as tong from `order` where status = 3 group by order_date";
-                        MySqlCommand cmd = new MySqlCommand(str, conn);
-                        using var reader = cmd.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            list.Add(new Order
-                            {
-                                OrderDate = Convert.ToDateTime(reader["order_date"]),
-                                Total = Convert.ToInt32(reader["tong"]),
-                            });
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                    return list;
-                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return list;
+        }
 
 
 
-              
 
-        public int GetTotalPrice(string id)
+
+        public int GetTotalPrice(int id)
         {
             using (MySqlConnection conn = GetConnection())
             {
@@ -5955,7 +5955,7 @@ namespace ShoesLover.Data
                     {
                         list.Add(new OrderDetailProduct()
                         {
-                            OrderID = Convert.ToString(reader["order_id"]),
+                            OrderID = Convert.ToInt32(reader["order_id"]),
                             ColorID = Convert.ToInt32(reader["color_id"]),
                             ProductID = Convert.ToInt32(reader["product_id"]),
                             SalePrice = Convert.ToDouble(reader["sale_price"]),

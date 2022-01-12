@@ -16,6 +16,6 @@ namespace ShoesLover.Models
         public double SalePrice { get; set; }
         public int ColorID { get; set; }
         public int ProductID { get; set; }
-        public string OrderID { get; set; }
+        public int OrderID { get; set; }
     }
 }
