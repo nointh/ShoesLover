@@ -16,7 +16,7 @@ namespace ShoesLover.Models
         public string Reason { get; set; }
         public int Status { get; set; }
         public double Coupon { get; set; }
-        public int Total { get; set; }
+        public double Total { get; set; }
         public int PaymentID { get; set; }
     }
 }

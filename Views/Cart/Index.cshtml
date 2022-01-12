@@ -82,7 +82,7 @@
             string result = total.ToString("N0",
             System.Globalization.CultureInfo.GetCultureInfo("de"));
             }
-             <td>@item.PricePerUnit </td>
+            <td class="price"> @item.PricePerUnit</td>
             <td>
                 <div class="sub-total">
                     @(item.Quantity * item.PricePerUnit)

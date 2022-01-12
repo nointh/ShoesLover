@@ -5295,7 +5295,7 @@ namespace ShoesLover.Data
                       sp.Append(hash[i].ToString("x"));
                   }
                   var id = sp.ToString();  */
-                string insertOrderSql = "insert into `order` (uid, order_date, address, name, phone, total,status,reason,coupon,payment_id) values (@uid, @date, @address, @name, @phone, @total_new,0,@reason,@coupon,@payment_id)";
+                string insertOrderSql = "insert into `order` (uid, order_date, address, name, phone, total,status,reason,coupon) values (@uid, @date, @address, @name, @phone, @total,0,@reason,@coupon)";
                 string getOrderId = "select last_insert_id()";
                 string insertOrderDetailSql = "insert into `order_detail` (order_id, product_detail_id, quantity) values (@orderId, @pid, @quantity)";
               
@@ -5319,9 +5319,9 @@ namespace ShoesLover.Data
                     CartItemDetail detail = item.ParseCartDetailItem(this);
                     order.Total += detail.PricePerUnit * detail.Quantity;
                 }
-                var total_new = order.Total - order.Coupon * order.Total;
+                order.Total = order.Total - order.Coupon * order.Total;
 
-                cmd.Parameters.AddWithValue("total_new", total_new);
+                cmd.Parameters.AddWithValue("total", order.Total);
 
                 cmd.ExecuteNonQuery();
                 cmd = new MySqlCommand(getOrderId, conn);
@@ -5435,20 +5435,30 @@ namespace ShoesLover.Data
         public Order GetOrderIDByID(int id)
         {
             Order o = new Order();
-            using (MySqlConnection conn = GetConnection())
+            try
             {
-                conn.Open();
-                var str = "SELECT * FROM `order`  where uid = @id";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("id", id);
-                using (var reader = cmd.ExecuteReader())
+                using (MySqlConnection conn = GetConnection())
                 {
-                    reader.Read();
-                    o.ID = Convert.ToInt32(reader["id"]);
+                    conn.Open();
+                    var str = "SELECT * FROM `order`  where uid = @id";
+                    MySqlCommand cmd = new MySqlCommand(str, conn);
+                    cmd.Parameters.AddWithValue("id", id);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            o.ID = Convert.ToInt32(reader["id"]);
 
-                    o.UID = Convert.ToInt32(reader["uid"]);
+                            o.UID = Convert.ToInt32(reader["uid"]);
+                        }    
 
+                    }
                 }
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
             return o;
         }
