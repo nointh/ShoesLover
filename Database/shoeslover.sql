@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2022 at 09:04 AM
+-- Generation Time: Jan 12, 2022 at 01:56 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.10
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `shoeslover`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `username` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`username`, `password`, `role`) VALUES
+('truongduy@gmail.com', '123456', '');
 
 -- --------------------------------------------------------
 
@@ -61,6 +80,17 @@ CREATE TABLE `cart_item` (
   `product_detail_id` bigint(20) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cart_item`
+--
+
+INSERT INTO `cart_item` (`user_id`, `product_detail_id`, `quantity`) VALUES
+(1, 65, 2),
+(1, 66, 2),
+(1, 73, 1),
+(2, 72, 5),
+(4, 66, 2);
 
 -- --------------------------------------------------------
 
@@ -141,11 +171,12 @@ INSERT INTO `color` (`id`, `color_name`, `color_image`, `active`) VALUES
 (36, 'Bomber Brown', 'color_Bomber Brown221634881.jpg', 1),
 (37, 'Blue-White', 'color_Blue-White221711325.jpg', 1),
 (38, 'Black-White', 'color_Black-White221751723.jpg', 1),
-(39, 'Tan', 'color_Tan221846874.jpg', 1),
+(39, 'Brown-Dark', 'color_Tan221846874.jpg', 1),
 (40, 'Navy-White-Blk', 'color_Navy-White-Blk222123643.jpg', 1),
 (41, 'Chocolate', 'color_Chocolate222619041.jpg', 1),
 (42, 'Dark Olive', 'color_Dark Olive222751229.jpg', 1),
-(43, 'Tan Tumbled', 'color_Tan Tumbled222953388.jpg', 1);
+(43, 'Tan Tumbled', 'color_Tan Tumbled222953388.jpg', 1),
+(44, 'Tan', 'color_Tan223302154.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -169,24 +200,17 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`comment_id`, `comment_name`, `comment_date`, `comment_product_id`, `comment_text`, `comment_status`, `comment_color_id`, `comment_parent_comment`) VALUES
-(1, 'Trường Duy', '2022-01-03 16:14:34', 51, 'Sản phẩm đẹp quá shop ơi!!!', 1, 1, NULL),
-(2, 'Cẩm Tiên', '2022-01-03 07:45:30', 52, 'Sản phẩm quá hợp với túi tiền!!!', 0, 0, NULL),
-(3, 'Quốc An', '2022-01-03 15:11:47', 51, 'Sản phẩm quá chất!!', 1, 39, NULL),
-(4, 'T', '2022-01-03 16:16:48', 51, 'Đi chơi mang khá là thích!!', 1, 1, NULL),
-(5, 'Cẩm Tiên', '2022-01-03 16:17:53', 51, 'Hay lắm bro!!', 1, 1, NULL),
-(7, 'Duy', '2022-01-03 15:11:43', 51, '\n             Quá rẻ       ', 1, 1, NULL),
-(9, 'Duy', '2022-01-03 16:18:02', 51, '\n               Buồn     ', 1, 39, NULL),
-(10, 'Huy', '2022-01-03 15:11:39', 51, '\n             Giá Quá hời       ', 1, 1, NULL),
-(11, 'Tuấn', '2022-01-03 16:18:32', 51, '\n            Hàng quá xịn        ', 1, 1, NULL),
-(12, 'Hoàng', '2022-01-03 16:24:12', 51, '\n                    Xịn quá', 0, 39, NULL),
-(13, 'Tiên', '2022-01-03 16:22:44', 51, '\n                    Giày xấu', 0, 39, NULL),
-(14, 'Tiên', '2022-01-03 16:12:53', 51, '\n                    Giày đẹp quá anh ơi', 1, 39, NULL),
-(15, 'Trâm', '2022-01-03 16:26:25', 51, ' Giày quá xấu và mắc !! không đáng mua', 1, 1, NULL),
-(17, 'Admin', '2022-01-03 17:21:43', 51, 'ok bạn', 1, 1, 15),
-(18, 'Quỳnh', '2022-01-03 17:31:26', 51, ' Giày quá ok', 1, 39, NULL),
-(22, 'DuyAmin', '2022-01-03 18:01:32', 51, 'ok', 1, 39, 9),
-(23, 'DuyAmin', '2022-01-03 18:04:14', 51, 'ok', 1, 1, 5),
-(24, 'DuyAmin', '2022-01-03 18:16:41', 51, 'Bạn muốn lấy thêm không', 1, 1, 5);
+(33, 'Admin', '2022-01-11 15:51:35', 51, 'thoi ban oi', 1, 44, 30),
+(34, 'Tiên', '2022-01-11 16:33:34', 51, ' Còn converse chuck taylor size 39 k vậy shop?', 1, 44, NULL),
+(35, 'Duy', '2022-01-11 16:44:55', 51, 'Có đôi nike nào mắc tiền không shop?', 1, 44, NULL),
+(36, 'Admin', '2022-01-11 16:02:14', 51, 'Bên shop em hết hàng sản phẩm đó rồi', 1, 44, 34),
+(37, 'Huy', '2022-01-11 16:25:54', 51, 'Có bán trả góp không shop :))', 1, 44, NULL),
+(38, 'An', '2022-01-11 17:33:03', 51, 'Giá quá rẻ', 0, 44, NULL),
+(39, 'Hoàng', '2022-01-11 16:52:18', 51, 'shop có bán xi giày k?', 0, 44, NULL),
+(40, 'Admin', '2022-01-11 17:14:05', 51, 'Bạn đã tham khảo sản phẩm nào chưa?', 1, 44, 38),
+(41, 'Admin', '2022-01-11 17:14:28', 51, 'Có cần mình tư vấn gì không', 1, 44, 38),
+(42, 'Tiên ', '2022-01-12 02:46:50', 53, 'còn size 39 k shop?', 1, 13, NULL),
+(43, 'Admin', '2022-01-12 02:47:14', 53, 'Hế rồi bạn', 1, 13, 42);
 
 -- --------------------------------------------------------
 
@@ -195,29 +219,26 @@ INSERT INTO `comment` (`comment_id`, `comment_name`, `comment_date`, `comment_pr
 --
 
 CREATE TABLE `order` (
-  `id` bigint(20) NOT NULL,
+  `id` int(11) NOT NULL,
   `uid` bigint(20) NOT NULL,
-  `order_date` date NOT NULL,
+  `order_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `address` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `total` decimal(13,2) NOT NULL,
-  `status` smallint(6) NOT NULL DEFAULT 0
+  `status` int(11) NOT NULL DEFAULT 0,
+  `reason` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `coupon` float NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `order`
 --
 
-INSERT INTO `order` (`id`, `uid`, `order_date`, `address`, `name`, `phone`, `total`, `status`) VALUES
-(1, 1, '2021-12-02', '', '', '', '500.00', 1),
-(2, 2, '2021-12-08', '', '', '', '1000.00', 0),
-(3, 3, '2021-12-01', '', '', '', '400.00', 0),
-(4, 4, '2021-12-02', '', '', '', '1000.00', 1),
-(5, 1, '2021-12-01', '', '', '', '500.00', 0),
-(6, 2, '2021-12-01', '', '', '', '1000.00', 0),
-(7, 2, '2021-12-01', '', '', '', '700000.00', 0),
-(8, 2, '2022-01-04', '163/3 Xuân Hoà 1, Thành phố Châu Đốc, Bạc Liêu', 'Trường Duy', '0845437562', '1990000.00', 0);
+INSERT INTO `order` (`id`, `uid`, `order_date`, `address`, `name`, `phone`, `total`, `status`, `reason`, `coupon`) VALUES
+(23, 1, '2022-01-12 10:47:41', '163/5 xuân hoà 1, Thị xã Tân Châu, An Giang', 'Cẩm Tiên', '00485802', '1341000.00', 0, NULL, 0.1),
+(25, 4, '2022-01-12 10:51:01', '163/5 xuân hoà 1, Thành phố Long Xuyên, An Giang', 'Lê An', '00485802', '1791000.00', 3, NULL, 0.1),
+(26, 4, '2022-01-12 10:51:26', '163/5 xuân hoà 1, Thị xã Tân Châu, An Giang', 'Lê An', '00485802', '1341000.00', 3, NULL, 0.1);
 
 -- --------------------------------------------------------
 
@@ -226,7 +247,7 @@ INSERT INTO `order` (`id`, `uid`, `order_date`, `address`, `name`, `phone`, `tot
 --
 
 CREATE TABLE `order_detail` (
-  `order_id` bigint(20) NOT NULL,
+  `order_id` int(20) NOT NULL,
   `product_detail_id` bigint(20) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -236,7 +257,31 @@ CREATE TABLE `order_detail` (
 --
 
 INSERT INTO `order_detail` (`order_id`, `product_detail_id`, `quantity`) VALUES
-(8, 66, 1);
+(23, 72, 1),
+(25, 65, 1),
+(26, 72, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_payment`
+--
+
+CREATE TABLE `order_payment` (
+  `order_id` int(11) NOT NULL,
+  `payment_method` int(11) NOT NULL DEFAULT 1,
+  `payment_status` int(11) NOT NULL DEFAULT 0,
+  `payment_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Thanh toán khi nhận hàng'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `order_payment`
+--
+
+INSERT INTO `order_payment` (`order_id`, `payment_method`, `payment_status`, `payment_name`) VALUES
+(23, 2, 1, 'Thanh toán online'),
+(25, 2, 1, 'Thanh toán online'),
+(26, 1, 1, 'Thanh toán khi nhận hàng');
 
 -- --------------------------------------------------------
 
@@ -294,7 +339,7 @@ CREATE TABLE `product_color_variant` (
 INSERT INTO `product_color_variant` (`product_id`, `color_id`, `product_variant_image`, `img_big_1`, `img_big_2`, `img_big_3`, `img_big_4`, `img_big_5`, `img_big_6`, `active`) VALUES
 (50, 1, 'product_variant_50_color_1220512613.png', 'img_big_1_50_color_1220512613.png', 'img_big_2_50_color_1220512614.png', 'img_big_3_50_color_1220512614.png', 'img_big_4_50_color_1220512614.png', 'img_big_5_50_color_1220512614.png', 'img_big_6_50_color_1220512614.png', 1),
 (51, 1, 'product_variant_51_color_1223549697.png', 'img_big_1_51_color_1223549697.png', 'img_big_2_51_color_1223549697.png', 'img_big_3_51_color_1223549697.png', 'img_big_4_51_color_1223549697.png', 'img_big_5_51_color_1223549697.png', 'img_big_6_51_color_1223549697.png', 1),
-(51, 39, 'product_variant_51_color_39223354799.png', 'img_big_1_51_color_39223354800.png', 'img_big_2_51_color_39223354800.png', 'img_big_3_51_color_39223354800.png', 'img_big_4_51_color_39223354800.png', 'img_big_5_51_color_39223354800.png', 'img_big_6_51_color_39223354800.png', 1),
+(51, 44, 'product_variant_51_color_39223354799.png', 'img_big_1_51_color_39223354800.png', 'img_big_2_51_color_39223354800.png', 'img_big_3_51_color_39223354800.png', 'img_big_4_51_color_39223354800.png', 'img_big_5_51_color_39223354800.png', 'img_big_6_51_color_39223354800.png', 1),
 (52, 13, 'product_variant_52_color_13223947351.png', 'img_big_1_52_color_13223947351.png', 'img_big_2_52_color_13223947351.png', 'img_big_3_52_color_13223947351.png', 'img_big_4_52_color_13223947351.png', 'img_big_5_52_color_13223947351.png', 'img_big_6_52_color_13223947351.png', 1),
 (53, 6, 'product_variant_53_color_6224546342.png', 'img_big_1_53_color_6224546342.png', 'img_big_2_53_color_6224546342.png', 'img_big_3_53_color_6224546342.png', 'img_big_4_53_color_6224546342.png', 'img_big_5_53_color_6224546342.png', 'img_big_6_53_color_6224546342.png', 1),
 (53, 13, 'product_variant_53_color_13224241737.png', 'img_big_1_53_color_13224241737.png', 'img_big_2_53_color_13224241737.png', 'img_big_3_53_color_13224241737.png', 'img_big_4_53_color_13224241737.png', 'img_big_5_53_color_13224241737.png', 'img_big_6_53_color_13224241737.png', 1);
@@ -322,9 +367,9 @@ INSERT INTO `product_detail` (`id`, `product_id`, `size_id`, `color_id`, `quanti
 (62, 50, 2, 1, 7, 1),
 (63, 50, 3, 1, 1, 1),
 (64, 50, 4, 1, 2, 1),
-(65, 51, 2, 39, 2, 1),
-(66, 51, 1, 39, 4, 1),
-(67, 51, 5, 39, 2, 1),
+(65, 51, 2, 44, 2, 1),
+(66, 51, 1, 44, 4, 1),
+(67, 51, 5, 44, 2, 1),
 (68, 51, 3, 1, 5, 1),
 (69, 51, 2, 1, 3, 1),
 (70, 52, 1, 13, 3, 1),
@@ -335,6 +380,35 @@ INSERT INTO `product_detail` (`id`, `product_id`, `size_id`, `color_id`, `quanti
 (75, 53, 5, 13, 4, 1),
 (76, 53, 4, 6, 3, 1),
 (77, 53, 1, 6, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rating`
+--
+
+CREATE TABLE `rating` (
+  `rating_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `color_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `rating`
+--
+
+INSERT INTO `rating` (`rating_id`, `product_id`, `color_id`, `rating`) VALUES
+(1, 51, 44, 3),
+(2, 51, 44, 5),
+(3, 51, 44, 2),
+(4, 51, 44, 1),
+(6, 51, 44, 4),
+(8, 51, 44, 4),
+(9, 51, 44, 3),
+(10, 52, 13, 3),
+(11, 53, 13, 3),
+(12, 53, 13, 4);
 
 -- --------------------------------------------------------
 
@@ -414,6 +488,7 @@ CREATE TABLE `user` (
   `id` bigint(20) NOT NULL,
   `fullname` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -422,15 +497,21 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `fullname`, `email`, `password`, `active`) VALUES
-(1, 'Cẩm Tiên', 'camtien@gmail.com', '123', 1),
-(2, 'Trường Duy', 'duy@gmail.com', '345', 1),
-(3, 'Huỳnh Long', 'long@gmail.com', '12', 1),
-(4, 'Lê An', 'an@gmal.com', '34', 1);
+INSERT INTO `user` (`id`, `fullname`, `email`, `phone`, `password`, `active`) VALUES
+(1, 'Cẩm Tiên', 'camtien@gmail.com', '093567233', '123', 1),
+(2, 'Trường Duy', 'duy@gmail.com', '084378922', '345', 1),
+(3, 'Huỳnh Long', 'long@gmail.com', '0167890345', '12', 1),
+(4, 'Lê An', 'an@gmal.com', '038956278', '34', 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`username`);
 
 --
 -- Indexes for table `brand`
@@ -478,6 +559,12 @@ ALTER TABLE `order_detail`
   ADD PRIMARY KEY (`order_id`,`product_detail_id`);
 
 --
+-- Indexes for table `order_payment`
+--
+ALTER TABLE `order_payment`
+  ADD PRIMARY KEY (`order_id`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -500,6 +587,12 @@ ALTER TABLE `product_detail`
   ADD KEY `product_detail_fk0` (`product_id`),
   ADD KEY `product_detail_fk1` (`size_id`),
   ADD KEY `product_detail_fk2` (`color_id`);
+
+--
+-- Indexes for table `rating`
+--
+ALTER TABLE `rating`
+  ADD PRIMARY KEY (`rating_id`);
 
 --
 -- Indexes for table `size`
@@ -540,19 +633,31 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `color`
 --
 ALTER TABLE `color`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `order_detail`
+--
+ALTER TABLE `order_detail`
+  MODIFY `order_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2691713;
+
+--
+-- AUTO_INCREMENT for table `order_payment`
+--
+ALTER TABLE `order_payment`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -565,6 +670,12 @@ ALTER TABLE `product`
 --
 ALTER TABLE `product_detail`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+
+--
+-- AUTO_INCREMENT for table `rating`
+--
+ALTER TABLE `rating`
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `size`
