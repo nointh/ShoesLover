@@ -113,6 +113,9 @@
 
                             </div>
                             <input type="hidden" id="get-coupond_id" name="coupon" value="" />
+                            <input type="hidden" id="get-payment_status" name="payment_status" value="0" />
+                            <input type="hidden" id="get-payment_method" name="payment_method" value="1" />
+                            <input type="hidden" id="get-payment_name" name="payment_name" value="Thanh toán khi nhận hàng" />
                             <div class="row flex-row justify-content-center align-items-center">
                                 <button type="submit" class="pay btn btn-dark m-3 btn-order">Đặt hàng</button>
 
@@ -165,19 +168,19 @@
                             </tbody>
                             <tfoot>
                                 <!--  <tr>
-                <td colspan="3" class="font-weight-bolder">
-                  <!-- Tổng số tiền cần thanh toán:  <span>String.Format("{0:0,0;0} VND", total)</span>
+                                    <td colspan="3" class="font-weight-bolder">
+                                      <!-- Tổng số tiền cần thanh toán:  <span>String.Format("{0:0,0;0} VND", total)</span>
 
-                </td>
-            </tr>  -->
+                                    </td>
+                                </tr>  -->
                             </tfoot>
                         </table>
-                        <div class="close-payment" >
+                        <div class="close-payment">
                             <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@(String.Format("{0:0,0;0} VND", total))</span></div>
                             <div id="show-sale-price"></div>
                             <div id="show-total"></div>
                         </div>
-                        <div class="close-payment-2" >
+                        <div class="close-payment-2">
                             <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@(String.Format("{0:0,0;0} VND", total))</span></div>
                             <div id="show-sale-price-2"></div>
                             <div id="show-total-2"></div>
@@ -203,15 +206,20 @@
                         </div>
 
                         <div id="total-payment" style=" text-align: center; font-size: 18px; font-weight: bold;">  TỔNG THANH TOÁN:  <span id="@total" class="total-all">@total</span><span></span></div>
-                         @{ 
-                             double vnd_to_usd = (double)total/22715;
+                        @{
+                            double vnd_to_usd = (double)total / 22715;
                         }
-                       <div>
-                           <div id="paypal-button" style="text-align: center; margin-top: 15px;">
-                               <input type="hidden" id="vnd_to_usd" value="@Math.Round(vnd_to_usd,2)" />
-                               
-                           </div>
-                       </div>
+                        <div>
+
+                            <div class="btn-paypal">
+                                <div id="paypal-button" style="text-align: center; margin-top: 15px;">
+                                    <input type="hidden" id="vnd_to_usd" value="@Math.Round(vnd_to_usd,2)" />
+
+                                </div>
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -224,7 +232,8 @@
         display: flex;
         justify-content: space-around;
     }
-    .close-payment-2,.close-payment-3{
+
+    .close-payment-2, .close-payment-3 {
         display: none;
     }
 
@@ -265,8 +274,71 @@
     </script>
 
     <script src='https://cdn.jsdelivr.net/gh/vietblogdao/js/districts.min.js'></script>
+
+
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <script>
-        $(document).ready(function () {
+
+        var usd = $("#vnd_to_usd").val();;
+        //  alert(usd);
+        paypal.Button.render({
+            // Configure environment
+            env: 'sandbox',
+            client: {
+                sandbox: 'AfdYgDuvJ2fVHKGBWF7L1kOtcPEQgEISxKTMEYfkKlEfMFAQWVhTtjA8_WcRF2OuhGH4BpeusfwWSapu',
+                production: 'demo_production_client_id'
+            },
+            // Customize button (optional)
+            locale: 'en_US',
+            style: {
+                size: 'small',
+                color: 'gold',
+                shape: 'pill',
+            },
+
+            // Enable Pay Now checkout flow (optional)
+            commit: true,
+
+            // Set up a payment
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: `${usd}`,
+                            currency: 'USD'
+                        }
+                    }]
+                });
+            },
+
+            onClick: function (data) {
+                // Show a cancel page, or return to cart
+                $("#get-payment_status").val(1); 
+                $("#get-payment_method").val(2);
+                $("#get-payment_name").val("Thanh toán online");
+              
+              
+            },
+
+            // Execute the payment
+            onAuthorize: function (data, actions) {
+                return actions.payment.execute().then(function () {
+                    // Show a confirmation message to the buyer
+                    window.alert('Cảm ơn bạn đã mua hàng!');
+                });
+            }
+        }, '#paypal-button');
+
+
+
+    </script>
+
+
+
+    <script>
+
+
+       $(document).ready(function () {
             const selectProvince = $('#signup-province')
             const selectDistrict = $('#signup-district')
             const fullAddress = $("#fullAddress")
@@ -287,8 +359,6 @@
                 else htmlDistrictFromDb += `<option value="${key}">${dataDistrict[key]}</option>`
             }
             selectDistrict.html(htmlDistrictFromDb)
-
-
             //update address
             selectProvince.change(function () {
                 const keyProvince = selectProvince.val();
@@ -299,7 +369,6 @@
                 }
                 selectDistrict.html(htmlDistrict)
                 setFullAddress()
-
             })
             selectDistrict.change(() => {
                 setFullAddress();
@@ -378,9 +447,13 @@
                 }
         });
 
-
-
     </script>
+
+
+
+
+
+
 }
 
 

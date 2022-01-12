@@ -383,7 +383,22 @@
                 var status_id = $(this).val();
                 var text = $(this).text();
                 $(".text-area").css("display", "none");
-                var old_order_date = $(".status-order-item-hide").attr("id");              
+                var old_order_date = $(".status-order-item-hide").attr("id");
+                if (status_id == 3) {
+                   
+                    $.ajax({
+                        url: "/Order/UpdatePaymentStatus",
+                        type: "POST",
+                        dataType: "html",
+                        data: { order_id: order_id },
+                        success: function (data) {
+
+                        },
+                        error: () => alert("something wrong")
+
+
+                    });
+                }
                 $.ajax({
                     url: "/Order/UpdateOrder",
                     type: "POST",

@@ -50,7 +50,7 @@ namespace ShoesLover.Controllers
             }    
             return View();
         }
-        public IActionResult ConfirmOrder(string fullname, string phone, string fullAddress, string coupon)
+        public IActionResult ConfirmOrder(string fullname, string phone, string fullAddress, string coupon, int payment_method,int payment_status, string payment_name)
         {
             var cou = Convert.ToDouble(coupon);
             StoreContext store = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
@@ -69,9 +69,11 @@ namespace ShoesLover.Controllers
                 Address = fullAddress,
                 Phone = phone,
                 Coupon = cou,
+               
                 OrderDate = DateTime.Now
+                
             };
-            if (store.CreateOrder(order, checkoutList) > 0)
+            if (store.CreateOrder(order, checkoutList,payment_method,payment_status,payment_name) > 0)
             {
                 if (HttpContext.Session.GetString("cart") != null)
                 {
@@ -157,7 +159,25 @@ namespace ShoesLover.Controllers
             return PartialView( context.GetOrderStatusList(uid, status_id));
         }
 
-      
+       
+             public PartialViewResult UpdatePaymentStatus(int order_id)
+        {
+            int count;
+            StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;
+            count = context.UpdatePaymentStatus(order_id);
+            if (count > 0)
+            {
+                ViewData["thongbao"] = "Update thành công";
+            }
+            else
+            {
+                ViewData["thongbao"] = "Update thất bại";
+            }
+
+            return PartialView();
+        }
+
+
 
 
 

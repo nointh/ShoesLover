@@ -5110,6 +5110,20 @@ namespace ShoesLover.Data
 
             }
         }
+        public int UpdatePaymentStatus(int id)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = "update order_payment" +
+                    " set payment_status = 1" +
+                    " where order_id = @id";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("id", id);              
+                return (cmd.ExecuteNonQuery());
+
+            }
+        }
         public int InsertTotalPrice(string coupon_code, double percent)
         {
             using (MySqlConnection conn = GetConnection())
@@ -5264,7 +5278,7 @@ namespace ShoesLover.Data
         //CartItem CRUD - end
 
         //Order CRUD - start
-        public int CreateOrder(Order order, List<CartItem> itemList)
+        public int CreateOrder(Order order, List<CartItem> itemList, int payment_method, int payment_status, string payment_name)
         {
             try
             {
@@ -5281,9 +5295,12 @@ namespace ShoesLover.Data
                       sp.Append(hash[i].ToString("x"));
                   }
                   var id = sp.ToString();  */
-                string insertOrderSql = "insert into `order` (uid, order_date, address, name, phone, total,status,reason,coupon) values (@uid, @date, @address, @name, @phone, @total_new,0,@reason,@coupon)";
+                string insertOrderSql = "insert into `order` (uid, order_date, address, name, phone, total,status,reason,coupon,payment_id) values (@uid, @date, @address, @name, @phone, @total_new,0,@reason,@coupon,@payment_id)";
                 string getOrderId = "select last_insert_id()";
                 string insertOrderDetailSql = "insert into `order_detail` (order_id, product_detail_id, quantity) values (@orderId, @pid, @quantity)";
+              
+                string insertOrderPaymentSql = "insert into `order_payment` (order_id, payment_method, payment_status, payment_name) values (@orderId, @payment_method,@payment_status, @payment_name)";
+
                 using var conn = GetConnection();
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(insertOrderSql, conn);
@@ -5294,6 +5311,7 @@ namespace ShoesLover.Data
                 cmd.Parameters.AddWithValue("phone", order.Phone);
                 cmd.Parameters.AddWithValue("reason", order.Reason);
                 cmd.Parameters.AddWithValue("coupon", order.Coupon);
+                cmd.Parameters.AddWithValue("payment_id", order.PaymentID);
                 order.Total = 0;
 
                 foreach (var item in itemList)
@@ -5310,7 +5328,7 @@ namespace ShoesLover.Data
                 order.ID = Convert.ToInt32(cmd.ExecuteScalar());
 
                 //cmd = new MySqlCommand(getOrderId, conn);
-
+               
 
                 //  order.ID = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -5322,6 +5340,14 @@ namespace ShoesLover.Data
                     cmd.Parameters.AddWithValue("quantity", item.Quantity);
                     cmd.ExecuteNonQuery();
                 }
+
+                cmd = new MySqlCommand(insertOrderPaymentSql, conn);
+                cmd.Parameters.AddWithValue("orderId", order.ID);
+                cmd.Parameters.AddWithValue("payment_method", payment_method);
+                cmd.Parameters.AddWithValue("payment_status", payment_status);
+                cmd.Parameters.AddWithValue("payment_name", payment_name);
+               
+                cmd.ExecuteNonQuery();
 
                 return 1;
             }

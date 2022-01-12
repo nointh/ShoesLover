@@ -326,6 +326,21 @@
 
                     });
                 }
+                if (status_id == 3) {
+                    $(".text-area-" + order_id).css("display", "none");
+                    $.ajax({
+                        url: "../Order/UpdatePaymentStatus",
+                        type: "POST",
+                        dataType: "html",
+                        data: { order_id: order_id },
+                        success: function (data) {
+                           
+                        },
+                        error: () => alert("something wrong")
+
+
+                    });
+                }
 
             })
 
