@@ -54,13 +54,14 @@ namespace ShoesLover.Controllers
             {
                 TempData["message"] = "Sign up successfully";
                 TempData["message-status"] = "success";
+                return RedirectToAction("index", "home");
             }
             else
             {
                 TempData["message"] = "Sign up failed";
                 TempData["message-status"] = "error";
+                return RedirectToAction("DangKy");
             }
-            return View();
         }
         
         public IActionResult DangNhap(string? redirectOption)

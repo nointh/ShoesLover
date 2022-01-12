@@ -1864,7 +1864,7 @@ namespace ShoesLover.Data
                     var str = "insert into user (fullname,email,password) values(@FullName, @EMail, @PAssword)";
                     MySqlCommand cmd = new MySqlCommand(str, conn);
                     cmd.Parameters.AddWithValue("FullName", usr.Fullname);
-                    cmd.Parameters.AddWithValue("EMail", usr.Fullname);
+                    cmd.Parameters.AddWithValue("EMail", usr.Email);
                     cmd.Parameters.AddWithValue("PAssword", usr.Password);
                     return (cmd.ExecuteNonQuery());
                 }
@@ -5398,16 +5398,19 @@ namespace ShoesLover.Data
                 cmd.Parameters.AddWithValue("id", id);
                 using (var reader = cmd.ExecuteReader())
                 {
-                    reader.Read();
-                    o.ID = Convert.ToInt32(reader["id"]);
-                    o.UID = Convert.ToInt32(reader["uid"]);
-                    o.Address = Convert.ToString(reader["address"]);
-                    o.Name = Convert.ToString(reader["name"]);
-                    o.Phone = Convert.ToString(reader["phone"]);
-                    o.OrderDate = Convert.ToDateTime(reader["order_date"]);
-                    o.Total = Convert.ToInt32(reader["total"]);
-                    o.Reason = Convert.ToString(reader["reason"]);
-                    o.Status = Convert.ToInt32(reader["status"]);
+                    if (reader.Read())
+                    {
+                        o.ID = Convert.ToInt32(reader["id"]);
+                        o.UID = Convert.ToInt32(reader["uid"]);
+                        o.Address = Convert.ToString(reader["address"]);
+                        o.Name = Convert.ToString(reader["name"]);
+                        o.Phone = Convert.ToString(reader["phone"]);
+                        o.OrderDate = Convert.ToDateTime(reader["order_date"]);
+                        o.Total = Convert.ToInt32(reader["total"]);
+                        o.Reason = Convert.ToString(reader["reason"]);
+                        o.Status = Convert.ToInt32(reader["status"]);
+
+                    }
                 }
             }
             return o;
@@ -5474,7 +5477,7 @@ namespace ShoesLover.Data
                 cmd.Parameters.AddWithValue("id", id);
                 using (var reader = cmd.ExecuteReader())
                 {
-                    reader.Read();
+                    if(reader.Read())
                     d = Convert.ToDateTime(reader["order_date"]);
 
                 }

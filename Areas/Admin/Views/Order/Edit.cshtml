@@ -10,9 +10,21 @@
             <h3 class="card-title align-middle" style="margin:0 auto;">THÔNG TIN NGƯỜI MUA</h3>
         </div>
         <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>Tên người nhận: <span>@Model.Name</span></p>
+                </div>
+                <div class="col-sm-6">
+                    <p>Số điện thoại: <span>@Model.Phone</span></p>
+                </div>
+
+            </div>
+            <div class="col-sm-12">
+                <p>Địa chỉ: <span>@Model.Address</span></p>
+            </div>
             <div class="table-responsive">
 
-                <table id="main_table" class="table-card align-middle" style="width:100%">
+                @*<table id="main_table" class="table-card align-middle" style="width:100%">
                     <thead>
                         <tr>
                             <th scope="col">Tên</th>
@@ -22,26 +34,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                      
-                            <tr scope="row">                               
-                                <td>@Model.Name</td>                              
-                                <td>@Model.Phone</td>  
-                                <td>@Model.Address</td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@Model.UID">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form asp-action="Delete" asp-route-id="@Model.UID" style="display: inline-block" class="delete-form">
-                                        <input type="hidden" name="id" value="@Model.UID" />
-                                        <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
-                                    </form>
-                                </td>
 
-                            </tr>
-                        
+                        <tr scope="row">
+                            <td>@Model.Name</td>
+                            <td>@Model.Phone</td>
+                            <td>@Model.Address</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@Model.UID">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@Model.UID" style="display: inline-block" class="delete-form">
+                                    <input type="hidden" name="id" value="@Model.UID" />
+                                    <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
+                                </form>
+                            </td>
+
+                        </tr>
+
                     </tbody>
 
-                </table>
+                </table>*@
             </div>
         </div>
 

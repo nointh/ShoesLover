@@ -1,0 +1,521 @@
+﻿@model IEnumerable<Order>
+@{
+}
+
+<div class="container-fluid">
+    <div class="card border-info">
+        <div class="card-header d-flex justify-content-between">
+            <h3 class="card-title align-middle">Danh sách đơn hàng</h3>
+        </div>
+        <div class="card-body">
+            @if (Model.Count() == 0)
+            {
+            <p>Chưa có đơn hàng nào</p>
+            }
+            else
+            {
+            <div class="table-responsive">
+
+                <table id="main_table" class="table-card align-middle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mã đơn hàng</th>
+                            <th scope="col">Ngày đặt</th>
+
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Hiển thị</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr scope="row">
+                            <td id="@item.ID" class="get-id">@item.ID</td>
+                            <td id="@item.OrderDate" class="orderdate-@item.ID">@item.OrderDate</td>
+                            <!-- <td>item.Name</td>
+                    <td>item.Address</td>
+                    <td>item.Phone</td>
+                    <td>item.Total</td>  -->
+                            <td>
+
+                                <div class="status-order-action">
+                                    <div class="status-order-list-@item.ID order-list-temp">
+                                        @if (item.Status == 0)
+                                        {
+                                        <li value="0" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style=" background: rgb(0,123,255); color:white; width:172px;"><span class="item-show-@item.ID" style=" margin-left: 10px;">Chờ xác nhận</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                        <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                        <div class="div-btn-complete-@item.ID">
+                                            <button class="btn-complete">Hoàn thành</button>
+                                        </div>
+                                        }
+                                        else if (item.Status == 1)
+                                        {
+                                        <li value="1" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style="background: rgb(255,193,7); color: black; width:172px;"><span class="item-show-@item.ID" style=" margin-left: 10px;">Chờ lấy hàng</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                        <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                        <div class="div-btn-complete-@item.ID">
+                                            <button class="btn-complete">Hoàn thành</button>
+                                        </div>
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                        <li value="2" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style="background: rgb(23,162,216); color: white; width: 172px;"><span class="item-show-@item.ID " style=" margin-left: 10px;">Đang giao</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                        <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                        <div class="div-btn-complete-@item.ID">
+                                            <button class="btn-complete">Hoàn thành</button>
+                                        </div>
+                                        }
+                                        else if (item.Status == 3)
+                                        {
+                                        <li value="3" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style="background: rgb(40,167,69); color: white; width: 172px;"><span class="item-show-@item.ID " style=" margin-left: 10px;">Đã giao</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                        <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                        <div class="div-btn-complete-@item.ID">
+                                            <button class="btn-complete">Hoàn thành</button>
+                                        </div>
+                                        }
+                                        else if (item.Status == 4)
+                                        {
+                                        <li value="4" id="@item.ID" class="status-order-item-@item.ID status-order-temp " style="background: rgb(220,53,69); color: white; width: 172px;"><span class="item-show-@item.ID " style=" margin-left: 10px;">Đã huỷ</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                        <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+
+
+                                        }
+
+                                        else
+                                        {
+                                        <li value="5" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style="background: rgb(35,39,43); color: white; width: 172px;"><span class="item-show-@item.ID " style=" margin-left: 10px;">Trả hàng</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                        <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                        <div class="div-btn-complete-@item.ID">
+                                            <button class="btn-complete">Hoàn thành</button>
+                                        </div>
+                                        }
+                                        <div id="@item.ID" class="status-order-item-hide">
+                                            <li id="@item.ID" value="0" class="item-confirm item-status-move" style=" width:100%; text-align:left; padding-left: 10px;">Chờ xác nhận</li>
+                                            <li id="@item.ID" value="1" class="item-inventory item-status-move" style="width: 100%; text-align: left; padding-left: 10px;">Chờ lấy hàng</li>
+                                            <li id="@item.ID" value="2" class="item-shipping item-status-move" style=" width: 100%; text-align: left; padding-left: 10px;">Đang giao</li>
+                                            <li id="@item.ID" value="3" class="item-shipped item-status-move" style="width: 100%; text-align: left; padding-left: 10px;">Đã giao</li>
+                                            <li id="@item.ID" value="4" class="item-cancel item-status-cancel" style="width: 100%; text-align: left; padding-left: 10px;">Huỷ đơn hàng</li>
+                                            <li id="@item.ID" value="5" class="item-return item-status-move" style=" width: 100%; text-align: left; padding-left: 10px;">Trả hàng</li>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.ID">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@item.ID" style="display: inline-block" class="delete-form">
+                                    <input type="hidden" name="id" value="@item.ID" />
+                                    <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
+                                </form>
+                            </td>
+
+                        </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+            }
+            <div class="table-responsive">
+
+                <table id="main_table" class="table-card align-middle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mã đơn hàng</th>
+                            <th scope="col">Ngày đặt</th>
+
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Hiển thị</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr scope="row">
+                                <td id="@item.ID" class="get-id">@item.ID</td>
+                                <td id="@item.OrderDate" class="orderdate-@item.ID">@item.OrderDate</td>
+                                <!-- <td>item.Name</td>
+                        <td>item.Address</td>
+                        <td>item.Phone</td>
+                        <td>item.Total</td>  -->
+                                <td>
+
+                                    <div class="status-order-action">
+                                        <div class="status-order-list-@item.ID order-list-temp">
+                                            @if (item.Status == 0)
+                                            {
+                                                <li value="0" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style=" background: rgb(0,123,255); color:white; width:172px;"><span class="item-show-@item.ID" style=" margin-left: 10px;">Chờ xác nhận</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                                <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                                <div class="div-btn-complete-@item.ID">
+                                                    <button class="btn-complete">Hoàn thành</button>
+                                                </div>
+                                            }
+                                            else if (item.Status == 1)
+                                            {
+                                                <li value="1" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style="background: rgb(255,193,7); color: black; width:172px;"><span class="item-show-@item.ID" style=" margin-left: 10px;">Chờ lấy hàng</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                                <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                                <div class="div-btn-complete-@item.ID">
+                                                    <button class="btn-complete">Hoàn thành</button>
+                                                </div>
+                                            }
+                                            else if (item.Status == 2)
+                                            {
+                                                <li value="2" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style="background: rgb(23,162,216); color: white; width: 172px;"><span class="item-show-@item.ID " style=" margin-left: 10px;">Đang giao</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                                <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                                <div class="div-btn-complete-@item.ID">
+                                                    <button class="btn-complete">Hoàn thành</button>
+                                                </div>
+                                            }
+                                            else if (item.Status == 3)
+                                            {
+                                                <li value="3" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style="background: rgb(40,167,69); color: white; width: 172px;"><span class="item-show-@item.ID " style=" margin-left: 10px;">Đã giao</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                                <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                                <div class="div-btn-complete-@item.ID">
+                                                    <button class="btn-complete">Hoàn thành</button>
+                                                </div>
+                                            }
+                                            else if (item.Status == 4)
+                                            {
+                                                <li value="4" id="@item.ID" class="status-order-item-@item.ID status-order-temp " style="background: rgb(220,53,69); color: white; width: 172px;"><span class="item-show-@item.ID " style=" margin-left: 10px;">Đã huỷ</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                                <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+
+
+                                            }
+
+                                            else
+                                            {
+                                                <li value="5" id="@item.ID" class="status-order-item-@item.ID status-order-temp" style="background: rgb(35,39,43); color: white; width: 172px;"><span class="item-show-@item.ID " style=" margin-left: 10px;">Trả hàng</span><i style="margin-left: 30px; margin-right: 10px; " class="fas fa-caret-down"></i></li>
+                                                <textarea placeholder="Lý do" class="text-area-@item.ID" style="width:172px">@item.Reason</textarea>
+                                                <div class="div-btn-complete-@item.ID">
+                                                    <button class="btn-complete">Hoàn thành</button>
+                                                </div>
+                                            }
+                                            <div id="@item.ID" class="status-order-item-hide">
+                                                <li id="@item.ID" value="0" class="item-confirm item-status-move" style=" width:100%; text-align:left; padding-left: 10px;">Chờ xác nhận</li>
+                                                <li id="@item.ID" value="1" class="item-inventory item-status-move" style="width: 100%; text-align: left; padding-left: 10px;">Chờ lấy hàng</li>
+                                                <li id="@item.ID" value="2" class="item-shipping item-status-move" style=" width: 100%; text-align: left; padding-left: 10px;">Đang giao</li>
+                                                <li id="@item.ID" value="3" class="item-shipped item-status-move" style="width: 100%; text-align: left; padding-left: 10px;">Đã giao</li>
+                                                <li id="@item.ID" value="4" class="item-cancel item-status-cancel" style="width: 100%; text-align: left; padding-left: 10px;">Huỷ đơn hàng</li>
+                                                <li id="@item.ID" value="5" class="item-return item-status-move" style=" width: 100%; text-align: left; padding-left: 10px;">Trả hàng</li>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.ID">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form asp-action="Delete" asp-route-id="@item.ID" style="display: inline-block" class="delete-form">
+                                        <input type="hidden" name="id" value="@item.ID" />
+                                        <button type="submit" class="fas fa-trash-alt" style="background-color: transparent; border: none;"></button>
+                                    </form>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    li {
+        list-style: none;
+    }
+
+    textarea {
+        overflow-y: scroll;
+        height: 80px;
+        resize: none; /* Remove this if you want the user to resize the textarea */
+    }
+
+    #main_table_filter {
+        margin-bottom: 10px;
+    }
+
+    .status-order-action {
+        text-align: right;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 5px 0px 5px 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .item-confirm:hover {
+        background: rgb(0, 123, 255);
+        color: white;
+    }
+
+    .item-inventory:hover {
+        background: rgb(255,193,7);
+        color: black;
+    }
+
+    .item-shipping:hover {
+        background: rgb(23,162,216);
+        color: white;
+    }
+
+    .item-shipped:hover {
+        background: rgb(40,167,69);
+        color: white;
+    }
+
+    .item-cancel:hover {
+        background: rgb(220,53,69);
+        color: white;
+    }
+
+    .item-return:hover {
+        background: rgb(35,39,43);
+        color: white;
+    }
+
+    .status-order-temp {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+
+    .order-list-temp {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .status-order-item-hide {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 10px;
+        display: flex;
+        cursor: pointer;
+        flex-direction: column;
+        align-items: start;
+        position: relative;
+        z-index: 2;
+    }
+
+    .status-order-item-hide {
+        display: none;
+    }
+
+    .block .status-order-item-hide {
+        display: flex;
+    }
+
+    .div-btn-complete {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-complete {
+        margin-top: 15px;
+        margin-bottom: 8px;
+    }
+    .text-area{
+        display: none;
+    }
+</style>
+@section Scripts{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+
+    <script>
+        $(".status-order-temp").each(function () {
+            $(this).on("click", function () {
+                var id = $(this).attr("id");
+
+                $(".status-order-list-" + id).toggleClass("block");
+            });
+
+        });
+
+        $(".item-confirm").each(function () {
+            $(this).on("click", function () {
+                var id = $(this).attr("id");
+                $(".item-show-" + id).empty();
+                $(".item-show-" + id).text("Chờ xác nhận");
+                $(".status-order-item-" + id).css({ "background": "rgb(0, 123, 255)", "color": "white" });
+                $(".status-order-list-" + id).toggleClass("block");
+                $
+            })
+
+        })
+        $(".item-inventory").each(function () {
+            $(this).on("click", function () {
+                var id = $(this).attr("id");
+                $(".item-show-" + id).empty();
+                $(".item-show-" + id).text("Chờ lấy hàng");
+                $(".status-order-item-" + id).css({ "background": "rgb(255,193,7)", "color": "black" });
+                $(".status-order-list-" + id).toggleClass("block");
+                $
+            })
+
+        })
+        $(".item-shipping").each(function () {
+            $(this).on("click", function () {
+                var id = $(this).attr("id");
+                $(".item-show-" + id).empty();
+                $(".item-show-" + id).text("Đang giao");
+                $(".status-order-item-" + id).css({ "background": "rgb(23,162,216)", "color": "white" });
+                $(".status-order-list-" + id).toggleClass("block");
+                $
+            })
+
+        })
+        $(".item-shipped").each(function () {
+            $(this).on("click", function () {
+                var id = $(this).attr("id");
+                $(".item-show-" + id).empty();
+                $(".item-show-" + id).text("Đã giao");
+                $(".status-order-item-" + id).css({ "background": "rgb(40,167,69)", "color": "white" });
+                $(".status-order-list-" + id).toggleClass("block");
+                $
+            })
+
+        })
+        $(".item-cancel").each(function () {
+            $(this).on("click", function () {
+                var id = $(this).attr("id");
+                $(".item-show-" + id).empty();
+                $(".item-show-" + id).text("Đã huỷ");
+                $(".status-order-item-" + id).css({ "background": "rgb(220,53,69)", "color": "white" });
+                $(".status-order-list-" + id).toggleClass("block");
+                $
+            })
+
+        })
+        $(".item-return").each(function () {
+            $(this).on("click", function () {
+                var id = $(this).attr("id");
+                $(".item-show-" + id).empty();
+                $(".item-show-" + id).text("Trả hàng");
+                $(".status-order-item-" + id).css({ "background": "rgb(35,39,43)", "color": "white" });
+                $(".status-order-list-" + id).toggleClass("block");
+                $
+            })
+
+        })
+
+
+        $(".item-status-move").each(function () {
+            $(this).on("click", function () {
+                var order_id = $(this).attr("id");
+                var old_order_date = $(".orderdate-" + order_id).attr("id");
+                var status_id = $(this).val();
+                var text = $(this).text();
+                if (status_id != 4) {
+                    $(".text-area-" + order_id).css("display", "none");
+                    $.ajax({
+                        url: "../Order/UpdateOrder",
+                        type: "POST",
+                        dataType: "html",
+                        data: { order_id: order_id, status_id: status_id, old_order_date: old_order_date },
+                        success: function (data) {
+                            alert("Đơn hàng đã chuyển sang trạng thái: " + text);
+                        },
+                        error: () => alert("something wrong")
+
+
+                    });
+                }
+                if (status_id == 3) {
+                    $(".text-area-" + order_id).css("display", "none");
+                    $.ajax({
+                        url: "../Order/UpdatePaymentStatus",
+                        type: "POST",
+                        dataType: "html",
+                        data: { order_id: order_id },
+                        success: function (data) {
+                           
+                        },
+                        error: () => alert("something wrong")
+
+
+                    });
+                }
+
+            })
+
+        })
+
+
+
+
+        $(".status-order-temp").each(function () {
+            var order_id = $(this).attr("id");
+            if ($(this).val() != 4) {
+
+                $(".text-area-" + order_id).css("display", "none");
+                $(".div-btn-complete-"+order_id).css("display", "none");
+            }
+            else {
+                $(".text-area-" + order_id).css("display", "block");
+                $(".div-btn-complete-"+ order_id).css("display", "block");
+            }
+
+        })
+        $(".item-status-cancel").each(function () {
+            $(this).on("click", function () {
+                var order_id = $(this).attr("id");
+
+                $(".text-area-" + order_id).css("display", "block");
+
+                $(".div-btn-complete-" + order_id).css("display", "block");
+                $(".div-btn-complete-" + order_id).on("click", function () {
+                    var old_order_date = $(".orderdate-" + order_id).attr("id");
+                    var reason = $(".text-area-" + order_id).val();
+                    $(".div-btn-complete-" + order_id).empty();
+
+                    $.ajax({
+                        url: "../Order/UpdateOrderReason",
+                        type: "POST",
+                        dataType: "html",
+                        data: { order_id: order_id, old_order_date: old_order_date, text: reason },
+                        success: function (data) {
+                            alert("Đơn hàng đã huỷ thành công");
+                        },
+                        error: () => alert("something wrong")
+                    });
+
+
+                })
+
+
+
+
+
+
+
+            })
+        })
+
+        $(".status-order-temp").each(function () {
+            $(this).on("click", function () {
+                var order_id = $(this).attr("id");
+                var status = $(this).val();
+                if (status != 4) {
+                    $(".div-btn-complete-" + order_id).css("display", "none");
+
+                }
+            })
+        })
+
+    </script>
+}

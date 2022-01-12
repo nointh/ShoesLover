@@ -141,11 +141,13 @@ namespace ShoesLover.Controllers
             count = context.UpdateOrderReason(order_id, old_order_date ,text);
             if (count > 0)
             {
-                ViewData["thongbao"] = "Update thành công";
+                ViewData["message"] = "Update thành công";
+                ViewData["message-status"] = "success";
             }
             else
             {
-                ViewData["thongbao"] = "Update thất bại";
+                ViewData["message"] = "Update thất bại";
+                ViewData["message-status"] = "error";
             }
 
             return PartialView();
@@ -167,11 +169,13 @@ namespace ShoesLover.Controllers
             count = context.UpdatePaymentStatus(order_id);
             if (count > 0)
             {
-                ViewData["thongbao"] = "Update thành công";
+                ViewData["message"] = "Update thành công";
+                ViewData["message-status"] = "success";
             }
             else
             {
-                ViewData["thongbao"] = "Update thất bại";
+                ViewData["message"] = "Update thất bại";
+                ViewData["message-status"] = "error";
             }
 
             return PartialView();
