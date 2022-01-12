@@ -35,7 +35,7 @@
 <div class="container" style="margin-bottom: 80px">
     <div class="grid wide">
         <div class="row">
-            <div class="col l-12 m-12 c-12" style="display: flex; margin-top:200px;">
+            <div class="col l-12 m-12 c-12" style="display: flex; margin-top:30px;">
 
                 <div class="order-1-info col l-6 m-6 c-12" style="width:50%;">
                     <h4 class="text-center mt-2">Vui lòng nhập thông tin giao hàng</h4>
@@ -336,7 +336,14 @@
 
 
     <script>
-
+        $(".btn-order").on("click", function () {
+           var status= $("#get-payment_status").val();
+           var method = $("#get-payment_method").val();
+            var name = $("#get-payment_name").val();
+            alert(status);
+            alert(method);
+            alert(name);
+        })
 
        $(document).ready(function () {
             const selectProvince = $('#signup-province')

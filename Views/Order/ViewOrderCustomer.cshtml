@@ -1,14 +1,14 @@
 ﻿
 <div class="container">
-    <div class="grid wide" style="padding-top:150px;">
+    <div class="grid wide" style="padding-top:30px;">
         <div class="row">
 
             <div class="col l-3 m-3 c-12">
                 <div class="customer-infor-order">
                     <div class="customer-img"><img src="~/image/user-img.jpg" /></div>
                     <div class="customer-name" style="margin-left:30px;">
-                        <p>@Model.Fullname</p>
-                        <p><i class="fas fa-pen"></i><span>Sửa hồ sơ</span></p>
+                        <p class="customer-fullname">@Model.Fullname</p>
+                        <p class="customer-profile" style="cursor:pointer;"><i class="fas fa-pen"></i><span>Sửa hồ sơ</span></p>
                     </div>
                 </div>
                 <div class="customer-order-function">
@@ -91,7 +91,8 @@
                                             <td style="text-align:center">@index.SizeName</td>
                                             <td class="img-color-order"><img style="width: 30%" src="~/image/@index.ColorImage" /></td>
                                             <td style="text-align:center">@index.Quantity</td>
-                                            <td style="text-align:center">@index.SalePrice</td>
+                                            <td style="text-align:center">@(String.Format("{0:0,0;0} VND", index.SalePrice)) </td>
+                                          
                                         </tr>
                                     }
 
@@ -109,11 +110,12 @@
                                 }
                                 @if (item.Status == 4)
                                 {
-                                    <p class="order-total">Tổng tiền: 0<sup>đ</sup></p>
+                                    <p class="order-total">Tổng tiền: 0 VND</p>
                                 }
                                 else
                                 {
-                                    <p class="order-total">Tổng tiền:@item.Total<sup>đ</sup></p>
+                                    <p class="order-total">Tổng tiền:&nbsp;@(String.Format("{0:0,0;0} VND", item.Total)) </p>
+                              
                                 }
 
                             </div>
@@ -154,6 +156,18 @@
 </div>
 <style>
 
+
+    .customer-fullname {
+        width: 40px;
+        margin-top: 10px;
+    }
+    .customer-profile {
+        width: 90px;
+        margin-top: 10px;
+    }
+    .list-function li {
+        cursor: pointer;
+    }
     .modal-delete {
         position: fixed;
         top: 0;
@@ -262,6 +276,10 @@
     .customer-infor-order {
         display: flex;
         margin-bottom: 70px;
+        border-radius: 50%;
+        border: 1px solid black;
+        width: 60px;
+        height: 60px;
     }
 
     .customer-name {
@@ -271,6 +289,9 @@
 
     .customer-img img {
         width: 40px;
+        position: relative;
+        top: 14px;
+        left: 10px;
     }
 
     tr:first-child, tr:last-child {

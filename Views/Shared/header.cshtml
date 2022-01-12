@@ -154,8 +154,8 @@
                                     {
                                     <div class="user-info">
                                         <p>Bạn chưa đăng nhập</p>                                            
-                                        <a class=" basic-btn" asp-controller="User" asp-action="DangNhap">Đăng nhập</a>
-                                        <a class=" basic-btn" asp-controller="User" asp-action="DangKy">Đăng ký</a>
+                                        <a style="width:100px;" class=" basic-btn" asp-controller="User" asp-action="DangNhap">Đăng nhập</a>
+                                        <a style="width:100px;" class=" basic-btn" asp-controller="User" asp-action="DangKy">Đăng ký</a>
 
                                         @*<div class="btn-group">
                                         </div>*@
@@ -165,7 +165,7 @@
                                     {
                                     <div class="user-info">
                                         <p>Chào mừng @user.Fullname</p>
-                                        <a class="basic-btn" href="../Order/ViewOrderCustomer?id=@user.ID">Đơn hàng</a>
+                                        <a  class="basic-btn" href="../Order/ViewOrderCustomer?id=@user.ID">Đơn hàng</a>
                                         <a class="exit-btn" asp-controller="User" asp-action="LogOut">Đăng xuất</a>
 
                                     </div>
