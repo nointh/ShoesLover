@@ -43,48 +43,55 @@
             else
                 @foreach (var item in cartList)
                 {
-                    <tr class="cart-item">
-                        <td>
-                            <input type="hidden" value="@item.ProductDetailId" class="product-id" />
+        <tr class="cart-item">
+            <td>
+                <input type="hidden" value="@item.ProductDetailId" class="product-id" />
 
-                            <div class="row-img">
-                                <a class="btn-remove">
-                                    <i class="fas fa-times-circle"></i>
-                                </a>
-                                <div >
-                                    <img style="width:90px;" src="~/image/@item.Image" class="product-image" />
+                <div class="row-img">
+                    <a class="btn-remove">
+                        <i class="fas fa-times-circle"></i>
+                    </a>
+                    <div>
+                        <img style="width:90px;" src="~/image/@item.Image" class="product-image" />
 
-                                </div>
-
-
-                            </div>
-                        </td>
-                        <td style="text-align:center;">
-
-                            <p>@item.ProductName</p>
-
-                        </td>
-                        <td> @item.SizeName</td>
-                        <td> @item.ColorName</td>
-                        <td style="align-items: center ; text-align: center;">
-                            <a class="btn-decrease">
-                                <i class="fas fa-minus"></i>
-                            </a>
-                            <input type="number" min="0" class="quantity" value="@item.Quantity" />
-                            <a class="btn-increase">
-                                <i class="fas fa-plus"></i>
-                            </a>
-                        </td>
-                        <td> @item.PricePerUnit</td>
-                        <td>
-                            <div class="sub-total">
-                                @(item.Quantity * item.PricePerUnit)
-                            </div>
-                        </td>
+                    </div>
 
 
+                </div>
+            </td>
+            <td style="text-align:center;">
 
-                    </tr>
+                <p>@item.ProductName</p>
+
+            </td>
+            <td> @item.SizeName</td>
+            <td> @item.ColorName</td>
+            <td style="align-items: center ; text-align: center;">
+                <a class="btn-decrease">
+                    <i class="fas fa-minus"></i>
+                </a>
+                <input type="number" min="0" class="quantity" value="@item.Quantity" />
+                <a class="btn-increase">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </td>
+           @{ double price = item.PricePerUnit; <!--Đặt dấu . vào tiền-->
+            double total = item.Quantity * item.PricePerUnit;
+            string priceunit = price.ToString("N0",
+            System.Globalization.CultureInfo.GetCultureInfo("de"));
+            string result = total.ToString("N0",
+            System.Globalization.CultureInfo.GetCultureInfo("de"));
+            }
+            <td> @item.PricePerUnit</td>
+            <td>
+                <div class="sub-total">
+                    @(item.Quantity * item.PricePerUnit)
+                </div>
+            </td>
+
+
+
+        </tr>
                 }
         </tbody>
     </table>

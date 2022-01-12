@@ -19,7 +19,6 @@
                             <th scope="col">Bình luận</th>
                             <th scope="col">Ngày bình luận</th>
                             <th scope="col">Sản phẩm</th>
-
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Quản lý</th>
 
@@ -29,27 +28,39 @@
                         @foreach (var item in Model)
                         {
                         <tr scope="row">
-                            <td>@item.GetType().GetProperty("comment_name").GetValue(item, null)</td>
-                            <td>@item.GetType().GetProperty("comment_text").GetValue(item, null) <br />  
-                                 <p class="test"></p>
-                                 <div id="list-comment-parent"></div>
-                                  <textarea data-comment_id="@item.GetType().GetProperty("comment_id").GetValue(item, null)" class="reply-comment-text-@item.GetType().GetProperty("comment_id").GetValue(item, null) form-control" rows="3"></textarea><br />
-                                  <button  style="margin:10px 0;"class="btn-reply-admin btn-xs" data-color_id="@item.GetType().GetProperty("color_id").GetValue(item, null)" data-comment_id="@item.GetType().GetProperty("comment_id").GetValue(item, null)" data-comment_product_id="@item.GetType().GetProperty("product_id").GetValue(item, null)">Trả lời </button>
-                                </td>
-                            <td>@item.GetType().GetProperty("comment_date").GetValue(item, null)</td>
-                            <td><a style="color: blue;" href="../product/ShowProductDetailObject?product_id=@item.GetType().GetProperty("product_id").GetValue(item, null)&color_id=@item.GetType().GetProperty("color_id").GetValue(item, null)" target="_blank">@item.GetType().GetProperty("product_name").GetValue(item, null)</a></td>                           
-                           
-                            @if (@item.GetType().GetProperty("comment_status").GetValue(item, null) == 0)
-                            {
-                                <td><input type="button" data-color_id="@item.GetType().GetProperty("color_id").GetValue(item, null)" data-comment_status="1" data-comment_id="@item.GetType().GetProperty("comment_id").GetValue(item, null)" data-comment_product_id="@item.GetType().GetProperty("product_id").GetValue(item, null)" style="width: 90px" class="btn btn-primary btn-sm comment_inactive_btn" value="Chưa duyệt" /></td>
-                            }
-                            else
-                            {
-                                <td><input type="button" data-color_id="@item.GetType().GetProperty("color_id").GetValue(item, null)" data-comment_status="0" data-comment_id="@item.GetType().GetProperty("comment_id").GetValue(item, null)" data-comment_product_id="@item.GetType().GetProperty("product_id").GetValue(item, null)" style="width: 90px" class="btn btn-danger btn-sm comment_active_btn" value="Đã duyệt" /></td>
-                            }
-                            <td>
-                                <a><i class="far fa-trash-alt"></i></a>
-                            </td>
+                            <td style="vertical-align:top;">@item.CommentName</td>
+
+                          
+
+
+                            <td >
+                                @item.CommentText
+                            <ul style="text-align: left; padding: unset; margin-top: 1rem; ">
+                               <span>Admin Reply:</span>
+                                @foreach (var com in item.listparentcomment)
+                                {
+                                    <li>@com.CommentText</li>
+                                }
+                            </ul>
+                            <p class="test"></p>
+                            <div class="@item.CommentStatus" id="list-comment-parent"></div>
+                            <textarea data-comment_id="@item.ID" class="reply-comment-text-@item.ID form-control" rows="3"></textarea><br />
+                            <button style="margin:10px 0;" class="btn-reply-admin btn-xs" data-color_id="@item.CommentColorID" data-comment_id="@item.ID" data-comment_product_id="@item.CommentProductID">Trả lời </button>
+                        </td>
+                        <td style="vertical-align:top;">@item.CommentDate</td>
+                        <td style="vertical-align:top;"><a style="color: blue;" href="../product/ShowProductDetailObject?product_id=@item.CommentProductID&color_id=@item.CommentColorID" target="_blank">@item.ProductName</a></td>
+
+                        @if (item.CommentStatus == 0)
+                        {
+                            <td style="vertical-align:top;"><input type="button" data-color_id="@item.CommentColorID" data-comment_status="1" data-comment_id="@item.ID" data-comment_product_id="@item.CommentProductID" style="width: 90px" class="btn btn-primary btn-sm comment_inactive_btn" value="Chưa duyệt" /></td>
+                        }
+                        @if (item.CommentStatus == 1)
+                        {
+                            <td style="vertical-align:top;"><input type="button" data-color_id="@item.CommentColorID" data-comment_status="0" data-comment_id="@item.ID" data-comment_product_id="@item.CommentProductID" style="width: 90px" class="btn btn-danger btn-sm comment_active_btn" value="Đã duyệt" /></td>
+                        }
+                        <td style="vertical-align:top;">
+                            <a><i class="far fa-trash-alt"></i></a>
+                        </td>
                         </tr>
                         }
                     </tbody>
@@ -63,7 +74,9 @@
 </div>
 
 <style>
-
+    li{
+        list-style:none;
+    }
     #main_table_filter {
         margin-bottom: 10px;
     }
@@ -82,60 +95,61 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script>
-        $(".comment_inactive_btn").on("click", function () {
-            var comment_status = $(this).data("comment_status");
-            var comment_id = $(this).data("comment_id");
-            var comment_product_id = $(this).data("comment_product_id");
-            var color_id = $(this).data("color_id");
+        $(".comment_inactive_btn").each(function () {
+            $(this).on("click", function () {
+                var comment_status = $(this).data("comment_status");
+                var comment_id = $(this).data("comment_id");
+                var comment_product_id = $(this).data("comment_product_id");
+                var color_id = $(this).data("color_id");
+                 
+               
+                $.ajax({
+                    url: "../comment/UpdateComment",
+                    type: "POST",
+                    dataType: "html",
+                    data: { product_id: comment_product_id, comment_id: comment_id, comment_status: comment_status, color_id: color_id },
+                    success: function (data) {           //Xoá tất cả dữ liệu trước đó                     
+                        alert("Duyệt thành công bình luận");
+                    },
+                    error: () => alert("something wrong")
 
-            $.ajax({
-                url: "../comment/UpdateComment",
-                type: "POST",
-                dataType: "html",
-                data: { product_id: comment_product_id, comment_id: comment_id, comment_status: comment_status, color_id: color_id },
-                success: function (data) {           //Xoá tất cả dữ liệu trước đó                     
-                    alert("Duyệt thành công bình luận");
-                },
-                error: () => alert("something wrong")
 
-
-            });
+                });
+            })
+          
             // location.reload(false);
         });
 
-        $(".comment_active_btn").on("click", function () {
-            var comment_status = $(this).data("comment_status");
-            var comment_id = $(this).data("comment_id");
-            var comment_product_id = $(this).data("comment_product_id");
-            var color_id = $(this).data("color_id");
+        $(".comment_active_btn").each(function () {
+            $(this).on("click", function () {
 
-            $.ajax({
-                url: "../comment/UpdateComment",
-                type: "POST",
-                dataType: "html",
-                data: { product_id: comment_product_id, comment_id: comment_id, comment_status: comment_status, color_id: color_id },
-                success: function (data) {           //Xoá tất cả dữ liệu trước đó                     
-                    alert("Huỷ duyệt bình luận");
-                },
-                error: () => alert("something wrong")
+                var comment_status = $(this).data("comment_status");
+                var comment_id = $(this).data("comment_id");
+                var comment_product_id = $(this).data("comment_product_id");
+                var color_id = $(this).data("color_id");                
+                $.ajax({
+                    url: "../comment/UpdateComment",
+                    type: "POST",
+                    dataType: "html",
+                    data: { product_id: comment_product_id, comment_id: comment_id, comment_status: comment_status, color_id: color_id },
+                    success: function (data) {           //Xoá tất cả dữ liệu trước đó                     
+                        alert("Huỷ duyệt bình luận");
+                    },
+                    error: () => alert("something wrong")
 
-
+                });
             });
+            
             // location.reload(false);
         });
 
         $(".btn-reply-admin").on("click", function () {
             var comment_parent_comment = $(this).data("comment_id");
             var comment_text = $(".reply-comment-text-" + comment_parent_comment).val();
-
             var comment_product_id = $(this).data("comment_product_id");
-            var color_id = $(this).data("color_id");
-            alert(color_id);
+            var color_id = $(this).data("color_id");           
             var comment_status = 1;
-            var comment_name = 'Admin';
-            alert(comment_text);
-            alert(comment_name);
-
+            var comment_name = 'Admin';           
             $.ajax({
                 url: "../comment/ReplyComment",
                 type: "POST",
@@ -146,8 +160,6 @@
                     alert("Trả lời bình luận thành công");
                 },
                 error: () => alert("something wrong")
-
-
             });
         });
 

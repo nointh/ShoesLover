@@ -18,7 +18,7 @@ namespace ShoesLover.Areas.Admin.Controllers
            
         }
 
-        public IActionResult Edit(string id)
+        public IActionResult Edit(int id)
         {
             StoreContext context = HttpContext.RequestServices.GetService(typeof(ShoesLover.Data.StoreContext)) as StoreContext;       
             ViewBag.ShowInfoOrderDetail = context.GetInfoOrderDetail(id);

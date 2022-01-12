@@ -176,7 +176,7 @@
                                 <a asp-controller="Cart" asp-action="Index">
                                     <i class="fa fa-shopping-bag"></i>
                                 </a>
-                                <div class="cart__list hide-on-mobile" id="navbar-cart">
+                                <div class="cart__list hide-on-mobile cart__list_header" id="navbar-cart">
                                     @if (Context.Session.GetString("cart") == null || cartList.Count == 0)
                                     {
                                         <div class="flex-column justify-content-center">

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ShoesLover.Models
 {
-    public class CommentObject:Comment
+    public class CommentAdminObject:Comment
     {
         public List<Comment> listparentcomment;
-     //   public string ProductName;
+          public string ProductName;
     }
 }

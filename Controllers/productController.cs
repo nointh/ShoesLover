@@ -110,8 +110,11 @@ namespace ShoesLover.Controllers
             ViewBag.GetSizeByID = context.GetSizeByIDPro(color_id, product_id);
             ViewBag.SPlienquan = context.GetProductsRelateBaseSub(product_id);
             ViewBag.ShowColorProduct = context.GetColorsOfProduct(product_id);
-            ViewBag.ShowColorProduct = context.GetColorsOfProduct(product_id);
-            ViewBag.ShowRating = context.GetRating(product_id, color_id);
+           
+            
+                ViewBag.ShowRating = context.GetRating(product_id, color_id);
+            
+          
             return View(context.GetProductObject(color_id, product_id));
         }
 

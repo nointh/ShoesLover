@@ -173,17 +173,17 @@
                             </tfoot>
                         </table>
                         <div class="close-payment" >
-                            <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@total</span></div>
+                            <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@(String.Format("{0:0,0;0} VND", total))</span></div>
                             <div id="show-sale-price"></div>
                             <div id="show-total"></div>
                         </div>
                         <div class="close-payment-2" >
-                            <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@total</span></div>
+                            <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@(String.Format("{0:0,0;0} VND", total))</span></div>
                             <div id="show-sale-price-2"></div>
                             <div id="show-total-2"></div>
                         </div>
                         <div class="close-payment-3">
-                            <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@total</span></div>
+                            <div class="temp-price" style="margin-bottom: 10px;"><span>Tạm tính:&nbsp;</span><span>@(String.Format("{0:0,0;0} VND", total))</span></div>
                             <div id="show-sale-price-3"></div>
                             <div id="show-total-3"></div>
                         </div>
@@ -202,12 +202,12 @@
 
                         </div>
 
-                        <div id="total-payment" style=" text-align: center; font-size: 18px; font-weight: bold;">  TỔNG THANH TOÁN: <span id="total-price-coupon">@total</span><span></span></div>
+                        <div id="total-payment" style=" text-align: center; font-size: 18px; font-weight: bold;">  TỔNG THANH TOÁN:  <span id="@total" class="total-all">@total</span><span></span></div>
                          @{ 
                              double vnd_to_usd = (double)total/22715;
                         }
                        <div>
-                           <div id="paypal-button">
+                           <div id="paypal-button" style="text-align: center; margin-top: 15px;">
                                <input type="hidden" id="vnd_to_usd" value="@Math.Round(vnd_to_usd,2)" />
                                
                            </div>
@@ -320,11 +320,14 @@
             $(".coupon-code").val(coupon);
             if (coupon == '6c5cdada274b85ed586a') {
                 if (@total >= 1000000) {
-                    $("#get-coupond_id").val(0.05);
-                    $("#show-sale-price").append('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + 0.05*@total +'</span></div>');
-                    $("#show-total").append('<div class="temp-price" style="text-align: right; margin-bottom: 50px;"><span>Thành tiền: </span><span id="total-payment">' + 0.95*@total +'</span></div>')
-                    $("#total-payment").empty();
-                    $("#total-payment").append('<span id="total-price-coupon">' + 0.95 *@total+ '</span><span></span>');
+                    var coupon = '@(String.Format("{0:0,0;0} VND", 0.05*total))';
+                 var payment = '@(String.Format("{0:0,0;0} VND", 0.95*total))';
+                    $("#get-coupond_id").val(0.1);
+                    $("#show-sale-price").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + `${coupon}` +'</span></div>');
+                   $("#show-total").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Thành tiền: </span><span>' + `${payment}` +'</span></div>');
+                    $(".total-all").empty();
+                    var to = '@(String.Format("{0:0,0;0} VND", 0.95*total))';
+                    $(".total-all").html('<span>'+  `${to}`+  '</span>');
                 }
                 else {
                     alert("Thành tiền đơn hàng của bạn không đủ để áp dụng Voucher này!");
@@ -338,12 +341,15 @@
             $(".close-payment-2").css("display", "block");
                 var coupon = $(this).attr("id");
             $(".coupon-code").val(coupon);
-                if (@total >= 2000000) {
+            if (@total >= 2000000) {
+                var coupon = '@(String.Format("{0:0,0;0} VND", 0.1*total))';
+                 var payment = '@(String.Format("{0:0,0;0} VND", 0.9*total))';
                     $("#get-coupond_id").val(0.1);
-                    $("#show-sale-price-2").append('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + 0.1*@total +'</span></div>');
-                    $("#show-total-2").append('<div class="temp-price" style="text-align: right; margin-bottom: 50px;"><span>Thành tiền: </span><span id="total-payment-2">' + 0.9*@total +'</span></div>')
-                    $("#total-payment-2").empty();
-                    $("#total-payment-2").append('<span id="total-price-coupon">' + 0.9 *@total+ '</span><span></span>');
+                    $("#show-sale-price-2").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + `${coupon}` +'</span></div>');
+                $("#show-total-2").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Thành tiền: </span><span>' + `${payment}` +'</span></div>');
+                    $(".otal-all").empty();
+                    var to = '@(String.Format("{0:0,0;0} VND", 0.9*total))';
+                    $(".total-all").html('<span>'+  `${to}`+  '</span>');
                 }
                 else {
                     alert("Thành tiền đơn hàng của bạn không đủ để áp dụng Voucher này!");
@@ -357,11 +363,14 @@
                  var coupon = $(this).attr("id");
             $(".coupon-code").val(coupon);
                 if (@total >= 5000000) {
-                    $("#get-coupond_id").val(0.2);
-                    $("#show-sale-price-3").append('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + 0.2*@total +'</span></div>');
-                    $("#show-total-3").append('<div class="temp-price" style="text-align: right; margin-bottom: 50px;"><span>Thành tiền: </span><span id="total-payment-3">' + 0.8*@total +'</span></div>')
-                    $("#total-payment-3").empty();
-                    $("#total-payment-3").append('<span id="total-price-coupon">' + 0.8*@total+ '</span><span></span>');
+                   var coupon = '@(String.Format("{0:0,0;0} VND", 0.2*total))';
+                 var payment = '@(String.Format("{0:0,0;0} VND", 0.8*total))';
+                    $("#get-coupond_id").val(0.1);
+                    $("#show-sale-price-3").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + `${coupon}` +'</span></div>');
+                $("#show-total-3").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Thành tiền: </span><span>' + `${payment}` +'</span></div>');
+                    $(".total-all").empty();
+                    var to = '@(String.Format("{0:0,0;0} VND", 0.8*total))';
+                    $(".total-all").html('<span>'+  `${to}`+  '</span>');
                 }
                 else {
                     alert("Thành tiền đơn hàng của bạn không đủ để áp dụng Voucher này!");
@@ -370,7 +379,7 @@
         });
 
 
-       
+
     </script>
 }
 

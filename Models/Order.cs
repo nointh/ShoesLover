@@ -7,7 +7,7 @@ namespace ShoesLover.Models
 {
     public class Order
     {
-        public string ID { get; set; }
+        public int ID { get; set; }
         public int UID { get; set; }
         public DateTime OrderDate { get; set; }
         public string Address { get; set; }
