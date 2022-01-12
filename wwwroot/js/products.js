@@ -14,7 +14,7 @@ categories.forEach((category) => {
 
 /* Filter */
 /* Active button filter */
-const filterHeader = $$(".filter-header .btn");
+const filterHeader = $(".filter-header .btn");
 filterHeader.forEach((btn) => {
     btn.onclick = () => {
         $(".filter-header .btn-active").classList.remove("btn-active");
