@@ -126,6 +126,7 @@ namespace ShoesLover.Controllers
             ViewBag.ShowAllProductsSub = context.GetAllProductsSub(subcate_id);
             ViewBag.ShowSizeSub = context.GetAllSizeSub(subcate_id);
             ViewBag.ShowColorSub = context.GetAllColorSub(subcate_id);
+            
             return View(context.GetSubCate(subcate_id));
         }
         
@@ -267,5 +268,7 @@ namespace ShoesLover.Controllers
                 return Json(new { err = "error" });
             }
         }
+
+      
     }
 }

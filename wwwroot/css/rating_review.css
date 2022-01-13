@@ -1,0 +1,12 @@
+﻿li {
+    list-style: none;
+}
+
+.list-rating {
+    display: flex;
+    justify-content: center;
+}
+
+.block-color .heart-color {
+    color: red;
+}

@@ -1,46 +1,86 @@
 ﻿
 
 
-
+<link href="~/css/rating_review.css" rel="stylesheet" />
 <div class="products">
     <div class="row ">
         @foreach (var item in ViewBag.ShowProducts)
         {
-        <div class="col l-4 m-4 c-6">
-            @{ Color a = new Color();
-                a = item.productcolorMaster[0];
-                <li class="li-product-id" value="@item.Id" style="list-style:none;">
-                    <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
-                        <img id="product-img-@item.Id" class="product-image" src="~/image/@item.DefaultImage" alt="">
-                        <h4 class="product-name">@item.ProductName</h4>
-                    </a>
-                    <p class="sale-label">
-                        <span>SALE</span>
-                    </p>
-                </li>
-                double regular = item.RegularPrice; <!--Đặt dấu . vào tiền-->
-                double sale = item.SalePrice;
-                string regular_price = regular.ToString("N0",
-                System.Globalization.CultureInfo.GetCultureInfo("de"));
-                string sale_price = sale.ToString("N0",
-               System.Globalization.CultureInfo.GetCultureInfo("de"));
-            }
-            <p class="p-money" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price<sup>đ</sup></span><span></span><span style="color: red;">@sale_price<sup>đ</sup></span></p>
+            <div class="col l-4 m-4 c-6">
+                @{ Color a = new Color();
+                    a = item.productcolorMaster[0];
+                    <li class="li-product-id" value="@item.Id" style="list-style:none;">
+                        <a href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product">
+                            <img id="product-img-@item.Id" class="product-image" src="~/image/@item.DefaultImage" alt="">
+                            <h4 class="product-name">@item.ProductName</h4>
+                        </a>
+                        <p class="sale-label">
+                            <span>SALE</span>
+                        </p>
+                    </li>
+                    double regular = item.RegularPrice; <!--Đặt dấu . vào tiền-->
+                    double sale = item.SalePrice;
+                    string regular_price = regular.ToString("N0",
+                    System.Globalization.CultureInfo.GetCultureInfo("de"));
+                    string sale_price = sale.ToString("N0",
+                   System.Globalization.CultureInfo.GetCultureInfo("de"));
+                }
+                <p class="p-money" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price<sup>đ</sup></span><span></span><span style="color: red;">@sale_price<sup>đ</sup></span></p>
+
+                <div class="rating-product-interface-@item.Id rating-product-temp">
+                    <div style=" font-size: 25px; cursor: default; " id="@item.Id" class="button_wishlist heart-color" onclick="add_wishlist(this.id)">&#10084;</div>
 
 
-            <div class="watcher-product">
-                <ul>
-                    @foreach (var index in item.productcolorMaster)
-                    {
-                        <li value="@index.Id" class="li-color-@item.Id">
-                            <a>
-                                <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
-                            </a>
-                        </li>
+                    @{
+                        double rating_d = item.ratingProduct;
+                        int rating;
+                        var color = "";
+                        if (rating_d == 0)
+                        {
+                            rating = 0;
+                            color = "";
+                        }
+                        else
+                        {
+                            rating = Convert.ToInt32(Math.Ceiling(rating_d));
+                            color = "";
+                        }
+
+
+                        <ul class="list-rating">
+
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= rating)
+                                {
+                                    color = "color:#ffcc00;";
+                                }
+                                else
+                                {
+                                    color = "color:#ccc;";
+                                }
+
+                                <li class="rating" title="Star rating" id="" data-index="@i" data-rating="@rating"
+                                    data-product_id="" data-color_id="" style="color:#ccc;cursor:text; font-size:30px; @color">&#9733;</li>
+
+                            }
+
+                        </ul>
                     }
-                </ul>
+                </div>
+                <div class="watcher-product">
+                    <ul>
+                        @foreach (var index in item.productcolorMaster)
+                        {
+                            <li value="@index.Id" class="li-color-@item.Id">
+                                <a>
+                                    <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
-        </div>
         }
     </div>
 
@@ -108,17 +148,17 @@
         right: 40px;
     }
 
-   
 
-    .header-page i {
-        color: white;
-        position: absolute;
-        top: 10px;
-        right: 13px;
-        font-size: 18px;
-    }
-  
+
+        .header-page i {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 13px;
+            font-size: 18px;
+        }
 </style>
+<script src="~/js/rating_review.js"></script>
 <script src="~/js/productHover.js"></script>
 <script src="~/js/jquery-3.6.0.min.js"></script>
 <script>

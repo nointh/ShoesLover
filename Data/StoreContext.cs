@@ -2040,6 +2040,121 @@ namespace ShoesLover.Data
             }
 
         }
+        public double GetRatingList(int product_id)
+        {
+            //int i = 0;
+            double rating;
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                var str = "select avg(rating) from rating where product_id = @product_id";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("product_id", product_id);
+                if (cmd.ExecuteScalar() == DBNull.Value)   //Nếu sản phẩm chưa đánh giá thì trả về null
+                {
+                    rating = 0;
+                    return rating;
+
+
+                }
+                else
+                {
+                    rating = Convert.ToDouble(cmd.ExecuteScalar());
+                    return rating;
+                }
+
+
+            }
+
+        }
+        public double GetRatingColorSizeCate(int product_id, int size_id, int color_id)
+        {
+            //int i = 0;
+            double rating;
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                var str = "select avg(rating) from rating where product_id = @product_id";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("product_id", product_id);
+                if (cmd.ExecuteScalar() == DBNull.Value)   //Nếu sản phẩm chưa đánh giá thì trả về null
+                {
+                    rating = 0;
+                    return rating;
+
+
+                }
+                else
+                {
+                    rating = Convert.ToDouble(cmd.ExecuteScalar());
+                    return rating;
+                }
+
+
+            }
+
+        }
+        public double GetRatingColorCate(int product_id, int color_id)
+        {
+            //int i = 0;
+            double rating;
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                var str = "select avg(rating) from rating r, product_detail p where r.product_id = @product_id and r.product_id = p.product_id and p.color_id = @color_id";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("product_id", product_id);
+                cmd.Parameters.AddWithValue("color_id", color_id);
+                if (cmd.ExecuteScalar() == DBNull.Value)   //Nếu sản phẩm chưa đánh giá thì trả về null
+                {
+                    rating = 0;
+                    return rating;
+
+
+                }
+                else
+                {
+                    rating = Convert.ToDouble(cmd.ExecuteScalar());
+                    return rating;
+                }
+
+
+            }
+
+        }
+        public double GetRatingSizeCate(int product_id, int size_id)
+        {
+            //int i = 0;
+            double rating;
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                var str = "select avg(rating) from rating r, product_detail p where r.product_id = p.product_id and p.size_id = @size_id and r.product_id = @product_id";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("product_id", product_id);
+                cmd.Parameters.AddWithValue("size_id", size_id);
+                if (cmd.ExecuteScalar() == DBNull.Value)   //Nếu sản phẩm chưa đánh giá thì trả về null
+                {
+                    rating = 0;
+                    return rating;
+
+
+                }
+                else
+                {
+                    rating = Convert.ToDouble(cmd.ExecuteScalar());
+                   
+                    return rating;
+                }
+
+
+            }
+
+        }
 
 
         public List<Product> GetProducts(int IdColor)
@@ -2617,7 +2732,8 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorASCSub(subcate_id, pro.Id)
+                    productcolorMaster = GetColorASCSub(subcate_id, pro.Id),
+                    ratingProduct = GetRatingList(pro.Id)
                 });
             }
 
@@ -2721,7 +2837,8 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorDESCSub(subcate_id, pro.Id)
+                    productcolorMaster = GetColorDESCSub(subcate_id, pro.Id),
+                    ratingProduct = GetRatingList(pro.Id)
                 });
             }
 
@@ -2868,7 +2985,8 @@ namespace ShoesLover.Data
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
                     productcolorMaster = GetColorBySubId(id, pro.Id),
-                    productvariant = GetVariantBySubId(pro.Id)
+                    productvariant = GetVariantBySubId(pro.Id),
+                    ratingProduct = GetRatingList(pro.Id),
                 });
             }
 
@@ -2888,7 +3006,8 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorBySizeSub(subcate_id, pro.Id, size_id)
+                    productcolorMaster = GetColorBySizeSub(subcate_id, pro.Id, size_id),
+                    ratingProduct = GetRatingList(pro.Id),
                 });
             }
 
@@ -3623,7 +3742,8 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorASCCate(cate_id, pro.Id)
+                    productcolorMaster = GetColorASCCate(cate_id, pro.Id),
+                    ratingProduct = GetRatingList(pro.Id)
                 });
             }
 
@@ -3730,7 +3850,8 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorDESCCate(cate_id, pro.Id)
+                    productcolorMaster = GetColorDESCCate(cate_id, pro.Id),
+                    ratingProduct = GetRatingList(pro.Id)
                 });
             }
 
@@ -3837,7 +3958,8 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorSearch(pro.Id)
+                    productcolorMaster = GetColorSearch(pro.Id),
+                    ratingProduct = GetRatingList(pro.Id)
                 });
             }
 
@@ -3877,7 +3999,8 @@ namespace ShoesLover.Data
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
                     productcolorMaster = GetColorByCate(cate_id, pro.Id),
-                    productvariant = GetVariantBySubId(pro.Id)
+                    productvariant = GetVariantBySubId(pro.Id),
+                    ratingProduct = GetRatingList(pro.Id),
                 });
             }
 
@@ -3972,7 +4095,9 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorByColorSub(subcate_id, pro.Id)
+                    productcolorMaster = GetColorByColorSub(subcate_id, pro.Id),
+                    ratingProduct = GetRatingColorCate(pro.Id,color_id)
+
                 });
             }
 
@@ -4031,7 +4156,8 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorByColorCate(cate_id, pro.Id)
+                    productcolorMaster = GetColorByColorCate(cate_id, pro.Id),
+                    ratingProduct = GetRatingColorCate(pro.Id,color_id)
                 });
             }
 
@@ -4092,7 +4218,8 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorByColorSizeCate(cate_id, pro.Id)
+                    productcolorMaster = GetColorByColorSizeCate(cate_id, pro.Id),
+                    ratingProduct = GetRatingColorCate(pro.Id, color_id)
                 });
             }
 
@@ -4328,7 +4455,9 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorByColorSizeSub(subcate_id, pro.Id, size_id)
+                    productcolorMaster = GetColorByColorSizeSub(subcate_id, pro.Id, size_id),
+                    ratingProduct = GetRatingColorCate(pro.Id,color_id)
+
                 });
             }
 
@@ -4448,7 +4577,10 @@ namespace ShoesLover.Data
                     SalePrice = pro.SalePrice,
                     RegularPrice = pro.RegularPrice,
                     DefaultImage = pro.DefaultImage,
-                    productcolorMaster = GetColorBySizeCate(cate_id, pro.Id)
+                    ratingProduct = GetRatingSizeCate(pro.Id,size_id),
+                    productcolorMaster = GetColorBySizeCate(cate_id, pro.Id),
+                  
+
                 });
             }
 
