@@ -53,6 +53,8 @@ namespace ShoesLover.Controllers
         public IActionResult ConfirmOrder(string fullname, string phone, string fullAddress, string coupon, int payment_method,int payment_status, string payment_name)
         {
             var cou = Convert.ToDouble(coupon);
+            if (string.IsNullOrEmpty(phone))
+                phone = " ";
             StoreContext store = HttpContext.RequestServices.GetService(typeof(StoreContext)) as StoreContext;
             if (HttpContext.Session.GetString("user") == null || HttpContext.Session.GetString("checkout") == null)
             {

@@ -74,7 +74,7 @@
                                     <label for="signup-phone">
                                         <span>Số điện thoại liên lạc </span>
                                         <br>
-                                        <input class="form-control" name="phone" type="text" value="@currentUser.Phone" id="signup-phone" placeholder="Điện thoại...">
+                                        <input class="form-control" name="phone" type="text" value="@(string.IsNullOrEmpty(currentUser.Phone) ? "" : currentUser.Phone)" id="signup-phone" placeholder="Điện thoại...">
                                     </label>
                                 </div>
 
@@ -117,7 +117,7 @@
                             <input type="hidden" id="get-payment_method" name="payment_method" value="1" />
                             <input type="hidden" id="get-payment_name" name="payment_name" value="Thanh toán khi nhận hàng" />
                             <div class="row flex-row justify-content-center align-items-center">
-                                <button type="submit" class="pay btn btn-dark m-3 btn-order">Đặt hàng ngay - Thanh toán khi nhận hàng</button>
+                                <button type="submit" class="pay btn btn-dark m-3 btn-order">Thanh toán khi nhận hàng</button>
 
                             </div>
 
