@@ -340,9 +340,7 @@
            var status= $("#get-payment_status").val();
            var method = $("#get-payment_method").val();
             var name = $("#get-payment_name").val();
-            alert(status);
-            alert(method);
-            alert(name);
+          
         })
 
        $(document).ready(function () {
@@ -398,7 +396,7 @@
                 if (@total >= 1000000) {
                     var coupon = '@(String.Format("{0:0,0;0} VND", 0.05*total))';
                  var payment = '@(String.Format("{0:0,0;0} VND", 0.95*total))';
-                    $("#get-coupond_id").val(0.1);
+                    $("#get-coupond_id").val(0.05);
                     $("#show-sale-price").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + `${coupon}` +'</span></div>');
                    $("#show-total").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Thành tiền: </span><span>' + `${payment}` +'</span></div>');
                     $(".total-all").empty();
@@ -441,7 +439,7 @@
                 if (@total >= 5000000) {
                    var coupon = '@(String.Format("{0:0,0;0} VND", 0.2*total))';
                  var payment = '@(String.Format("{0:0,0;0} VND", 0.8*total))';
-                    $("#get-coupond_id").val(0.1);
+                    $("#get-coupond_id").val(0.2);
                     $("#show-sale-price-3").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Khuyến mãi: </span><span>-' + `${coupon}` +'</span></div>');
                 $("#show-total-3").html('<div class="temp-price check-coupon" style="text-align: right;margin-bottom:10px;"><span>Thành tiền: </span><span>' + `${payment}` +'</span></div>');
                     $(".total-all").empty();
