@@ -61,7 +61,7 @@
 
 
                     <div class="pay-info sign signup">
-                        <form asp-action="ConfirmOrder" method="post">
+                        <form asp-action="ConfirmOrder" method="post" id="orderForm">
                             <div class="row">
                                 <div class="col-sm-6 mb-3">
                                     <label for="signup-lastname">
@@ -72,9 +72,9 @@
                                 </div>
                                 <div class="col-sm-6 mb-3">
                                     <label for="signup-phone">
-                                        <span>Số điện thoại liên lạc <span class="highlight">*</span> </span>
+                                        <span>Số điện thoại liên lạc </span>
                                         <br>
-                                        <input class="form-control" required name="phone" type="text" value="@currentUser.Phone" id="signup-phone" placeholder="Điện thoại...">
+                                        <input class="form-control" name="phone" type="text" value="@currentUser.Phone" id="signup-phone" placeholder="Điện thoại...">
                                     </label>
                                 </div>
 
@@ -117,7 +117,7 @@
                             <input type="hidden" id="get-payment_method" name="payment_method" value="1" />
                             <input type="hidden" id="get-payment_name" name="payment_name" value="Thanh toán khi nhận hàng" />
                             <div class="row flex-row justify-content-center align-items-center">
-                                <button type="submit" class="pay btn btn-dark m-3 btn-order">Đặt hàng</button>
+                                <button type="submit" class="pay btn btn-dark m-3 btn-order">Đặt hàng ngay - Thanh toán khi nhận hàng</button>
 
                             </div>
 
@@ -313,9 +313,13 @@
 
             onClick: function (data) {
                 // Show a cancel page, or return to cart
-                $("#get-payment_status").val(1); 
-                $("#get-payment_method").val(2);
-                $("#get-payment_name").val("Thanh toán online");
+                //$("#get-payment_status").val(1); 
+                //$("#get-payment_method").val(2);
+                //$("#get-payment_name").val("Thanh toán online");
+                if ($("#addressDetail").val() == "") {
+                    window.alert('Bạn phải điền thông tin địa chỉ trước khi thanh toán!');
+                    return;
+                }
               
               
             },
@@ -324,7 +328,14 @@
             onAuthorize: function (data, actions) {
                 return actions.payment.execute().then(function () {
                     // Show a confirmation message to the buyer
+                    $("#get-payment_status").val(1);
+                    $("#get-payment_method").val(2);
+                    $("#get-payment_name").val("Thanh toán online");
+
+
                     window.alert('Cảm ơn bạn đã mua hàng!');
+                    $("#orderForm").submit();
+                    
                 });
             }
         }, '#paypal-button');
@@ -340,9 +351,9 @@
            var status= $("#get-payment_status").val();
            var method = $("#get-payment_method").val();
             var name = $("#get-payment_name").val();
-            alert(status);
-            alert(method);
-            alert(name);
+            //alert(status);
+            //alert(method);
+            //alert(name);
         })
 
        $(document).ready(function () {

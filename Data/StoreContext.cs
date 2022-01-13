@@ -5426,10 +5426,13 @@ namespace ShoesLover.Data
                 cmd.Parameters.AddWithValue("id", id);
                 using (var reader = cmd.ExecuteReader())
                 {
-                    reader.Read();
-                    o.ID = Convert.ToInt32(reader["id"]);
+                    if (reader.Read())
+                    {
+                        o.ID = Convert.ToInt32(reader["id"]);
 
-                    o.Fullname = Convert.ToString(reader["fullname"]);
+                        o.Fullname = Convert.ToString(reader["fullname"]);
+
+                    }
 
                 }
             }
@@ -5903,7 +5906,7 @@ namespace ShoesLover.Data
             using (MySqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = "SELECT * FROM `order` where uid = @uid ";
+                var str = "SELECT * FROM `order` where uid = @uid order by order_date desc";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("uid", uid);
 

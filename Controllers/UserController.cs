@@ -31,6 +31,10 @@ namespace ShoesLover.Controllers
             {
                 TempData["message"] = "Update user info successfully";
                 TempData["message-status"] = "success";
+                User oldUser = db.GetUsers().Where(i => i.ID == user.ID).FirstOrDefault();
+                oldUser.Fullname = user.Fullname;
+                oldUser.Phone = user.Phone;
+                HttpContext.Session.SetString("user", JsonConvert.SerializeObject(oldUser));
                 return LocalRedirect("/");
             }
             else

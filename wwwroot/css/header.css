@@ -219,6 +219,7 @@ header.sticky{
      display: none;   
     position: absolute;
     width: 200px;
+    text-align: center;
     background-color: #fff;
     right: -50px;
     box-shadow: 0 1px 30px 0 rgba(0, 0, 0, 0.2);
@@ -477,7 +478,7 @@ header.sticky{
         content: '';
         position: absolute;
         width: 50px;
-        height: 50px;
+        height: 25px;
         background-color: transparent;
         bottom: 100%;
         right: 15px
