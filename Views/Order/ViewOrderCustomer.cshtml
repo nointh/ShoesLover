@@ -85,15 +85,14 @@
 
                                     @foreach (var index in item.orderlist)
                                     {
-                                        <tr>
-                                            <td class="img-pro-order"><img style="width: 60%; padding:5px 10px;" src="~/image/@index.ProductImage" /></td>
-                                            <td style="text-align:center">@index.ProductName</td>
-                                            <td style="text-align:center">@index.SizeName</td>
-                                            <td class="img-color-order"><img style="width: 30%" src="~/image/@index.ColorImage" /></td>
-                                            <td style="text-align:center">@index.Quantity</td>
-                                            <td style="text-align:center">@(String.Format("{0:0,0;0} VND", index.SalePrice)) </td>
-                                          
-                                        </tr>
+                                <tr>
+                                    <td class="img-pro-order"><img style="width: 60%; padding:5px 10px;" src="~/image/@index.ProductImage" /></td>
+                                    <td style="text-align:center">@index.ProductName</td>
+                                    <td style="text-align:center">@index.SizeName</td>
+                                    <td class="img-color-order"><img style="width: 30%" src="~/image/@index.ColorImage" /></td>
+                                    <td style="text-align:center">@index.Quantity</td>
+                                    <td style="text-align:center">@(String.Format("{0:0,0;0} VND", index.SalePrice)) </td>
+                                </tr>
                                     }
 
 
@@ -115,7 +114,6 @@
                                 else
                                 {
                                     <p class="order-total">Tổng tiền:&nbsp;@(String.Format("{0:0,0;0} VND", item.Total)) </p>
-                              
                                 }
 
                             </div>
@@ -155,6 +153,20 @@
 
 </div>
 <style>
+    .customer-fullname {
+      
+        width: 120px;
+        margin-top: 10px;
+    }
+
+    .customer-profile {
+        width: 90px;
+        margin-top: 10px;
+    }
+
+    .list-function li {
+        cursor: pointer;
+    }
 
 
     .customer-fullname {
@@ -233,7 +245,6 @@
     }
 
     .order-detail-info-table {
-        padding-top: 60px;
         display: flex;
         flex-direction: column;
     }

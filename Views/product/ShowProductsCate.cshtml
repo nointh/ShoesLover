@@ -128,7 +128,7 @@
                                    System.Globalization.CultureInfo.GetCultureInfo("de"));
                                 }
                                 <style>
-                                    .block-product-@item.Id #product-@item.Id{ 
+                                    .block-product-@item.Id #product-@item.Id{
                                         display: none;
                                     }
                                 </style>
@@ -138,33 +138,70 @@
                                 <input type="hidden" value="@regular_price" class="wishlist-regular_price-@item.Id" />
                                 <input type="hidden" value="@sale_price" class="wishlist-sale_price-@item.Id" />
                                 <a class="wishlist_product_url-@item.Id" href="/product/ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id"></a>
-                                <div class="watcher-product">
-                                    <ul>
-                                        @foreach (var index in item.productcolorMaster)
+                                <div class="rating-product-interface-@item.Id rating-product-temp">
+                                    <div style=" font-size: 25px; cursor: default; " id="@item.Id" class="button_wishlist heart-color" onclick="add_wishlist(this.id)">&#10084;</div>
+
+
+                                    @{
+                                        double rating_d = item.ratingProduct;
+                                        int rating;
+                                        var color = "";
+                                        if (rating_d == 0)
                                         {
-                                            <li value="@index.Id" class="li-color-@item.Id">
-                                                <a>
-                                                    <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
-                                                </a>
-                                            </li>
+                                            rating = 0;
+                                            color = "";
                                         }
-                                    </ul>
-                                </div>
-                                <div class="rating-product-interface">
-                                    <div id="@item.Id" class="button_wishlist" onclick="add_wishlist(this.id)"><i class="fas fa-heart heart-color"></i><span>Yêu thích</span></div>
-                                    <p><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><span>Đánh giá</span></p>
+                                        else
+                                        {
+                                            rating = Convert.ToInt32(Math.Ceiling(rating_d));
+                                            color = "";
+                                        }
 
-                                </div>
-                                <div class="product-variant">
-                                    @foreach (var index in item.productvariant)
-                                    {
-                                        <input class="variant-img-@item.Id" type="hidden" value="@index.ColorId" src="~/image/@index.ProductVariantImage" />
 
+                                        <ul class="list-rating">
+
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= rating)
+                                                {
+                                                    color = "color:#ffcc00;";
+                                                }
+                                                else
+                                                {
+                                                    color = "color:#ccc;";
+                                                }
+
+                                                <li class="rating" title="Star rating" id="" data-index="@i" data-rating="@rating"
+                                                    data-product_id="" data-color_id="" style="color:#ccc;cursor:text; font-size:30px; @color">&#9733;</li>
+
+                                            }
+
+                                        </ul>
                                     }
                                 </div>
+                                    <div class="watcher-product">
+                                        <ul>
+                                            @foreach (var index in item.productcolorMaster)
+                                            {
+                                                <li value="@index.Id" class="li-color-@item.Id">
+                                                    <a>
+                                                        <img id="color_small_@index.Id" class="img-color-small" src="~/image/@index.ColorImage" alt="">
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                   
+                                    <div class="product-variant">
+                                        @foreach (var index in item.productvariant)
+                                        {
+                                            <input class="variant-img-@item.Id" type="hidden" value="@index.ColorId" src="~/image/@index.ProductVariantImage" />
+
+                                        }
+                                    </div>
+                                </div>
+                                }
                             </div>
-                            }
-                        </div>
                     </div>
                     <div class="pagination-top">
                         <ul>
@@ -284,13 +321,27 @@
     .block-color .heart-color{
         color: red;
     }
+    li {
+        list-style: none;
+    }
+
+    .list-rating {
+        display: flex;
+        justify-content: center;
+    }
+   
 </style>
 
 
-
+<script src="~/js/productHover.js"></script>
 
 <script>
-  
+    $(".button_wishlist").each(function () {
+        $(this).on("click", function () {
+            var id = $(this).attr("id");
+            $(".rating-product-interface-" + id).toggleClass("block-color");
+        });
+    });
     //Huỷ nút chọn size, chọn màu
     $("#btn-cancel-size").on("click", function () {
         $(".filter-size-item").removeClass("active-size");
@@ -439,7 +490,7 @@
             });
      })
 
-    $(".button_wishlist").each(function () {
+   /* $(".button_wishlist").each(function () {
         $(this).on("click", function () {
             $(this).toggleClass("block-color");
           //  $(this).find(".heart-color").css("color", "red");
@@ -454,7 +505,7 @@
             localStorage.removeItem(data.id);
         })
 
-    })
+    })  */
    
     function add_wishlist(click_id) {
 

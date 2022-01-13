@@ -288,7 +288,7 @@
                                 }
                             </div>
                         </div>
-                                }
+                    }
                 </div>
                 <div class="review-comment ">
 
@@ -311,29 +311,29 @@
 
                             // int rating = Convert.ToInt32(Math.Ceiling(rating_d));
                             // var color = "";
-                        <ul class="list-rating" style="margin-bottom:20px;" title="AverageRating">
-                          
-                            @for (int i = 1; i <= 5; i++)
-                            {
+                            <ul class="list-rating" style="margin-bottom:20px;" title="AverageRating">
 
-                               
-                                if (i <= rating)
+                                @for (int i = 1; i <= 5; i++)
                                 {
-                                     color = "color:#ffcc00;";
-                                }
-                                else
-                                {
-                                    color = "color:#ccc;";
-                                }
-                                 
 
-                            
-                 
-                            <li class="rating" title="Star rating" id="@productid_url-@color_url-@i" data-index="@i" data-rating="@rating"
-                            data-product_id="@productid_url" data-color_id="@color_url" style="color:#ccc;cursor:pointer; font-size:30px; @color">&#9733;</li>
-                            }  
-                        </ul>
+
+                                    if (i <= rating)
+                                    {
+                                        color = "color:#ffcc00;";
                                     }
+                                    else
+                                    {
+                                        color = "color:#ccc;";
+                                    }
+
+
+
+
+                                    <li class="rating" title="Star rating" id="@productid_url-@color_url-@i" data-index="@i" data-rating="@rating"
+                                        data-product_id="@productid_url" data-color_id="@color_url" style="color:#ccc;cursor:pointer; font-size:30px; @color">&#9733;</li>
+                                }
+                            </ul>
+                        }
                     </div>
                     <div id="comment-show"></div>
 
@@ -350,7 +350,7 @@
                     <input class="btn-send-comment" type="button" value="Gửi bình luận" />
                     <div style="color: red;" id="notify-comment"></div>
                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -410,35 +410,38 @@
 
 <style>
 
-    .list-rating{
+    .list-rating {
         display: flex;
     }
-                                li{
+
+    li {
         list-style: none;
     }
+
     .li-default-border {
-                            border: 2px solid rgb(153,153,153);
-                            }
+        border: 2px solid rgb(153,153,153);
+    }
 
     .li-active-color {
-                            border: 2px solid black;
-                            }
+        border: 2px solid black;
+    }
 
     .li-active-border {
-                            border: 2px solid black;
-                            }
+        border: 2px solid black;
+    }
 
     .border-detail {
-                                border-bottom: 2px solid black;
-                            position: relative;
-                            bottom: -2px;
-                            }
-    .img-color-small{
-                            width:30px;
-                            }
+        border-bottom: 2px solid black;
+        position: relative;
+        bottom: -2px;
+    }
+
+    .img-color-small {
+        width: 30px;
+    }
 
     .btn-size-detail p:focus {
-                            }
+    }
 </style>
 <script src="~/js/productHover.js"></script>
 <script src="~/js/product_detail.js"></script>
@@ -487,10 +490,10 @@
             },
             error: () => alert("something wrong")
         });
-       
+
     });
 
-    
+
     $(".btn-size-detail").click(function () {
         $("#main-header").css("background", "rgba(255,255,255,0.4)");
         $("#main-header").css({ 'box-shadow': '' });
@@ -815,7 +818,7 @@
                 type: "POST",
                 dataType: "html",
                 data: { product_id: product_id, comment_name: comment_name, comment_text: comment_text, comment_status: comment_status, comment_color_id:color_id},
-                success: function (data) {           //Xoá tất cả dữ liệu trước đó                      
+                success: function (data) {           //Xoá tất cả dữ liệu trước đó
                     $("#notify-comment").html(data); //load lại cái mới
                     load_comment();
                     $("#notify-comment").fadeOut(5000);

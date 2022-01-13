@@ -444,9 +444,10 @@ img {
 
 
 
-.rating-product-interface {
+.rating-product-temp {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .rating-product-interface span{

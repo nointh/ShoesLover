@@ -1,7 +1,7 @@
 ﻿
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-
+<link href="~/css/rating_review.css" rel="stylesheet" />
 <div class="products">
     <div class="row ">
         @foreach (var item in ViewBag.ShowProducts)
@@ -26,7 +26,47 @@
                System.Globalization.CultureInfo.GetCultureInfo("de"));
             }
             <p class="p-money" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price<sup>đ</sup></span><span></span><span style="color: red;">@sale_price<sup>đ</sup></span></p>
+            <div class="rating-product-interface-@item.Id rating-product-temp">
+                <div style=" font-size: 25px; cursor: default; " id="@item.Id" class="button_wishlist heart-color" onclick="add_wishlist(this.id)">&#10084;</div>
 
+
+                @{
+                    double rating_d = item.ratingProduct;
+                    int rating;
+                    var color = "";
+                    if (rating_d == 0)
+                    {
+                        rating = 0;
+                        color = "";
+                    }
+                    else
+                    {
+                        rating = Convert.ToInt32(Math.Ceiling(rating_d));
+                        color = "";
+                    }
+
+
+                    <ul class="list-rating">
+
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= rating)
+                            {
+                                color = "color:#ffcc00;";
+                            }
+                            else
+                            {
+                                color = "color:#ccc;";
+                            }
+
+                            <li class="rating" title="Star rating" id="" data-index="@i" data-rating="@rating"
+                                data-product_id="" data-color_id="" style="color:#ccc;cursor:text; font-size:30px; @color">&#9733;</li>
+
+                        }
+
+                    </ul>
+                }
+            </div>
 
             <div class="watcher-product">
                 <ul>
@@ -90,7 +130,7 @@
 </div>
 
 
-
+<script src="~/js/rating_review.js"></script>
 <script src="~/js/jquery-3.6.0.min.js"></script>
 <script>
    

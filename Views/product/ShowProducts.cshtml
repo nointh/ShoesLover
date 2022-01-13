@@ -106,7 +106,7 @@
                                         a = item.productcolorMaster[0];
                                         <li class="li-product-id" value="@item.Id" style="list-style:none;">
 
-                                          <a id="@item.Id" href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product" onclick="product_viewed(this.id)">
+                                            <a id="@item.Id" href="ShowProductDetailObject?color_id=@a.Id&product_id=@item.Id" class="product" onclick="product_viewed(this.id)">
                                                 <img id="product-img-@item.Id" class="product-image" src="~/image/@item.DefaultImage" alt="">
                                                 <h4 class="product-name">@item.ProductName</h4>
                                             </a>
@@ -120,7 +120,7 @@
                                         string regular_price = regular.ToString("N0",
                                         System.Globalization.CultureInfo.GetCultureInfo("de"));
                                         string sale_price = sale.ToString("N0",
-                                       System.Globalization.CultureInfo.GetCultureInfo("de"));
+                                        System.Globalization.CultureInfo.GetCultureInfo("de"));
 
 
                                         <p class="p-money" style="text-align:center;"><span class="span-money" style="text-decoration:line-through; color:rgb(153,153,153);">@regular_price<sup>đ</sup></span><span></span><span style="color:red">@sale_price<sup>đ</sup></span></p>
@@ -134,6 +134,48 @@
 
                                     <input type="hidden" value="@item.Id" />
 
+
+                                    <div class="rating-product-interface-@item.Id rating-product-temp">
+                                        <div style=" font-size: 25px; cursor: default; " id="@item.Id" class="button_wishlist heart-color" onclick="add_wishlist(this.id)">&#10084;</div>
+
+
+                                        @{
+                                            double rating_d = item.ratingProduct;
+                                            int rating;
+                                            var color = "";
+                                            if (rating_d == 0)
+                                            {
+                                                rating = 0;
+                                                color = "";
+                                            }
+                                            else
+                                            {
+                                                rating = Convert.ToInt32(Math.Ceiling(rating_d));
+                                                color = "";
+                                            }
+
+
+                                            <ul class="list-rating">
+
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= rating)
+                                                    {
+                                                        color = "color:#ffcc00;";
+                                                    }
+                                                    else
+                                                    {
+                                                        color = "color:#ccc;";
+                                                    }
+
+                                                    <li class="rating" title="Star rating" id="" data-index="@i" data-rating="@rating"
+                                                        data-product_id="" data-color_id="" style="color:#ccc;cursor:text; font-size:30px; @color">&#9733;</li>
+
+                                                }
+
+                                            </ul>
+                                        }
+                                    </div>
                                     <div class="watcher-product">
                                         <ul>
                                             @foreach (var index in item.productcolorMaster)
@@ -146,11 +188,9 @@
                                             }
                                         </ul>
                                     </div>
-                                    <div class="rating-product-interface">
-                                        <div id="@item.Id" class="button_wishlist" onclick="add_wishlist(this.id)"><i class="far fa-heart"></i><span>Yêu thích</span></div>
-                                        <p><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><span>Đánh giá</span></p>
 
-                                    </div>
+
+
                                     <div class="product-variant">
                                         @foreach (var index in item.productvariant)
                                         {
@@ -292,11 +332,78 @@
     .active-filter {
         border: 2px solid black;
     }
-</style>
 
-<script src="~/js/products.js"></script>
+    li {
+        list-style: none;
+    }
+
+    .list-rating {
+        display: flex;
+        justify-content: center;
+    }
+     .block-color .heart-color {
+        color: red;
+    }
+  
+</style>
 <script src="~/js/productHover.js"></script>
+<script src="~/js/products.js"></script>
+
 <script>
+
+    $(".button_wishlist").each(function () {
+        $(this).on("click", function () {
+          
+            var id = $(this).attr("id");
+            $(".rating-product-interface-" + id).toggleClass("block-color");
+        });
+    });
+       //Đánh giá
+    function remove_background(product_id, color_id) {
+        for (var count = 1; count <= 5; count++) {
+            $("#" + product_id + "-" + color_id + "-" + count).css("color", "#ccc");
+        }
+    };
+
+
+    $(document).on('mouseenter', '.rating', function () {
+        var index = $(this).data("index");
+        var product_id = $(this).data("product_id");
+        var color_id = $(this).data("color_id");
+        remove_background(product_id, color_id);
+        for (var count = 1; count <= index; count++) {
+            $("#" + product_id + "-" + color_id + "-" + count).css("color", "#ffcc00");
+        }
+    });
+
+
+    $(document).on('mouseleave', '.rating', function () {
+        var index = $(this).data("index");
+        var product_id = $(this).data("product_id");
+        var color_id = $(this).data("color_id");
+        var rating = $(this).data("rating");
+        remove_background(product_id, color_id);
+        for (var count = 1; count <= rating; count++) {
+            $("#" + product_id + "-" + color_id + "-" + count).css("color", "#ffcc00");
+        }
+    });
+
+    $(document).on('click', '.rating', function () {
+        var index = $(this).data("index");
+        var product_id = $(this).data("product_id");
+        var color_id = $(this).data("color_id");
+        $.ajax({
+            url: "../rating/InsertRating",
+            type: "POST",
+            dataType: "html",
+            data: { product_id: product_id, index: index, color_id: color_id },
+            success: function (data) {           //Xoá tất cả dữ liệu trước đó
+                alert("Bạn đã đánh giá sản phẩm " + index + "trên 5 sao");
+            },
+            error: () => alert("something wrong")
+        });
+
+    });
     //Huỷ nút chọn size, chọn màu
     $("#btn-cancel-size").on("click", function () {
         $(".filter-size-item").removeClass("active-size");
@@ -505,7 +612,7 @@
         localStorage.setItem('data', JSON.stringify(old_data));
     }
 
-        
+
           function View() {
         if (localStorage.getItem('data') != null) {
             var data = JSON.parse(localStorage.getItem('data'));
