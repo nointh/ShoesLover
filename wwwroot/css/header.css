@@ -262,6 +262,7 @@ header.sticky{
     position: relative;
     color: white;
     background-color: #6a5af9a6;
+   
 }
 .basic-btn:before{
     content: '';

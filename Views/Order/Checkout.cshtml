@@ -336,7 +336,14 @@
 
 
     <script>
-
+        $(".btn-order").on("click", function () {
+           var status= $("#get-payment_status").val();
+           var method = $("#get-payment_method").val();
+            var name = $("#get-payment_name").val();
+            alert(status);
+            alert(method);
+            alert(name);
+        })
 
        $(document).ready(function () {
             const selectProvince = $('#signup-province')
